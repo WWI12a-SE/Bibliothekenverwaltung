@@ -103,4 +103,23 @@ public class User {
 	{
 		return this.sLastName;
 	}
+	
+	
+	
+	/**
+	 * ...
+	 */
+	
+	
+	
+	/**
+	 * Alle Benutzer ausgeben
+	 * @param null
+	 * @return Array
+	 */
+	public User[] getAllUsers()
+	{
+		User[] aUsers = null;
+		return aUsers;
+	}
 }

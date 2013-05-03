@@ -2,6 +2,7 @@
  * Benutzerverwaltung (angemeldeter B.)
  * -	Login
  * -	Logout
+ * -	Bei Abmeldung speichern
  * 
  * @author ja
  *
