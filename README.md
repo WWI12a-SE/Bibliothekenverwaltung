@@ -9,15 +9,15 @@ Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
 == Verzeichnisstruktur ==
 
 /core
--	Enthält Kernkomponenten wie CSV-Handler
--	Handler für bestimmte CSV-Dateien. 
+-	EnthÃ¤lt Kernkomponenten wie CSV-Handler
+-	Handler fÃ¼r bestimmte CSV-Dateien. 
 
 /models
 -	Abstrahierte Datenmodelle der einzelnen CSV-Dateien
 
 
 /controller
--	Controller für Benutzeroberfläche. Logik für Benutzerebene gehört hier hin.
+-	Controller fÃ¼r BenutzeroberflÃ¤che. Logik fÃ¼r Benutzerebene gehÃ¶rt hier hin.
 
 /view
 -	GUI-Bestandteile
@@ -27,4 +27,4 @@ Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
 		-	users.csv: Benutzer
 		-	stock.csv: Bestand
 		-	reservations.csv: Reservationen
-		-	lastid.csv: Zuletzt genutzte hochgezählte IDs für o.g. Dateien
+		-	lastid.csv: Zuletzt genutzte hochgezÃ¤hlte IDs fÃ¼r o.g. Dateien
