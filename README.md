@@ -9,11 +9,9 @@ Bibliothekenverwaltung
 -	Singe-User
 
 
-
 == Konventionen ==
 -	Klassen-, Methoden- und Variablennamen möglichst in englischer Sprache
 -	Kommentare in deutsch
--	Dateien werden formatiert in "UTF-8 ohne BOM"
 
 
 
