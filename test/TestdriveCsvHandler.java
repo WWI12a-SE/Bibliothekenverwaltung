@@ -4,13 +4,14 @@
  *
  */
 
+package test;
 import core.*;
 
 public class TestdriveCsvHandler {
 
 	public static void main(String[] args) {
 		CsvHandler oCsv = new CsvHandler("users");
-		oCsv.getCsv();
+		System.out.println(oCsv.getMap());
 	}
 
 }

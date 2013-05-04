@@ -8,6 +8,11 @@
 package controller;
 import model.*;
 
-public class Reservations {
+import java.util.Date;
+import core.ReservationsMapper;
 
+
+public class Reservations {
+	
+	
 }
