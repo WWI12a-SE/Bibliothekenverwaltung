@@ -37,6 +37,12 @@ public class CsvHandler {
 		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
 	}
 	
+	
+	
+	/**
+	 * Dateiname mit Pfad ausgeben
+	 * @return String
+	 */
 	public String getFullFileName()
 	{
 		return this.sCsvTargetFile;
@@ -75,7 +81,7 @@ public class CsvHandler {
 	 */
 	private String readFile()
 	{
-		String sReturnLines = null;
+		String sReturnLines = "";
 		
 		try{
 			FileReader oF = new FileReader(this.sCsvTargetFile);
@@ -85,7 +91,7 @@ public class CsvHandler {
 
 		    while((sLines = oR.readLine()) != null )
 		    {
-		    	sReturnLines = sLines;
+		    	sReturnLines = sReturnLines + sLines + "\n";
 		    }
 
 		    oR.close();
@@ -105,9 +111,11 @@ public class CsvHandler {
 	
 	/**
 	 * Datei schreiben
+	 * Schreibt die (geänderte) Map in die Ursprungsdatei zurück
 	 */
-	private void writeFile(){
-		// schreibe Datei
+	private void writeFile(String aMap){
+		// aMap nach this.cSvTargetFile schreiben
+		
 	}
 	
 	/**
@@ -124,6 +132,7 @@ public class CsvHandler {
 	public String read(){
 		//return getMap();
 		return readFile();
+		
 	}
 	
 	
@@ -132,8 +141,8 @@ public class CsvHandler {
 	 * Nimmt ein zweidimensionales Array entgegen.
 	 * @param String[][]
 	 */
-	public void write()
+	public void write(String aMap)
 	{
-		this.writeFile();
+		this.writeFile(aMap);
 	}
 }
