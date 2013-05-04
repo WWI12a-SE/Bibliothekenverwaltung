@@ -56,6 +56,7 @@ public class User {
 	private String sEmail = null;	
 	
 	private static UserMapper oUserMapper = new UserMapper();
+	private static User[] user;
 	
 	public static final int ROLE_STUDENT = 1;
 	public static final int ROLE_LECTURER = 2;
@@ -99,38 +100,38 @@ public class User {
 		oUserMapper.updateLine(this.sLoginName, values);
 	}
 	
-	public static Reservation[] getAllReservations()
+	public static User[] getAllUsers()
 	{
-		initReservations();
-		return Reservation.reservation;
+		initUsers();
+		return User.user;
 	}
 	
-	public static Reservation getReservation(int iID)
+	public static User getUser(String sLoginName)
 	{
-		initReservations();
-		for(int i = 0; i < reservation.length; i++){
-			if(reservation[i].getReservationID() == iID){
-				return reservation[i];
+		initUsers();
+		for(int i = 0; i < user.length; i++){
+			if(user[i].getsLoginName().equals(sLoginName)){
+				return user[i];
 			}
 		}
 		return null;
 	}
 	
 	@SuppressWarnings("deprecation")
-	private static void initReservations()
+	private static void initUsers()
 	{
-		if(reservation == null){
-			int lastIndex = oReservationMapper.getLastIndex();
-			reservation = new Reservation[lastIndex+1];
+		if(user == null){
+			int lastIndex = oUserMapper.getLastIndex();
+			user = new User[lastIndex+1];
 			for(int i = 0; i <= lastIndex; i++){
-				reservation[i] = new Reservation();
-				String[] values = oReservationMapper.readLine(i);
-				reservation[i].setReservationID(Integer.parseInt(values[ReservationsMapper.COL_RESERVATION_ID]));
-				reservation[i].setiMediaID(Integer.parseInt(values[ReservationsMapper.COL_MEDIA_ID]));
-				reservation[i].setiExtensions(Integer.parseInt(values[ReservationsMapper.COL_EXTENSIONS]));
-				reservation[i].setsLoginName(values[ReservationsMapper.COL_LOGINNAME]);
-//				reservation[i].setDateReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
-				reservation[i].setDateReturnDate(new Date());
+				user[i] = new User();
+				String[] values = oUserMapper.readLine(i);
+				user[i].setsLoginName(values[UserMapper.COL_LOGINNAME]);
+				user[i].setsEmail(values[UserMapper.COL_EMAIL]);
+				user[i].setsFirstName(values[UserMapper.COL_FIRSTNAME]);
+				user[i].setsLastName(values[UserMapper.COL_LASTNAME]);
+				user[i].setsPassword(values[UserMapper.COL_PASSWORD]);
+				user[i].setiRole(Integer.parseInt(values[UserMapper.COL_ROLE]));
 			}
 		}
 	}
