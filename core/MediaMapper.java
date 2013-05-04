@@ -15,7 +15,7 @@ public class MediaMapper {
 	 * Private Variablen
 	 */
 	private String aMediaMap[][] = null; // CSV-Map als String
-	private static final String S_FILE_NAME = "stock.csv";
+	private static final String S_FILE_NAME = "stock";
 	private CsvHandler mediaHandler;
 	
 	public static final int COL_ID = 0;

@@ -10,7 +10,7 @@ public class ReservationsMapper {
 	public static final int AMOUNT_COLUMNS = 5;
 	
 	private String[][] aReservationMap;
-	private static final String S_FILE_NAME = "reservations.csv";
+	private static final String S_FILE_NAME = "reservations";
 	private CsvHandler reservationHandler;
 	
 	public ReservationsMapper(){
