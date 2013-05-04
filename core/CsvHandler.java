@@ -12,12 +12,14 @@
 package core;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.StringTokenizer;
+import java.io.InputStreamReader;
+import org.apache.commons.io.*;
 
 public class CsvHandler {
 
@@ -26,8 +28,9 @@ public class CsvHandler {
 	 */
 	private String sCsvTargetFile = null;
 	private String sDataDir = "data"; // Name des Datenverzeichnisses, sollte "data" sein. Wird zunächst nicht geändert.
-	private InputStream oInputStream = null; // Dateistrom
-	
+	private FileInputStream oFileStream = null;
+	private BufferedReader oBufferedRdr = null;
+	private File oFile = null;
 	
 	
 	/**
@@ -36,15 +39,21 @@ public class CsvHandler {
 	 * Von Erweiterunt ".csv" ausgehen.
 	 * 
 	 * @param String sFileName
+	 * @throws FileNotFoundException 
 	 */
 	public CsvHandler(String sFileName)
 	{
 		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
+
+		// Filestream
 		try {
-			this.oInputStream = new BufferedInputStream(new FileInputStream(this.sCsvTargetFile));
+			this.oFileStream = new FileInputStream(this.sCsvTargetFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		this.oBufferedRdr = new BufferedReader(new InputStreamReader(oFileStream)); // Obj. von Buffered Reader
+		this.oFile = new File(this.sCsvTargetFile); // Dateiobjekt
 	}
 	
 	
@@ -67,11 +76,8 @@ public class CsvHandler {
 	 * @return Array
 	 * @throws IOException 
 	 */
-	private String getMap()
+	public String getMap()
 	{
-		// Explode je Zeile
-		//StringTokenizer oToken = new StringTokenizer(this.readFile(),";");
-		
 		int iLinecount = 0;
 		
 		// Zeilen zählen
@@ -90,10 +96,16 @@ public class CsvHandler {
 			//aLines[iCntr] = "A";
 			System.out.print("Zeile " + iCntr + ": ");
 			
-			System.out.print("asd");
-
 			
-
+			try {
+				String sZeile = FileUtils.readLines(this.oFile).get(iCntr);
+				System.out.print(sZeile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+					
+			//return this.oBufferedRdr.readLine();
 			
 			System.out.print("\n");
 			iCntr++;
@@ -108,46 +120,6 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Map-Schreiber
-	 * Schreibt eine Map
-	 */
-	
-	
-	
-	/**
-	 * Dateibehandlung --->
-	 */
-	
-	/**
-	 * Datei einlesen
-	 * @throws IOException 
-	 */
-	private String readFile()
-	{
-		String sReturnLines = "";		
-		try{
-			FileReader oF = new FileReader(this.sCsvTargetFile);
-		    BufferedReader oR = new BufferedReader(oF);
-		    String sLines = "";
-		    while((sLines = oR.readLine()) != null )
-		    {
-		    	//sReturnLines = sReturnLines + sLines + "\n";
-		    	sReturnLines = sLines;
-		    }
-		    oR.close();
-		}
-		catch(FileNotFoundException d)
-		{
-			System.out.println("Fehler beim Einlesen der Datei " + this.sCsvTargetFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	    
-	    return sReturnLines;		
-	}
-	
-	
-	
-	/**
 	 * Datei schreiben
 	 * Schreibt die (geänderte) Map in die Ursprungsdatei zurück
 	 */
@@ -156,10 +128,6 @@ public class CsvHandler {
 		
 	}
 	
-	/**
-	 * <-- Dateibehandlung
-	 */
-	
 	
 	
 	/**
@@ -167,8 +135,9 @@ public class CsvHandler {
 	 * @return String
 	 * @throws IOException 
 	 */
-	public String read(){
-		return getMap();
+	public String[][] read(){
+		return null;
+		//return getMap();
 	}
 	
 	
@@ -177,9 +146,9 @@ public class CsvHandler {
 	 * Nimmt ein zweidimensionales Array entgegen.
 	 * @param String[][]
 	 */
-	public void write(String aMap)
+	public void write(String aMap[])
 	{
-		this.writeFile(aMap);
+		//this.writeFile(aMap[]);
 	}
 	
 	
@@ -200,7 +169,7 @@ public class CsvHandler {
 	        int count = 0;
 	        int readChars = 0;
 	        boolean empty = true;
-	        while ((readChars = this.oInputStream.read(c)) != -1) {
+	        while ((readChars = this.oFileStream.read(c)) != -1) {
 	            empty = false;
 	            for (int i = 0; i < readChars; ++i) {
 	                if (c[i] == '\n') {
