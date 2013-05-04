@@ -11,7 +11,7 @@ public class TestdriveCsvHandler {
 
 	public static void main(String[] args) {
 		CsvHandler oCsv = new CsvHandler("users");
-		System.out.println(oCsv.read());
+		System.out.println(oCsv.getMap());
 	}
 
 }
