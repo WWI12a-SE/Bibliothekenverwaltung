@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class CsvHandler {
@@ -26,8 +27,8 @@ public class CsvHandler {
 	 */
 	private String sCsvTargetFile = null;
 	private String sDataDir = "data"; // Name des Datenverzeichnisses, sollte "data" sein. Wird zunächst nicht geändert.
-	private InputStream oInputStream = null; // Dateistrom
-	
+	private FileInputStream oFileStream = null;
+	private BufferedReader oBufferedRdr = null;
 	
 	
 	/**
@@ -36,15 +37,21 @@ public class CsvHandler {
 	 * Von Erweiterunt ".csv" ausgehen.
 	 * 
 	 * @param String sFileName
+	 * @throws FileNotFoundException 
 	 */
 	public CsvHandler(String sFileName)
 	{
 		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
+
+		// Filestream
 		try {
-			this.oInputStream = new BufferedInputStream(new FileInputStream(this.sCsvTargetFile));
+			this.oFileStream = new FileInputStream(this.sCsvTargetFile);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		// Obj. von Buffered Reader
+		this.oBufferedRdr = new BufferedReader(new InputStreamReader(oFileStream));
 	}
 	
 	
@@ -90,10 +97,16 @@ public class CsvHandler {
 			//aLines[iCntr] = "A";
 			System.out.print("Zeile " + iCntr + ": ");
 			
-			System.out.print("asd");
-
-			
-
+			for (int i = 0; i < 6 - 1; i++)
+			{
+			   try {
+				this.oBufferedRdr.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+			//return this.oBufferedRdr.readLine();
 			
 			System.out.print("\n");
 			iCntr++;
@@ -200,7 +213,7 @@ public class CsvHandler {
 	        int count = 0;
 	        int readChars = 0;
 	        boolean empty = true;
-	        while ((readChars = this.oInputStream.read(c)) != -1) {
+	        while ((readChars = this.oFileStream.read(c)) != -1) {
 	            empty = false;
 	            for (int i = 0; i < readChars; ++i) {
 	                if (c[i] == '\n') {
