@@ -89,7 +89,7 @@ public class Reservation {
 	{
 		if(reservation == null){
 			int lastIndex = oReservationMapper.getLastIndex();
-			reservation = new Reservation[lastIndex];
+			reservation = new Reservation[lastIndex+1];
 			for(int i = 0; i <= lastIndex; i++){
 				reservation[i] = new Reservation();
 				String[] values = oReservationMapper.readLine(i);
@@ -97,7 +97,8 @@ public class Reservation {
 				reservation[i].setiMediaID(Integer.parseInt(values[ReservationsMapper.COL_MEDIA_ID]));
 				reservation[i].setiExtensions(Integer.parseInt(values[ReservationsMapper.COL_EXTENSIONS]));
 				reservation[i].setsLoginName(values[ReservationsMapper.COL_LOGINNAME]);
-				reservation[i].setDateReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
+//				reservation[i].setDateReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
+				reservation[i].setDateReturnDate(new Date());
 			}
 		}
 	}

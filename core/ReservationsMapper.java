@@ -15,7 +15,7 @@ public class ReservationsMapper {
 	
 	public ReservationsMapper(){
 		reservationHandler = new CsvHandler(S_FILE_NAME); 
-		aReservationMap = reservationHandler.read();	
+		aReservationMap = reservationHandler.read();
 	}
 	
 	public void updateColumn(int iID,int iColumn, String valueToWrite){
