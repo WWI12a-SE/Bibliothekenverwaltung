@@ -18,6 +18,7 @@ public class CsvHandler {
 	 * private Variablen
 	 */
 	private String sCsvTargetFile = null;
+	File oCsvFile = null;
 	
 	
 	
@@ -30,17 +31,8 @@ public class CsvHandler {
 	 */
 	public CsvHandler(String sFileName)
 	{
-		this.sCsvTargetFile = sFileName + ".csv";
-	}
-	
-	
-	
-	/**
-	 * Test: Gibt die Map aus (grafisch)
-	 */
-	public String getCsv()
-	{
-		return getMap();
+		this.sCsvTargetFile = sFileName + ".csv"; // Name der Datei
+		this.oCsvFile = new File(this.sCsvTargetFile); // Datei als globales Objekt
 	}
 	
 	
@@ -60,12 +52,55 @@ public class CsvHandler {
 	
 	
 	/**
+	 * Map-Schreiber
+	 * Schreibt eine Map
+	 */
+	
+	
+	
+	/**
+	 * Dateibehandlung --->
+	 */
+	
+	/**
 	 * Datei einlesen
-	 * @param sFileName
 	 */
 	private void readFile()
 	{
-		File oFile = new File(this.sCsvTargetFile);
-		
+		// lesen von this.oCsvFile
+	}
+	
+	
+	
+	/**
+	 * Datei schreiben
+	 */
+	{
+		// schreibe Datei this.oCsvFile
+	}
+	
+	/**
+	 * <-- Dateibehandlung
+	 */
+	
+	
+	
+	/**
+	 * Reicht die Ausgabe von getMap() nach außen.
+	 * @return String
+	 */
+	public String read(){
+		return getMap();		
+	}
+	
+	
+	
+	/**
+	 * Nimmt ein zweidimensionales Array entgegen.
+	 * @param String[][]
+	 */
+	public void write()
+	{
+		//
 	}
 }
