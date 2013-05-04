@@ -8,7 +8,7 @@
 
 package model;
 import core.*;
-
+// Hallo Sandra
 public class Media {
 	/**
 	 * Private Variablen
