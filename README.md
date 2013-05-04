@@ -1,9 +1,20 @@
 Bibliothekenverwaltung
 ======================
 
-DHBW-Projekt/2. Semester
 
-Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
+
+== Beschreibung ==
+-	DHBW-Projekt/2. Semester
+-	Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
+-	Singe-User
+
+
+
+== Konventionen ==
+-	Klassen-, Methoden- und Variablennamen möglichst in englischer Sprache
+-	Kommentare in deutsch
+-	Dateien werden formatiert in "UTF-8 ohne BOM"
+
 
 
 == Verzeichnisstruktur ==
@@ -14,7 +25,6 @@ Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
 
 /models
 -	Abstrahierte Datenmodelle der einzelnen CSV-Dateien
-
 
 /controller
 -	Controller für Benutzeroberfläche. Logik für Benutzerebene gehört hier hin.

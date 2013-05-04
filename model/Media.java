@@ -20,12 +20,12 @@ public class Media {
 	private String sIsbn = null;
 	private int iYear = 0;
 	private int iEdition = 0; // Ausgabe
-	private int iOnStock = 0; // Verfügbare Exemplare
+	private int iOnStock = 0; // VerfÃ¼gbare Exemplare
 	private int iCopies = 0; // Vorhandene Exemplare
 	private StockMapper oStock = null; // Passender Mapper
 	
 	/**
-	 * Rückgabeobjekt
+	 * RÃ¼ckgabeobjekt
 	 */
 	private Media oMedium = null;
 	
@@ -38,7 +38,7 @@ public class Media {
 	
 	
 	/**
-	 * Aus bestehemdem Datensatz neues Medien-Objekt erzeugen, indem ID übergeben wird
+	 * Aus bestehemdem Datensatz neues Medien-Objekt erzeugen, indem ID Ã¼bergeben wird
 	 * SONST davon ausgehen, dass ein neues Medium angelegt wird.
 	 * @param int
 	 * @return boolean
@@ -49,7 +49,7 @@ public class Media {
 		this.ID = iID;
 		
 		// Wenn Datensatz mit dieser ID existiert, neues Objekt erzeugen und in this.oUser speichern.
-		// Hierfür alle Setter durchlaufen.
+		// HierfÃ¼r alle Setter durchlaufen.
 		
 		// Existiert der Datensatz noch nicht, soll er neu angelegt werden. Ebenfalls setzen.
 		
@@ -74,7 +74,7 @@ public class Media {
 	
 	/**
 	 * Speichern.
-	 * Schreibt das aktuelle Objekt in die Map zurück.
+	 * Schreibt das aktuelle Objekt in die Map zurÃ¼ck.
 	 * 
 	 * @return boolean
 	 */

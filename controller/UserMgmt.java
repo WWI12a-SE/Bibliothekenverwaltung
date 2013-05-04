@@ -1,5 +1,5 @@
 /**
- * Benutzerverwaltung für Administrator
+ * Benutzerverwaltung fÃ¼r Administrator
  * Ruft alle Benutzer aus dem Speicher ab und beliefert ein Formular bereit, um diese zu bearbeiten.
  * 
  * @author ja

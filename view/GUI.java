@@ -2,11 +2,11 @@ package view;
 
 /**
  * Fragt aktiven Benutzer ab,
- * zeigt davon abhängig Register an.
+ * zeigt davon abhÃ¤ngig Register an.
  * @author ja
  * 
  * Register:
- * - PanelStock (Bücher)
+ * - PanelStock (BÃ¼cher)
  * - PanelReservations (Meine R. (Nutzer)/Alle R. (Bibliothekar))
  * 
  * 

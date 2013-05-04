@@ -1,6 +1,6 @@
 /**
  * StockMapper
- * Lädt Inhalte aus einer CSV-Datei über CsvHandler
+ * LÃ¤dt Inhalte aus einer CSV-Datei Ã¼ber CsvHandler
  * 
  * @author ja
  */

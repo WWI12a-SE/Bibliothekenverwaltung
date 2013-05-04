@@ -17,18 +17,18 @@ public class User {
 	private String sFirstName = null;
 	private String sLastName = null;
 	private int iRole = 0; // Benutzerrolle. 1 = Student, 2 = Dozent, 3 = Bibliothekar
-	private String sPassword = null; // Kennwort zunächst, unverschlüsselt
+	private String sPassword = null; // Kennwort zunÃ¤chst, unverschlÃ¼sselt
 	private String sEmail = null;	
 	
 	/**
-	 * Rückgabeobjekt
+	 * RÃ¼ckgabeobjekt
 	 */
 	private User oUser = null;
 	
 	
 	
 	/**
-	 * Aus bestehemdem Datensatz neues Benutzer-Objekt erzeugen, indem ID übergeben wird
+	 * Aus bestehemdem Datensatz neues Benutzer-Objekt erzeugen, indem ID Ã¼bergeben wird
 	 * SONST davon ausgehen, dass ein neuer Benutzer angelegt wird.
 	 * @param String
 	 * @return boolean
@@ -39,18 +39,18 @@ public class User {
 		this.sLoginName = sLoginName;
 		
 		// Wenn Datensatz mit dieser ID existiert, neues Objekt erzeugen und in this.oUser speichern.
-		// Hierfür alle Setter durchlaufen.
+		// HierfÃ¼r alle Setter durchlaufen.
 		
 		// Existiert der Datensatz noch nicht, soll er neu angelegt werden. Ebenfalls setzen.
 		
-		// Mit TRUE abschließen => Erfolg.
+		// Mit TRUE abschlieÃŸen => Erfolg.
 		return true;		
 	}
 	
 	
 	
 	/**
-	 * Gibt ein Objekt vom Typ User zurück. Muss zuvor instanziert werden.
+	 * Gibt ein Objekt vom Typ User zurÃ¼ck. Muss zuvor instanziert werden.
 	 * @return Object
 	 */
 	public User getUser()
@@ -73,7 +73,7 @@ public class User {
 	
 	
 	/**
-	 * Vorname zurückgeben
+	 * Vorname zurÃ¼ckgeben
 	 * @return String
 	 */
 	public String getFirstName()
@@ -96,7 +96,7 @@ public class User {
 	
 	
 	/**
-	 * Nachname zurückgeben
+	 * Nachname zurÃ¼ckgeben
 	 * @return String
 	 */
 	public String getLastName()

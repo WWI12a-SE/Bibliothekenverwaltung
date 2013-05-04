@@ -1,12 +1,12 @@
 /**
  * CSV-Mapper
  * Liest eine CSV-Datei ein und parst sie in einem zweidimensionalen Array.
- * Unterstützt das Schreiben von CSV-Dateien.
+ * UnterstÃ¼tzt das Schreiben von CSV-Dateien.
  * 
  * Standardform:
  * "Zeichenfolge";"1000";"1234.56"
- * -	Alle Werte stehen in Anführungszeichen.
- * -	Werte werden in Anführungszeichen gefasst.
+ * -	Alle Werte stehen in AnfÃ¼hrungszeichen.
+ * -	Werte werden in AnfÃ¼hrungszeichen gefasst.
  */
 
 package core;
