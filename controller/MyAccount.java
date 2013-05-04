@@ -27,25 +27,16 @@ public class MyAccount {
 		
 	
 	
-	/**
-	 * Anmelden. Sitzung erzeugen.
-	 * @param String
-	 * @param String
-	 */
-	// Hole User aus Datenbank
-	public static getUser(){
-	}
+	
 	
 	// Vergleich von Anmeldenamen und Datenbanknamen
 	public void login(String sLoginName, String sPassword)
 	{
-		User loginname = User.getUser(sLoginName);	// Suche mir den User mit diesem Passwort
-		User password = User.getPassword(sPassword);//Suche mit den User mit diesem LoginNamen
+		User loginUser = User.getUser(sLoginName);	// Suche mir den User mit diesem Namen
+		String password = loginUser.getsPassword();//Suche mit den User mit diesem Password
 		
 		//prüfung
-		if (loginname.equals(sLoginName) ){
-			//TODO
-		}else if(password.equals(sPassword)){
+		if ((loginUser.getsLoginName().equals(sLoginName))&(loginUser.getsPassword().equals(sPassword)) ){
 			//TODO
 		}else{
 			//TODO
