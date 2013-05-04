@@ -34,7 +34,7 @@ public class CsvHandler {
 	 */
 	public CsvHandler(String sFileName)
 	{
-		this.sCsvTargetFile = sDataDir + "/" + sFileName + ".csv"; // Name der Datei
+		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
 	}
 	
 	public String getFullFileName()
@@ -94,7 +94,6 @@ public class CsvHandler {
 		{
 			System.out.println("Fehler beim Einlesen der Datei " + this.sCsvTargetFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    
