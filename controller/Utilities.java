@@ -1,8 +1,8 @@
 /**
  * Utilities
- * Hilfsklassen fÃ¼r allgemeine Aufgaben
- * -	wie zum Speichern der Ã„nderungen in die CSV-Dateien
- * -	hÃ¤lt Sitzungsdaten des angemeldeten Benutzers bereit
+ * Hilfsklassen für allgemeine Aufgaben
+ * -	wie zum Speichern der Änderungen in die CSV-Dateien
+ * -	hält Sitzungsdaten des angemeldeten Benutzers bereit
  * 
  * @author ja
  */
@@ -21,8 +21,8 @@ public class Utilities {
 	
 	
 	/**
-	 * Bei Anmeldung das Benutzerobjekt in oCurrentUser laden (wird von MyAccount ausgefÃ¼hrt)
-	 * Dieses ist gloabl verfÃ¼gbar und kann ab jetzt genutzt werden, um darauf die Methoden von User auszufÃ¼hren.
+	 * Bei Anmeldung das Benutzerobjekt in oCurrentUser laden (wird von MyAccount ausgeführt)
+	 * Dieses ist gloabl verfügbar und kann ab jetzt genutzt werden, um darauf die Methoden von User auszuführen.
 	 * @param User
 	 */
 	public void setUser(User oUser)
@@ -33,7 +33,7 @@ public class Utilities {
 	
 	
 	/**
-	 * Benutzer zurÃ¼ckgeben
+	 * Benutzer zurückgeben
 	 */
 	public User getUser()
 	{
