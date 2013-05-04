@@ -157,7 +157,7 @@ public class Media {
 		values[MediaMapper.COL_PUBLISHER] = this.sPublisher;
 		values[MediaMapper.COL_ISBN] = this.sIsbn;
 		values[MediaMapper.COL_AUTHOR] = this.sAuthor;
-		oMediaMapper.writeLine(values);	
+		oMediaMapper.updateLine(this.ID, values);
 	}
 	
 	/**
@@ -169,14 +169,15 @@ public class Media {
 		return Media.media;
 	}
 	
-	public static Media getMedia(int iID){
+	public static Media getMedia(int iID)
+	{
 		initMedia();
 		for(int i = 0; i < media.length; i++){
 			if(media[i].getID() == iID){
 				return media[i];
 			}
 		}
-		return new Media();
+		return null;
 	}
 	
 }
