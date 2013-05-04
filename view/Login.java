@@ -77,6 +77,7 @@ public class Login extends JFrame{
 			//eingegebene Logindaten holen
 			String username = usernamefield.getText();
 			char [] password = passwordfield.getPassword();	
+			String.valueOf(password);// Pharse password in String
 			
 			//Logindaten weiterleiten an MyAccount
 			boolean loginOK = false;//MyAccount.login(username, password);

@@ -4,7 +4,7 @@
  * -	Logout
  * -	Bei Abmeldung speichern
  * 
- * @author ja
+ * @author Sandra Lang
  *
  */
 
@@ -17,19 +17,14 @@ public class MyAccount {
 	 * Private Variablen
 	 */
 	Utilities oUtilities = null;
-	private static User oUser = null;
+	private static User oUser = null;	// Logindaten User von Backend
 	
 	
 	/**
 	 * Constructor. Neues User-Objekt erzeugen.
 	 * @param oUser
 	 */
-	public MyAccount(User oUser)
-	{
-		// Utilities-Variable füllen
-		this.oUtilities = new Utilities();
-	}
-	
+		
 	
 	
 	/**
@@ -37,13 +32,26 @@ public class MyAccount {
 	 * @param String
 	 * @param String
 	 */
-	public void login(String sLoginName, String sPassword)
-	{
-		this.oUser = new User();
-		this.oUser.setUser(sLoginName); // Benutzer per ID setzen
-		this.oUtilities.setUser(oUser); // Das neue Benutzer-Objekt an Utilities übergeben
+	// Hole User aus Datenbank
+	public static getUser(){
 	}
 	
+	// Vergleich von Anmeldenamen und Datenbanknamen
+	public void login(String sLoginName, String sPassword)
+	{
+		User loginname = User.getUser(sLoginName);	// Suche mir den User mit diesem Passwort
+		User password = User.getPassword(sPassword);//Suche mit den User mit diesem LoginNamen
+		
+		//prüfung
+		if (loginname.equals(sLoginName) ){
+			//TODO
+		}else if(password.equals(sPassword)){
+			//TODO
+		}else{
+			//TODO
+		}
+		
+	}
 	
 	
 	/**
