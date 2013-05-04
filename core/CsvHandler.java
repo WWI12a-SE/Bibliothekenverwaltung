@@ -93,7 +93,7 @@ public class CsvHandler {
 		// Je Zeile der Datei
 		int iCntr = 0;
 		while(iCntr <= iLinecount){
-			//aLines[iCntr] = "A";
+			aLines[iCntr] = "A";
 			System.out.print("Zeile " + iCntr + ": ");
 			
 			

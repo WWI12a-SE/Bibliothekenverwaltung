@@ -18,11 +18,11 @@ import javax.swing.event.ListSelectionListener;
 
 /**
  * Fragt aktiven Benutzer ab,
- * zeigt davon abhÃ¤ngig Register an.
+ * zeigt davon abhängig Register an.
  * @author ja
  * 
  * Register:
- * - PanelStock (BÃ¼cher)
+ * - PanelStock (Bücher)
  * - PanelReservations (Meine R. (Nutzer)/Alle R. (Bibliothekar))
  * 
  * 
@@ -56,8 +56,8 @@ public class GUI extends JFrame {
 		topPanel.add(savePanel);
 		this.add(topPanel);
 		
-		//Abmelden/Speichern-Button dem savePanel hinzufÃ¼gen
-		//Such-TextField anlegen und searchPanel hinzufÃ¼gen
+		//Abmelden/Speichern-Button dem savePanel hinzufügen
+		//Such-TextField anlegen und searchPanel hinzufügen
 		JButton quitSaveButton = new JButton();
 		JLabel quitSaveLabel = new JLabel("Abmelden/Speichern");
 		quitSaveButton.add(quitSaveLabel);
@@ -72,7 +72,7 @@ public class GUI extends JFrame {
 		
 		
 		//Tableiste anlegen - kommt in den unteren Bereich des Frames
-		//Panels fÃ¼r die tabdPane anlegen
+		//Panels für die tabdPane anlegen
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
 		this.add(tabPane);
@@ -83,7 +83,7 @@ public class GUI extends JFrame {
 		tabReservations.setSize(200, 200);
 		tabMyAccount.setSize(200, 200);
 		
-		//die Panels der Tableiste hinzufÃ¼gen
+		//die Panels der Tableiste hinzufügen
 		tabPane.addTab("Bestand", tabStore);
 		tabPane.addTab("Reservierungen", tabReservations);
 		tabPane.addTab("Mein Konto", tabMyAccount);
@@ -103,7 +103,7 @@ public class GUI extends JFrame {
 		tabStore.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		//Reservierungen
-		String[] dataReservations = new String[] {"vier", "fÃ¼nf", "sechs", "sieben"};
+		String[] dataReservations = new String[] {"vier", "fünf", "sechs", "sieben"};
 		final JList reservationList = new JList(dataReservations);
 		storeList.addListSelectionListener(new ListSelectionListener(){
 
@@ -116,7 +116,7 @@ public class GUI extends JFrame {
 		tabReservations.add(reservationList);
 		tabReservations.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		//persÃ¶nliche Daten
+		//persönliche Daten
 		String[] dataUser = new String[] {"Vorname", "Nachname", "Strasse", "Ort"};
 		final JList userList = new JList(dataUser);
 		storeList.addListSelectionListener(new ListSelectionListener(){
