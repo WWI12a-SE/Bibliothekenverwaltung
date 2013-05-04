@@ -10,10 +10,14 @@
  */
 
 package core;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.StringTokenizer;
 
 public class CsvHandler {
 
@@ -21,7 +25,7 @@ public class CsvHandler {
 	 * private Variablen
 	 */
 	private String sCsvTargetFile = null;
-	private String sDataDir = "data";
+	private String sDataDir = "data"; // Name des Datenverzeichnisses, sollte "data" sein. Wird zunächst nicht geändert.
 	
 	
 	
@@ -30,7 +34,7 @@ public class CsvHandler {
 	 * Dateiname OHNE Erweiterung übergeben.
 	 * Von Erweiterunt ".csv" ausgehen.
 	 * 
-	 * @param String
+	 * @param String sFileName
 	 */
 	public CsvHandler(String sFileName)
 	{
@@ -58,8 +62,21 @@ public class CsvHandler {
 	 */
 	private String getMap()
 	{
-		String aCsv = null;
-		return aCsv;
+		// Explode je Zeile
+		//StringTokenizer oToken = new StringTokenizer(this.readFile(),";");
+		
+		try {
+			System.out.println(this.count(this.sCsvTargetFile));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return null;
 	}
 	
 	
@@ -81,19 +98,16 @@ public class CsvHandler {
 	 */
 	private String readFile()
 	{
-		String sReturnLines = "";
-		
+		String sReturnLines = "";		
 		try{
 			FileReader oF = new FileReader(this.sCsvTargetFile);
 		    BufferedReader oR = new BufferedReader(oF);
-
 		    String sLines = "";
-
 		    while((sLines = oR.readLine()) != null )
 		    {
-		    	sReturnLines = sReturnLines + sLines + "\n";
+		    	//sReturnLines = sReturnLines + sLines + "\n";
+		    	sReturnLines = sLines;
 		    }
-
 		    oR.close();
 		}
 		catch(FileNotFoundException d)
@@ -101,10 +115,8 @@ public class CsvHandler {
 			System.out.println("Fehler beim Einlesen der Datei " + this.sCsvTargetFile);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	    
-	    return sReturnLines;
-		
+		}	    
+	    return sReturnLines;		
 	}
 	
 	
@@ -130,9 +142,7 @@ public class CsvHandler {
 	 * @throws IOException 
 	 */
 	public String read(){
-		//return getMap();
-		return readFile();
-		
+		return getMap();
 	}
 	
 	
@@ -144,5 +154,39 @@ public class CsvHandler {
 	public void write(String aMap)
 	{
 		this.writeFile(aMap);
+	}
+	
+	
+	
+	/**
+	 * Anzahl der Zeilen einer Datei
+	 * 
+	 * @author martinus
+	 * @url http://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
+	 * 
+	 * @param String sFileName
+	 * @return integer
+	 * @throws IOException
+	 */
+	private int count(String sFileName) throws IOException {
+	    InputStream is = new BufferedInputStream(new FileInputStream(sFileName));
+	    try {
+	        byte[] c = new byte[1024];
+	        int count = 0;
+	        int readChars = 0;
+	        boolean empty = true;
+	        while ((readChars = is.read(c)) != -1) {
+	            empty = false;
+	            for (int i = 0; i < readChars; ++i) {
+	                if (c[i] == '\n') {
+	                    ++count;
+	                }
+	            }
+	        }
+	        return (count == 0 && !empty) ? 1 : count;
+	    }
+	    finally{
+	        is.close();
+	    }
 	}
 }
