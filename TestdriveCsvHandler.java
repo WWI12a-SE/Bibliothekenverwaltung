@@ -9,8 +9,9 @@ import core.*;
 public class TestdriveCsvHandler {
 
 	public static void main(String[] args) {
+		System.out.println("Los...");
 		CsvHandler oCsv = new CsvHandler("users");
-		oCsv.getCsv();
+		System.out.println(oCsv.getFullFileName());
 	}
 
 }

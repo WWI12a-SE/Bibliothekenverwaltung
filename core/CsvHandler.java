@@ -10,7 +10,10 @@
  */
 
 package core;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class CsvHandler {
 
@@ -18,7 +21,7 @@ public class CsvHandler {
 	 * private Variablen
 	 */
 	private String sCsvTargetFile = null;
-	File oCsvFile = null;
+	private String sDataDir = "data";
 	
 	
 	
@@ -31,8 +34,12 @@ public class CsvHandler {
 	 */
 	public CsvHandler(String sFileName)
 	{
-		this.sCsvTargetFile = sFileName + ".csv"; // Name der Datei
-		this.oCsvFile = new File(this.sCsvTargetFile); // Datei als globales Objekt
+		this.sCsvTargetFile = sDataDir + "/" + sFileName + ".csv"; // Name der Datei
+	}
+	
+	public String getFullFileName()
+	{
+		return this.sCsvTargetFile;
 	}
 	
 	
@@ -64,10 +71,35 @@ public class CsvHandler {
 	
 	/**
 	 * Datei einlesen
+	 * @throws IOException 
 	 */
-	private void readFile()
+	private String readFile()
 	{
-		// lesen von this.oCsvFile
+		String sReturnLines = null;
+		
+		try{
+			FileReader oF = new FileReader(this.sCsvTargetFile);
+		    BufferedReader oR = new BufferedReader(oF);
+
+		    String sLines = "";
+
+		    while((sLines = oR.readLine()) != null )
+		    {
+		    	sReturnLines = sLines;
+		    }
+
+		    oR.close();
+		}
+		catch(FileNotFoundException d)
+		{
+			System.out.println("Fehler beim Einlesen der Datei " + this.sCsvTargetFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    return sReturnLines;
+		
 	}
 	
 	
@@ -75,8 +107,8 @@ public class CsvHandler {
 	/**
 	 * Datei schreiben
 	 */
-	{
-		// schreibe Datei this.oCsvFile
+	private void writeFile(){
+		// schreibe Datei
 	}
 	
 	/**
@@ -88,9 +120,11 @@ public class CsvHandler {
 	/**
 	 * Reicht die Ausgabe von getMap() nach auﬂen.
 	 * @return String
+	 * @throws IOException 
 	 */
 	public String read(){
-		return getMap();		
+		//return getMap();
+		return readFile();
 	}
 	
 	
@@ -101,6 +135,6 @@ public class CsvHandler {
 	 */
 	public void write()
 	{
-		//
+		this.writeFile();
 	}
 }
