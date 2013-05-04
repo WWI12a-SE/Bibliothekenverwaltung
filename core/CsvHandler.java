@@ -26,6 +26,7 @@ public class CsvHandler {
 	 */
 	private String sCsvTargetFile = null;
 	private String sDataDir = "data"; // Name des Datenverzeichnisses, sollte "data" sein. Wird zunächst nicht geändert.
+	private InputStream oInputStream = null; // Dateistrom
 	
 	
 	
@@ -39,6 +40,11 @@ public class CsvHandler {
 	public CsvHandler(String sFileName)
 	{
 		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
+		try {
+			this.oInputStream = new BufferedInputStream(new FileInputStream(this.sCsvTargetFile));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -59,24 +65,44 @@ public class CsvHandler {
 	 * Gibt den Inhalt einer CSV-Datei als zweidimensionales Array zurück.
 	 * 
 	 * @return Array
+	 * @throws IOException 
 	 */
 	private String getMap()
 	{
 		// Explode je Zeile
 		//StringTokenizer oToken = new StringTokenizer(this.readFile(),";");
 		
+		int iLinecount = 0;
+		
+		// Zeilen zählen
 		try {
-			System.out.println(this.count(this.sCsvTargetFile));
+			iLinecount = this.countLines();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		// Array der ersten Dimension
+		String aLines[] = new String[iLinecount];
+		
+		// Je Zeile der Datei
+		int iCntr = 0;
+		while(iCntr <= iLinecount){
+			//aLines[iCntr] = "A";
+			System.out.print("Zeile " + iCntr + ": ");
+			
+			System.out.print("asd");
+
+			
+
+			
+			System.out.print("\n");
+			iCntr++;
+		}
 		
 		
+		//Für jede Zeile 
 		
-		
-		return null;
+		return "Ende Map";
 	}
 	
 	
@@ -168,14 +194,13 @@ public class CsvHandler {
 	 * @return integer
 	 * @throws IOException
 	 */
-	private int count(String sFileName) throws IOException {
-	    InputStream is = new BufferedInputStream(new FileInputStream(sFileName));
+	private int countLines() throws IOException {		
 	    try {
 	        byte[] c = new byte[1024];
 	        int count = 0;
 	        int readChars = 0;
 	        boolean empty = true;
-	        while ((readChars = is.read(c)) != -1) {
+	        while ((readChars = this.oInputStream.read(c)) != -1) {
 	            empty = false;
 	            for (int i = 0; i < readChars; ++i) {
 	                if (c[i] == '\n') {
@@ -186,7 +211,7 @@ public class CsvHandler {
 	        return (count == 0 && !empty) ? 1 : count;
 	    }
 	    finally{
-	        is.close();
+	    	// this.oInputStream.close();
 	    }
 	}
 }

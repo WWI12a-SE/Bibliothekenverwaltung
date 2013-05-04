@@ -26,7 +26,7 @@ public class MyAccount {
 	 */
 	public MyAccount(User oUser)
 	{
-		// Utilities-Variable fÃ¼llen
+		// Utilities-Variable füllen
 		this.oUtilities = new Utilities();
 	}
 	
@@ -41,7 +41,7 @@ public class MyAccount {
 	{
 		this.oUser = new User();
 		this.oUser.setUser(sLoginName); // Benutzer per ID setzen
-		this.oUtilities.setUser(oUser); // Das neue Benutzer-Objekt an Utilities Ã¼bergeben
+		this.oUtilities.setUser(oUser); // Das neue Benutzer-Objekt an Utilities übergeben
 	}
 	
 	
@@ -58,7 +58,7 @@ public class MyAccount {
 		// Globales Benutzer-Objekt leeren
 		this.oUtilities.setUser(null);
 		
-		// Hauptfenster schlieÃŸen und Anmeldedialog anzeigen
+		// Hauptfenster schließen und Anmeldedialog anzeigen
 		// ...
 	}
 	
