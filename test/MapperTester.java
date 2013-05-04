@@ -1,5 +1,7 @@
 package test;
 
+import java.util.Date;
+
 import model.Reservation;
 
 public class MapperTester {
@@ -16,6 +18,15 @@ public class MapperTester {
 			System.out.println(test[i].getsLoginName());
 			System.out.println(test[i].getDateReturnDate());
 		}
+		
+		/*
+		 * 
+		 * String[][] test;
+		Date date = new Date();
+		test = new String[][] {{"7","0","0",""+date,"user1"},{"4","0","0",""+date,"user2"}};
+		return test;
+		 * 
+		 */
 	}
 
 }
