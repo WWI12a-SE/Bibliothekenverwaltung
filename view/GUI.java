@@ -15,5 +15,11 @@ package view;
  */
 
 public class GUI {
+	/**JTabbedPane erstellen*/
+	JTabbedPane tabs = new JTabbedPane;
+	
+	
+	int iBeisp = "asdf";
+	
 	
 }
