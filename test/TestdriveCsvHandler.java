@@ -5,13 +5,17 @@
  */
 
 package test;
+
+import java.io.IOException;
+
 import core.*;
 
 public class TestdriveCsvHandler {
 
-	public static void main(String[] args) {
-		CsvHandler oCsv = new CsvHandler("users");
-		System.out.println(oCsv.getMap());
+	public static void main(String[] args) throws IOException{
+		CsvHandler oCsv = new CsvHandler("stock");
+		
+		oCsv.viewMap();
 	}
 
 }

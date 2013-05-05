@@ -7,180 +7,141 @@
  * "Zeichenfolge";"1000";"1234.56"
  * -	Alle Werte stehen in Anführungszeichen.
  * -	Werte werden in Anführungszeichen gefasst.
+ * 
+ * Stunden verschwendet: 6,5
  */
 
 package core;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import org.apache.commons.io.*;
+import java.util.List;
+import core.opencsv.*;
 
 public class CsvHandler {
 
 	/**
 	 * private Variablen
 	 */
-	private String sCsvTargetFile = null;
-	private String sDataDir = "data"; // Name des Datenverzeichnisses, sollte "data" sein. Wird zunächst nicht geändert.
-	private FileInputStream oFileStream = null;
-	private BufferedReader oBufferedRdr = null;
-	private File oFile = null;
+	private static String sFileName = "";
+	private static FileReader oFileReader = null;
+	public static int iLines = 0;
+	public static int iColons = 0;
+	public static String[][] aMap = null;
+	
 	
 	
 	/**
 	 * Constructor
-	 * Dateiname OHNE Erweiterung übergeben.
-	 * Von Erweiterunt ".csv" ausgehen.
+	 * Nimmt Dateinamen ohne Pfad und Erweiterung entgegen und befüllt daraus globale Variablen und Objekte.
+	 * Von Erweiterung ".csv" und festem Pfad "data/" unterhalb von src ausgehen.
 	 * 
 	 * @param String sFileName
 	 * @throws FileNotFoundException 
 	 */
 	public CsvHandler(String sFileName)
 	{
-		this.sCsvTargetFile = "./src/" + sDataDir + "/" + sFileName + ".csv"; // Name der Datei
-
-		// Filestream
+		CsvHandler.sFileName = "./src/data/" + sFileName + ".csv";
+		
+		// Reader
 		try {
-			this.oFileStream = new FileInputStream(this.sCsvTargetFile);
+			CsvHandler.oFileReader = new FileReader(CsvHandler.sFileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		this.oBufferedRdr = new BufferedReader(new InputStreamReader(oFileStream)); // Obj. von Buffered Reader
-		this.oFile = new File(this.sCsvTargetFile); // Dateiobjekt
-	}
-	
-	
-	
-	/**
-	 * Dateiname mit Pfad ausgeben
-	 * @return String
-	 */
-	public String getFullFileName()
-	{
-		return this.sCsvTargetFile;
-	}
-	
-	
-	
-	/**
-	 * Map-Getter
-	 * Gibt den Inhalt einer CSV-Datei als zweidimensionales Array zurück.
-	 * 
-	 * @return Array
-	 * @throws IOException 
-	 */
-	public String getMap()
-	{
-		int iLinecount = 0;
-		
-		// Zeilen zählen
+		// Dimensionen
 		try {
-			iLinecount = this.countLines();
+			this.fetchDimensions();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		// Array der ersten Dimension
-		String aLines[] = new String[iLinecount];
-		
-		// Je Zeile der Datei
-		int iCntr = 0;
-		while(iCntr <= iLinecount){
-			aLines[iCntr] = "A";
-			System.out.print("Zeile " + iCntr + ": ");
-			
-			
-			try {
-				String sZeile = FileUtils.readLines(this.oFile).get(iCntr);
-				System.out.print(sZeile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-					
-			//return this.oBufferedRdr.readLine();
-			
-			System.out.print("\n");
-			iCntr++;
-		}
-		
-		
-		//Für jede Zeile 
-		
-		return "Ende Map";
 	}
 	
 	
 	
 	/**
-	 * Datei schreiben
-	 * Schreibt die (geänderte) Map in die Ursprungsdatei zurück
-	 */
-	private void writeFile(String aMap){
-		// aMap nach this.cSvTargetFile schreiben
-		
-	}
-	
-	
-	
-	/**
-	 * Reicht die Ausgabe von getMap() nach außen.
+	 * Fragt Dimensionen der CSV-Datei ab und speichert sie in statischen Variablen.
 	 * @return String
 	 * @throws IOException 
 	 */
-	public String[][] read(){
-		return null;
-		//return getMap();
+	private void fetchDimensions() throws IOException{
+		CSVReader oCR = new CSVReader(CsvHandler.oFileReader,';','"');
+		List<String[]> content = oCR.readAll();
+		
+		String[] sColons = null;
+		
+		int iLines = 0;
+		
+		for (Object oTmpObject : content) {
+		    sColons = (String[]) oTmpObject;
+		    
+		    // Anzahl der Spalten erfassen
+		    int iColons = sColons.length;
+		    CsvHandler.iColons = iColons;
+			iLines++;
+		}
+		
+		// Anzahl der Zeilen erfassen
+		CsvHandler.iLines = iLines;
+		//System.out.println("Zeilen: " + CsvHandler.iLines + ", Spalten: " + CsvHandler.iColons);
+		
+		// Neues Array mit passenden Dimensionen erstellen
+		String aMap[][] = new String[CsvHandler.iLines][CsvHandler.iColons];
+		
+		// Dateihandle durchlaufen und in Array stecken		
+		int iTheLineCounter = 0;
+		
+		for (Object oCobj : content) {
+		    sColons = (String[]) oCobj;
+				
+		    int iColCntr = 0;
+		    while (iColCntr <= sColons.length - 1){
+		    	aMap[iTheLineCounter][iColCntr] = sColons[iColCntr];
+		    	iColCntr++;
+		    }		
+		    
+			iTheLineCounter++;
+		}
+		
+		CsvHandler.aMap = aMap; // Map in statischer Variable speichern
+		oCR.close(); //Handle schließen
 	}
 	
 	
 	
 	/**
-	 * Nimmt ein zweidimensionales Array entgegen.
-	 * @param String[][]
+	 * Sichtbar machen (Debug/Entwickler)
 	 */
-	public void write(String aMap[])
+	public void viewMap()
 	{
-		//this.writeFile(aMap[]);
+		for (int k = 0; k < CsvHandler.aMap.length; ++k) {
+		     for (int l = 0; l < CsvHandler.aMap[k].length; ++l) {
+		        System.out.print(CsvHandler.aMap[k][l] + "\t");
+		     }
+		     System.out.println("");
+		}
 	}
 	
 	
 	
 	/**
-	 * Anzahl der Zeilen einer Datei
-	 * 
-	 * @author martinus
-	 * @url http://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
-	 * 
-	 * @param String sFileName
-	 * @return integer
-	 * @throws IOException
+	 * Lesen: Übergeben
+	 * @param null
+	 * @return String[][]
 	 */
-	private int countLines() throws IOException {		
-	    try {
-	        byte[] c = new byte[1024];
-	        int count = 0;
-	        int readChars = 0;
-	        boolean empty = true;
-	        while ((readChars = this.oFileStream.read(c)) != -1) {
-	            empty = false;
-	            for (int i = 0; i < readChars; ++i) {
-	                if (c[i] == '\n') {
-	                    ++count;
-	                }
-	            }
-	        }
-	        return (count == 0 && !empty) ? 1 : count;
-	    }
-	    finally{
-	    	// this.oInputStream.close();
-	    }
+	public String[][] read()
+	{
+		return CsvHandler.aMap;
+	}
+	
+	
+	/**
+	 * Schreiben: Übergebenes zweidomensionales Array in Datei schreiben
+	 */
+	public void write(String[][] aWriteThisMap)
+	{
+		// mach nichts
+		
 	}
 }
