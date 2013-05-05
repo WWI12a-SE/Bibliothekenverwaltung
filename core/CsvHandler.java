@@ -44,11 +44,11 @@ public class CsvHandler {
 	 */
 	public CsvHandler(String sFileName)
 	{
-		CsvHandler.sFileName = "./src/data/" + sFileName + ".csv";
+		this.sFileName = "./src/data/" + sFileName + ".csv";
 		
 		// Reader
 		try {
-			CsvHandler.oFileReader = new FileReader(CsvHandler.sFileName);
+			this.oFileReader = new FileReader(this.sFileName);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +69,7 @@ public class CsvHandler {
 	 * @throws IOException 
 	 */
 	private void fetchDimensions() throws IOException{
-		CSVReader oCR = new CSVReader(CsvHandler.oFileReader,';','"');
+		CSVReader oCR = new CSVReader(this.oFileReader,';','"');
 		List<String[]> content = oCR.readAll();
 		
 		String[] sColons = null;
@@ -81,16 +81,16 @@ public class CsvHandler {
 		    
 		    // Anzahl der Spalten erfassen
 		    int iColons = sColons.length;
-		    CsvHandler.iColons = iColons;
+		    this.iColons = iColons;
 			iLines++;
 		}
 		
 		// Anzahl der Zeilen erfassen
-		CsvHandler.iLines = iLines;
+		this.iLines = iLines;
 		//System.out.println("Zeilen: " + CsvHandler.iLines + ", Spalten: " + CsvHandler.iColons);
 		
 		// Neues Array mit passenden Dimensionen erstellen
-		String aMap[][] = new String[CsvHandler.iLines][CsvHandler.iColons];
+		String aMap[][] = new String[this.iLines][this.iColons];
 		
 		// Dateihandle durchlaufen und in Array stecken		
 		int iTheLineCounter = 0;
@@ -107,7 +107,7 @@ public class CsvHandler {
 			iTheLineCounter++;
 		}
 		
-		CsvHandler.aMap = aMap; // Map in statischer Variable speichern
+		this.aMap = aMap; // Map in statischer Variable speichern
 		oCR.close(); //Handle schlieﬂen
 	}
 	
@@ -118,9 +118,9 @@ public class CsvHandler {
 	 */
 	public void viewMap()
 	{
-		for (int k = 0; k < CsvHandler.aMap.length; ++k) {
-		     for (int l = 0; l < CsvHandler.aMap[k].length; ++l) {
-		        System.out.print(CsvHandler.aMap[k][l] + "\t");
+		for (int k = 0; k < this.aMap.length; ++k) {
+		     for (int l = 0; l < this.aMap[k].length; ++l) {
+		        System.out.print(this.aMap[k][l] + "\t");
 		     }
 		     System.out.println("");
 		}
@@ -135,7 +135,7 @@ public class CsvHandler {
 	 */
 	public String[][] read()
 	{
-		return CsvHandler.aMap;
+		return this.aMap;
 	}
 	
 	

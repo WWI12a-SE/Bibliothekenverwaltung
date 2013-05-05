@@ -13,9 +13,11 @@ import core.*;
 public class TestdriveCsvHandler {
 
 	public static void main(String[] args) throws IOException{
-		CsvHandler oCsv = new CsvHandler("stock");
-		
+		CsvHandler oCsv = new CsvHandler("stock");		
 		oCsv.viewMap();
+		
+		CsvHandler oCsv2 = new CsvHandler("users");		
+		oCsv2.viewMap();
 	}
 
 }
