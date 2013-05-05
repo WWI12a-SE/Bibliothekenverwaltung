@@ -22,7 +22,8 @@ public class Utilities {
 	
 	/**
 	 * Bei Anmeldung das Benutzerobjekt in oCurrentUser laden (wird von MyAccount ausgeführt)
-	 * Dieses ist gloabl verfügbar und kann ab jetzt genutzt werden, um darauf die Methoden von User auszuführen.
+	 * Dieses ist gloabl verfügbar und kann ab jetzt genutzt werden, um darauf die Methoden von User
+	 * auszuführen.
 	 * @param User
 	 */
 	public void setUser(User oUser)

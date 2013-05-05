@@ -25,34 +25,34 @@ public class Reservation {
 	public void setReservationID(int reservationID) {
 		this.reservationID = reservationID;
 	}
-	public String getsLoginName() {
+	public String getLoginName() {
 		return sLoginName;
 	}
-	public void setsLoginName(String sLoginName) {
+	public void setLoginName(String sLoginName) {
 		this.sLoginName = sLoginName;
 	}
-	public int getiMediaID() {
+	public int getMediaID() {
 		return iMediaID;
 	}
-	public void setiMediaID(int iMediaID) {
+	public void setMediaID(int iMediaID) {
 		this.iMediaID = iMediaID;
 	}
-	public Date getDateReturnDate() {
+	public Date getReturnDate() {
 		return dateReturnDate;
 	}
-	public void setDateReturnDate(Date dateReturnDate) {
+	public void setReturnDate(Date dateReturnDate) {
 		this.dateReturnDate = dateReturnDate;
 	}
-	public int getiExtensions() {
+	public int getExtensions() {
 		return iExtensions;
 	}
-	public void setiExtensions(int iExtensions) {
+	public void setExtensions(int iExtensions) {
 		this.iExtensions = iExtensions;
 	}
 	
 	/**
 	 * Speichern.
-	 * Schreibt das aktuelle Objekt in die Map zurÃ¼ck.
+	 * Schreibt das aktuelle Objekt in die Map zurück.
 	 * 
 	 * @return boolean
 	 */
@@ -94,11 +94,11 @@ public class Reservation {
 				reservation[i] = new Reservation();
 				String[] values = oReservationMapper.readLine(i);
 				reservation[i].setReservationID(Integer.parseInt(values[ReservationsMapper.COL_RESERVATION_ID]));
-				reservation[i].setiMediaID(Integer.parseInt(values[ReservationsMapper.COL_MEDIA_ID]));
-				reservation[i].setiExtensions(Integer.parseInt(values[ReservationsMapper.COL_EXTENSIONS]));
-				reservation[i].setsLoginName(values[ReservationsMapper.COL_LOGINNAME]);
-//				reservation[i].setDateReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
-				reservation[i].setDateReturnDate(new Date());
+				reservation[i].setMediaID(Integer.parseInt(values[ReservationsMapper.COL_MEDIA_ID]));
+				reservation[i].setExtensions(Integer.parseInt(values[ReservationsMapper.COL_EXTENSIONS]));
+				reservation[i].setLoginName(values[ReservationsMapper.COL_LOGINNAME]);
+//				reservation[i].setReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
+				reservation[i].setReturnDate(new Date());
 			}
 		}
 	}

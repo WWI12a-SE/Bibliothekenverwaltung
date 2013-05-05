@@ -33,10 +33,10 @@ public class MyAccount {
 	public void login(String sLoginName, String sPassword)
 	{
 		User loginUser = User.getUser(sLoginName);	// Suche mir den User mit diesem Namen
-		String password = loginUser.getsPassword();//Suche mit den User mit diesem Password
+		String password = loginUser.getPassword();//Suche mit den User mit diesem Password
 		
 		//prüfung
-		if ((loginUser.getsLoginName().equals(sLoginName))&(loginUser.getsPassword().equals(sPassword)) ){
+		if ((loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword)) ){
 			//TODO
 		}else{
 			//TODO

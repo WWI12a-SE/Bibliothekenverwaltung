@@ -12,40 +12,40 @@ import core.*;
 
 public class User {
 	
-	public String getsLoginName() {
+	public String getLoginName() {
 		return sLoginName;
 	}
-	public void setsLoginName(String sLoginName) {
+	public void setLoginName(String sLoginName) {
 		this.sLoginName = sLoginName;
 	}
-	public String getsFirstName() {
+	public String getFirstName() {
 		return sFirstName;
 	}
-	public void setsFirstName(String sFirstName) {
+	public void setFirstName(String sFirstName) {
 		this.sFirstName = sFirstName;
 	}
-	public String getsLastName() {
+	public String getLastName() {
 		return sLastName;
 	}
-	public void setsLastName(String sLastName) {
+	public void setLastName(String sLastName) {
 		this.sLastName = sLastName;
 	}
-	public int getiRole() {
+	public int getRole() {
 		return iRole;
 	}
-	public void setiRole(int iRole) {
+	public void setRole(int iRole) {
 		this.iRole = iRole;
 	}
-	public String getsPassword() {
+	public String getPassword() {
 		return sPassword;
 	}
-	public void setsPassword(String sPassword) {
+	public void setPassword(String sPassword) {
 		this.sPassword = sPassword;
 	}
-	public String getsEmail() {
+	public String getEmail() {
 		return sEmail;
 	}
-	public void setsEmail(String sEmail) {
+	public void setEmail(String sEmail) {
 		this.sEmail = sEmail;
 	}
 	private String sLoginName = null;
@@ -63,7 +63,7 @@ public class User {
 	public static final int ROLE_LIBRARIAN = 3;
 	
 	/*
-	 * Aus bestehemdem Datensatz neues Benutzer-Objekt erzeugen, indem ID Ã¼bergeben wird
+	 * Aus bestehemdem Datensatz neues Benutzer-Objekt erzeugen, indem ID übergeben wird
 	 * SONST davon ausgehen, dass ein neuer Benutzer angelegt wird.
 	 * @param String
 	 * @return boolean
@@ -74,17 +74,17 @@ public class User {
 		this.sLoginName = sLoginName;
 		
 		// Wenn Datensatz mit dieser ID existiert, neues Objekt erzeugen und in this.oUser speichern.
-		// HierfÃ¼r alle Setter durchlaufen.
+		// Hierfür alle Setter durchlaufen.
 		
 		// Existiert der Datensatz noch nicht, soll er neu angelegt werden. Ebenfalls setzen.
 		
-		// Mit TRUE abschlieÃŸen => Erfolg.
+		// Mit TRUE abschließen => Erfolg.
 		return true;		
 	}*/
 	
 	/**
 	 * Speichern.
-	 * Schreibt das aktuelle Objekt in die Map zurÃ¼ck.
+	 * Schreibt das aktuelle Objekt in die Map zurück.
 	 * 
 	 * @return boolean
 	 */
@@ -110,7 +110,7 @@ public class User {
 	{
 		initUsers();
 		for(int i = 0; i < user.length; i++){
-			if(user[i].getsLoginName().equals(sLoginName)){
+			if(user[i].getLoginName().equals(sLoginName)){
 				return user[i];
 			}
 		}
@@ -126,12 +126,12 @@ public class User {
 			for(int i = 0; i <= lastIndex; i++){
 				user[i] = new User();
 				String[] values = oUserMapper.readLine(i);
-				user[i].setsLoginName(values[UserMapper.COL_LOGINNAME]);
-				user[i].setsEmail(values[UserMapper.COL_EMAIL]);
-				user[i].setsFirstName(values[UserMapper.COL_FIRSTNAME]);
-				user[i].setsLastName(values[UserMapper.COL_LASTNAME]);
-				user[i].setsPassword(values[UserMapper.COL_PASSWORD]);
-				user[i].setiRole(Integer.parseInt(values[UserMapper.COL_ROLE]));
+				user[i].setLoginName(values[UserMapper.COL_LOGINNAME]);
+				user[i].setEmail(values[UserMapper.COL_EMAIL]);
+				user[i].setFirstName(values[UserMapper.COL_FIRSTNAME]);
+				user[i].setLastName(values[UserMapper.COL_LASTNAME]);
+				user[i].setPassword(values[UserMapper.COL_PASSWORD]);
+				user[i].setRole(Integer.parseInt(values[UserMapper.COL_ROLE]));
 			}
 		}
 	}

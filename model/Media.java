@@ -25,14 +25,14 @@ public class Media {
 				media[i] = new Media();
 				String[] values = oMediaMapper.readLine(i);
 				media[i].setID(Integer.parseInt(values[MediaMapper.COL_ID]));
-				media[i].setiCopies(Integer.parseInt(values[MediaMapper.COL_COPIES]));
-				media[i].setiEdition(Integer.parseInt(values[MediaMapper.COL_EDITION]));
-				media[i].setiOnStock(Integer.parseInt(values[MediaMapper.COL_STOCK]));
-				media[i].setiYear(Integer.parseInt(values[MediaMapper.COL_YEAR]));
-				media[i].setsAuthor(values[MediaMapper.COL_AUTHOR]);
-				media[i].setsIsbn(values[MediaMapper.COL_ISBN]);
-				media[i].setsTitle(values[MediaMapper.COL_TITLE]);
-				media[i].setsPublisher(values[MediaMapper.COL_PUBLISHER]);
+				media[i].setCopies(Integer.parseInt(values[MediaMapper.COL_COPIES]));
+				media[i].setEdition(Integer.parseInt(values[MediaMapper.COL_EDITION]));
+				media[i].setOnStock(Integer.parseInt(values[MediaMapper.COL_STOCK]));
+				media[i].setYear(Integer.parseInt(values[MediaMapper.COL_YEAR]));
+				media[i].setAuthor(values[MediaMapper.COL_AUTHOR]);
+				media[i].setIsbn(values[MediaMapper.COL_ISBN]);
+				media[i].setTitle(values[MediaMapper.COL_TITLE]);
+				media[i].setPublisher(values[MediaMapper.COL_PUBLISHER]);
 			}
 		}
 	}
@@ -45,67 +45,67 @@ public class Media {
 		this.ID = ID;
 	}
 
-	public String getsTitle() {
+	public String getTitle() {
 		return sTitle;
 	}
 
-	public void setsTitle(String sTitle) {
+	public void setTitle(String sTitle) {
 		this.sTitle = sTitle;
 	}
 
-	public String getsAuthor() {
+	public String getAuthor() {
 		return sAuthor;
 	}
 
-	public void setsAuthor(String sAuthor) {
+	public void setAuthor(String sAuthor) {
 		this.sAuthor = sAuthor;
 	}
 
-	public String getsPublisher() {
+	public String getPublisher() {
 		return sPublisher;
 	}
 
-	public void setsPublisher(String sPublisher) {
+	public void setPublisher(String sPublisher) {
 		this.sPublisher = sPublisher;
 	}
 
-	public String getsIsbn() {
+	public String getIsbn() {
 		return sIsbn;
 	}
 
-	public void setsIsbn(String sIsbn) {
+	public void setIsbn(String sIsbn) {
 		this.sIsbn = sIsbn;
 	}
 
-	public int getiYear() {
+	public int getYear() {
 		return iYear;
 	}
 
-	public void setiYear(int iYear) {
+	public void setYear(int iYear) {
 		this.iYear = iYear;
 	}
 
-	public int getiEdition() {
+	public int getEdition() {
 		return iEdition;
 	}
 
-	public void setiEdition(int iEdition) {
+	public void setEdition(int iEdition) {
 		this.iEdition = iEdition;
 	}
 
-	public int getiOnStock() {
+	public int getOnStock() {
 		return iOnStock;
 	}
 
-	public void setiOnStock(int iOnStock) {
+	public void setOnStock(int iOnStock) {
 		this.iOnStock = iOnStock;
 	}
 
-	public int getiCopies() {
+	public int getCopies() {
 		return iCopies;
 	}
 
-	public void setiCopies(int iCopies) {
+	public void setCopies(int iCopies) {
 		this.iCopies = iCopies;
 	}
 

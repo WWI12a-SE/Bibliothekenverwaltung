@@ -1,5 +1,5 @@
 /**
- * CSV-Mapper
+ * CSV-Handler
  * Liest eine CSV-Datei ein und parst sie in einem zweidimensionalen Array.
  * Unterstützt das Schreiben von CSV-Dateien.
  * 
@@ -9,6 +9,9 @@
  * -	Werte werden in Anführungszeichen gefasst.
  * 
  * Stunden verschwendet: 6,5
+ * 
+ * To do:
+ * Arrays empfangen und in Datei schreiben
  */
 
 package core;
@@ -23,11 +26,11 @@ public class CsvHandler {
 	/**
 	 * private Variablen
 	 */
-	private static String sFileName = "";
-	private static FileReader oFileReader = null;
-	public static int iLines = 0;
-	public static int iColons = 0;
-	public static String[][] aMap = null;
+	private String sFileName = "";
+	private FileReader oFileReader = null;
+	public int iLines = 0;
+	public int iColons = 0;
+	public String[][] aMap = null;
 	
 	
 	

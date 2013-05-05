@@ -1,7 +1,6 @@
 package test;
 
 import java.util.Date;
-
 import model.Reservation;
 
 public class MapperTester {
@@ -14,9 +13,9 @@ public class MapperTester {
 		Reservation[] test = Reservation.getAllReservations();
 		for(int i = 0; i < test.length; i++){
 			System.out.println(test[i].getReservationID());
-			System.out.println(test[i].getiExtensions());
-			System.out.println(test[i].getsLoginName());
-			System.out.println(test[i].getDateReturnDate());
+			System.out.println(test[i].getExtensions());
+			System.out.println(test[i].getLoginName());
+			System.out.println(test[i].getReturnDate());
 		}
 		
 		/*
