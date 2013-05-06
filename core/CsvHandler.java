@@ -8,10 +8,11 @@
  * -	Alle Werte stehen in Anführungszeichen.
  * -	Werte werden in Anführungszeichen gefasst.
  * 
- * Stunden verschwendet: 6,5
+ * Stundenzähler: 8,25
  * 
  * To do:
- * Arrays empfangen und in Datei schreiben
+ * -	Zeilen mit neuer ID in Map schreiben
+ * -	Map in Datei schreiben
  */
 
 package core;
@@ -26,6 +27,7 @@ public class CsvHandler {
 	/**
 	 * private Variablen
 	 */
+	private String sObjectType = ""; // Kurzname der CSV-Datei, mit der gearbeitet wird
 	private String sFileName = ""; //Name der Datei (mit Pfad und Erweiterung)
 	private FileReader oFileReader = null; // FileReader-Objekt
 	public int iLines = 0; // Zeilen
@@ -44,6 +46,7 @@ public class CsvHandler {
 	 */
 	public CsvHandler(String sFileName)
 	{
+		this.sObjectType = sFileName;
 		this.sFileName = "./src/data/" + sFileName + ".csv";
 		
 		// Reader
@@ -142,6 +145,7 @@ public class CsvHandler {
 	
 	/**
 	 * Zeile als Array zurückgeben
+	 * Existiert keine Zeile mit dieser ID, wird ein leeres Array zurückgegeben
 	 * @param String
 	 * @return String[]
 	 */
@@ -161,23 +165,136 @@ public class CsvHandler {
 					sOut[iCntz] = this.aMap[iCntr][iCntz];
 					iCntz++;
 				}
+				break;
 			}
 			iCntr++;
 		}
-		return sOut;
+		
+		// Gibt es keine Zeile mit dieser ID, NULL setzen
+		if (sOut[0] == null){
+			return null;
+		}
+		else{
+			return sOut;
+		}
 	}
 	
 	
 	
+	/**
+	 * Gibt die Nummer (nicht den Index!) der Zeile mit einer ID zurück, beginnt bei 1.
+	 * Liefert 0, wenn keine Zeile mit der gefragten ID existiert.
+	 * @param sId
+	 * @return int
+	 */
+	public int getLineNumber(String sId){
+		int iLineIndex = 0;
+		
+		// Array durchlaufen und auf Position aArr[i][0] nach genannter ID suchen
+		while (iLineIndex < this.iLines){			
+
+			// Durchlaufen
+			if (this.aMap[iLineIndex][0].equals(sId)){
+				break; // Trifft das zu, raus aus der umgebenden While-Schleife
+			}
+			iLineIndex++;
+		}
+
+		int iOutput = iLineIndex + 1;
+		
+		// Mehr Zeilen gezählt => existiert nicht, 0 setzen.
+		if (iOutput > this.iLines){
+			return 0;
+		}
+		else{
+			return iOutput;
+		}
+	}
+	
+	
+	
+	/**
+	 * Entscheidet, ob ein Datensatz angehängt oder überschrieben wird, wenn die ID bereits existiert.
+	 * @param String[]
+	 */
+	public void update(String[] aLine)
+	{
+		// Stimmt die Länge des Arrays mit der Anzahl der Spalten in der verwendeten CSV-Datei überein?
+		if (aLine.length == this.iColons){
+			//System.out.println("Länge des einzufügenden Arrays: OK.");
+			
+			// Auf Vorhandensein der ID prüfen
+			if (this.getLineById(aLine[0])[0].equals(aLine[0])){
+				//System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
+				this.updateLine(aLine);
+			}
+			else{
+				//System.out.println("Es existiert noch kein Eintrag mit dieser ID, er kann aber angelegt werden.");
+				this.addLine(aLine);
+			}
+			
+		}
+		// Falsche Länge
+		else{
+			System.out.println("Der übergebene Datensatz besteht aus " + aLine.length + " Elementen, " +
+					this.iColons + " werden bei Elementen vom Typ " + this.sObjectType + " erwartet.");
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Überschreibt eine Zeile mit vorhandener ID in der Map
+	 * @param aLine
+	 */
+	private void updateLine(String[] aLine) {
+		
+		// In der Map in der ersten Dimension die Zeile benennen und daraus den Index bilden
+		int iLineIndex = this.getLineNumber(aLine[0]) - 1;
+				
+		// Werte in Array schreiben		
+		/* Schritt für Schritt
+		int iCols = 0;
+		while (iCols < this.iColons){
+			this.aMap[iLineIndex][iCols] = aLine[iCols];
+			iCols++;
+		}
+		*/
+		this.aMap[iLineIndex] = aLine;
+	}
+	
+	
+	
+	/**
+	 * Neue Zeile anfügen, wenn ID nicht existiert.
+	 * Kopiert das vorhandene Array this.aMap auf ein Array, das in der ersten Dimension um 1 verlängert wurde.
+	 * @param aLine
+	 */
+	private void addLine(String[] aLine) {
+		// Array erweitern, neue Zeile anfügen:
+		String[][] aTmpMap = new String[this.iLines + 1][this.iColons];
+		aTmpMap = this.aMap;
+		
+		this.aMap = aTmpMap;
+	}
+
+
+
 	/**
 	 * Zeile ansehen (Debug/Entwickler)
 	 * @param String[]
 	 */
 	public void viewLineById(String sId)
 	{		
-		String sOut[] = this.getLineById(sId); 
-		for(int i=0; i<sOut.length; ++i) {
-			System.out.print(sOut[i]+"\t");
+		String sOut[] = this.getLineById(sId);
+		if (sOut == null){
+			System.out.print("Es existiert kein Satz mit dieser ID. (" + sId + ")\n");
+		}
+		else{
+			for(int i=0; i<sOut.length; ++i) {
+				System.out.print(sOut[i]+"\t");
+			}
 		}
 	}
 

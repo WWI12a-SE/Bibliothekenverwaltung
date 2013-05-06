@@ -32,6 +32,12 @@ Verzeichnisstruktur
 /core/Exception
 -	Klassen für Ausnahmebehandlung
 
+/core/opencsv
+-	Drittanbieterklassen (Apache-Lizenz)
+
+/core/commonsio
+-	Drittanbieterklassen (Apache-Lizenz)
+
 /models
 -	Abstrahierte Datenmodelle der einzelnen CSV-Dateien
 
