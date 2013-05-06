@@ -8,7 +8,8 @@
  * -	Alle Werte stehen in Anführungszeichen.
  * -	Werte werden in Anführungszeichen gefasst.
  * 
- * Stundenzähler: 8,25
+ * Stundenzähler: 8,5
+ * @author Johannes Ackermann
  * 
  * To do:
  * -	Zeilen mit neuer ID in Map schreiben
