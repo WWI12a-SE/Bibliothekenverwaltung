@@ -7,8 +7,6 @@
 
 package core;
 
-import model.Media;
-
 public class MediaMapper {
 	
 	/**

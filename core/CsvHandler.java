@@ -26,11 +26,11 @@ public class CsvHandler {
 	/**
 	 * private Variablen
 	 */
-	private String sFileName = "";
-	private FileReader oFileReader = null;
-	public int iLines = 0;
-	public int iColons = 0;
-	public String[][] aMap = null;
+	private String sFileName = ""; //Name der Datei (mit Pfad und Erweiterung)
+	private FileReader oFileReader = null; // FileReader-Objekt
+	public int iLines = 0; // Zeilen
+	public int iColons = 0; // Spalten
+	public String[][] aMap = null; // Komplette CSV-Map
 	
 	
 	
@@ -137,6 +137,50 @@ public class CsvHandler {
 	{
 		return this.aMap;
 	}
+	
+	
+	
+	/**
+	 * Zeile als Array zurückgeben
+	 * @param String
+	 * @return String[]
+	 */
+	public String[] getLineById(String sId)
+	{
+		// Erste Spalte durchlaufen
+		String[] sOut = new String[this.iColons];
+		
+		int iCntr = 0;
+		while (iCntr < this.iLines){			
+			// Hier steht die ID
+			if (this.aMap[iCntr][0].equals(sId)){
+				
+				// Spalten in Array...
+				int iCntz = 0;
+				while (iCntz < this.iColons){
+					sOut[iCntz] = this.aMap[iCntr][iCntz];
+					iCntz++;
+				}
+			}
+			iCntr++;
+		}
+		return sOut;
+	}
+	
+	
+	
+	/**
+	 * Zeile ansehen (Debug/Entwickler)
+	 * @param String[]
+	 */
+	public void viewLineById(String sId)
+	{		
+		String sOut[] = this.getLineById(sId); 
+		for(int i=0; i<sOut.length; ++i) {
+			System.out.print(sOut[i]+"\t");
+		}
+	}
+
 	
 	
 	/**
