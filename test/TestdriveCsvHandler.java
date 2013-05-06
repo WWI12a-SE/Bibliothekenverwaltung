@@ -14,19 +14,18 @@ public class TestdriveCsvHandler {
 
 	public static void main(String[] args) throws IOException{
 		
-		/*
-		System.out.println("Bestand:\n");
+		/**
+		 * Beispiel: Einen Benutzer abfragen
+		 */
+		System.out.println("Beispiele: Benutzerinformationen abrufen\n");
 		
-		CsvHandler oCsv = new CsvHandler("stock");		
-		oCsv.viewMap();
-		*/
-		System.out.println("Benutzer:\n");
+		CsvHandler oTheUser = new CsvHandler("users");
+		System.out.println("Es gibt derzeit *" + oTheUser.iLines + "* Benutzer in der Datebank.");
+		System.out.println("Die Benutzertabelle hat *" + oTheUser.iColons + "* Spalten.");
+		System.out.println("\nAlle Daten des Benutzers mit der ID aggi: (verwende hierfür Methode read())");
+		oTheUser.viewLineById("aggi");
 		
-		CsvHandler oCsv2 = new CsvHandler("users");		
-		//oCsv2.viewMap();
-		
-		System.out.println("Benutzer mit ID ausgeben:\n");
-		oCsv2.viewLineById("schnatti");
+		System.out.println("\nDas Kennwort für aggi lautet:\n" + oTheUser.getLineById("aggi")[4] + ".");
 	}
 
 }
