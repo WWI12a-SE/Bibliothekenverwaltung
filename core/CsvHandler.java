@@ -42,6 +42,8 @@ public class CsvHandler {
 	 * Nimmt Dateinamen ohne Pfad und Erweiterung entgegen und befüllt daraus globale Variablen und Objekte.
 	 * Von Erweiterung ".csv" und festem Pfad "data/" unterhalb von src ausgehen.
 	 * 
+	 * @author ja
+	 * 
 	 * @param String sFileName
 	 * @throws FileNotFoundException 
 	 */
@@ -69,6 +71,8 @@ public class CsvHandler {
 	
 	/**
 	 * Fragt Dimensionen der CSV-Datei ab und speichert sie in statischen Variablen.
+	 * @author ja
+	 * 
 	 * @return String
 	 * @throws IOException 
 	 */
@@ -119,6 +123,7 @@ public class CsvHandler {
 	
 	/**
 	 * Sichtbar machen (Debug/Entwickler)
+	 * @author ja
 	 */
 	public void viewMap()
 	{
@@ -134,6 +139,8 @@ public class CsvHandler {
 	
 	/**
 	 * Lesen: Übergeben
+	 * @author ja
+	 * 
 	 * @param null
 	 * @return String[][]
 	 */
@@ -145,8 +152,31 @@ public class CsvHandler {
 	
 	
 	/**
+	 * Alle IDs zurückgeben
+	 * Gibt ein Array mit allen IDs dieser Instanzu zurück.
+	 * @author ja
+	 * 
+	 * @return String[]
+	 */
+	public String[] getAllIDs()
+	{
+		String[] sRtn = new String[this.iLines];
+		int iCntr = 0;
+		while(iCntr < this.iLines){
+			sRtn[iCntr] = this.aMap[iCntr][0];
+			iCntr++;
+		}
+		
+		return sRtn;
+	}
+	
+	
+	
+	/**
 	 * Zeile als Array zurückgeben
 	 * Existiert keine Zeile mit dieser ID, wird ein leeres Array zurückgegeben
+	 * @author ja
+	 * 
 	 * @param String
 	 * @return String[]
 	 */
@@ -191,6 +221,8 @@ public class CsvHandler {
 	/**
 	 * Gibt die Nummer (nicht den Index!) der Zeile mit einer ID zurück, beginnt bei 1.
 	 * Liefert 0, wenn keine Zeile mit der gefragten ID existiert.
+	 * @author ja
+	 * 
 	 * @param sId
 	 * @return int
 	 */
@@ -221,22 +253,24 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Entscheidet, ob ein Datensatz angehängt oder überschrieben wird, wenn die ID bereits existiert.
+	 * Entscheidet, ob ein Datensatz angehängt oder überschrieben wird, wenn die ID bereits existiert.@author ja
+	 * @author ja
+	 * 
 	 * @param String[]
 	 */
 	public void update(String[] aLine)
 	{
 		// Stimmt die Länge des Arrays mit der Anzahl der Spalten in der verwendeten CSV-Datei überein?
 		if (aLine.length == this.iColons){
-			System.out.println("Länge des einzufügenden Arrays: OK.");
+			// System.out.println("Länge des einzufügenden Arrays: OK.");
 			
 			// Auf Vorhandensein der ID prüfen
 			if (this.getLineById(aLine[0])[0].equals(aLine[0])){
-				System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
+				// System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
 				this.updateLine(aLine);
 			}
 			else{
-				System.out.println("Es existiert noch kein Eintrag mit dieser ID, er kann aber angelegt werden.");
+				// System.out.println("Es existiert noch kein Eintrag mit dieser ID, er kann aber angelegt werden.");
 				this.addLine(aLine);
 			}
 			
@@ -253,21 +287,13 @@ public class CsvHandler {
 	
 	/**
 	 * Überschreibt eine Zeile mit vorhandener ID in der Map
+	 * @author ja
+	 * 
 	 * @param aLine
 	 */
-	private void updateLine(String[] aLine) {
-		
+	private void updateLine(String[] aLine) {		
 		// In der Map in der ersten Dimension die Zeile benennen und daraus den Index bilden
 		int iLineIndex = this.getLineNumber(aLine[0]) - 1;
-				
-		// Werte in Array schreiben		
-		/* Schritt für Schritt
-		int iCols = 0;
-		while (iCols < this.iColons){
-			this.aMap[iLineIndex][iCols] = aLine[iCols];
-			iCols++;
-		}
-		*/
 		this.aMap[iLineIndex] = aLine;
 	}
 	
@@ -276,30 +302,80 @@ public class CsvHandler {
 	/**
 	 * Neue Zeile anfügen, wenn ID nicht existiert.
 	 * Kopiert das vorhandene Array this.aMap auf ein Array, das in der ersten Dimension um 1 verlängert wurde.
+	 * @author ja
+	 * 
 	 * @param aLine
 	 */
 	private void addLine(String[] aLine) {
-		String[][] aTmpMap = new String[this.iLines + 1][this.iColons];
-		aTmpMap = this.aMap;
+		// Neues, verlängertes Array erzeugen
+		String[][] aTmpMap = new String[this.aMap.length + 1][this.iColons];
 		
-		// neue Zeilenlänge als Index
-		aTmpMap[aTmpMap.length - 1] = aLine;		
+		// Auf temporäre, verlängerte Map kopieren
+		System.arraycopy(this.aMap,0,aTmpMap,0,this.aMap.length);
+		
+		// Die neuen Inhalte in die neue Zeile einfügen
+		aTmpMap[this.aMap.length] = aLine;
+		
+		// Neue Map auf this.aMap kopieren
+		this.aMap = aTmpMap;
+		
+		// globaler Wert der Zeilen steigt jetzt um 1
+		this.iLines = this.iLines + 1;
 	}
 	
 	
 	
 	/**
 	 * Eine Zeile löschen
+	 * Löscht eine Zeile, deren ID angegeben wurde
+	 * Unternimmt nichts, wenn diese Zeile nicht existiert.
+	 * @author ja
+	 * 
+	 * @param String
 	 */
-	private void dropLine(String sId)
+	public void dropLine(String sId)
 	{
-		//
+		// Existiert überhaupt eine Zeile mit dieser ID?
+		if (this.getLineById(sId)[0].equals("0")){ // Wenn "0", dann Meldung
+			System.out.println("Es existiert kein Datensatz mit dieser ID. Nichts gelöscht.");
+		}
+		// Sonst...
+		else{
+			// Zeilennummer bekommen
+			int iDropThisLine = this.getLineNumber(sId);
+			
+			// Verkürztes Array vorbereiten
+			String[][] aTmpMap = new String[this.aMap.length - 1][this.iColons];
+			
+			// Über das alte Array laufen und Inhalte ins neue kopieren, solange iDropThisLine nicht erreicht, sonst überspringen
+			int iCntr = 0;
+			
+			System.out.println("Die Zeile mit der ID " + sId + " wird ausgelassen");
+			this.viewLineById(sId);
+			
+			while(iCntr < (this.aMap.length - 1)){
+				// Zeile auslassen
+				if (iCntr == iDropThisLine){
+					iCntr++; // zusätzlich erhöhen, um auszulassen
+					System.out.println("Die Zeile mit der ID " + sId + " und Index " + iDropThisLine + " wird ausgelassen");
+					this.viewLineById(sId);
+				}
+				else{
+					
+				}
+				
+				iCntr++;
+			}
+			
+		}
 	}
 
 
 
 	/**
 	 * Zeile ansehen (Debug/Entwickler)
+	 * @author ja
+	 * 
 	 * @param String[]
 	 */
 	public void viewLineById(String sId)
@@ -319,10 +395,24 @@ public class CsvHandler {
 	
 	/**
 	 * Schreiben: Übergebenes zweidomensionales Array in Datei schreiben
+	 * @author ja
+	 * 
+	 * @deprecated
 	 */
 	public void write(String[][] aWriteThisMap)
 	{
 		// mach nichts
+		
+	}
+	
+	
+	
+	/**
+	 * Datei speichern
+	 * Schreibt die Map CSV-formatiert in die Datei
+	 */
+	public void save()
+	{
 		
 	}
 }
