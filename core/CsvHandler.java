@@ -173,7 +173,13 @@ public class CsvHandler {
 		
 		// Gibt es keine Zeile mit dieser ID, NULL setzen
 		if (sOut[0] == null){
-			return null;
+			int iCntz = 1;
+			while (iCntz < sOut.length){
+				sOut[iCntz] = null;
+				iCntz++;
+			}
+			sOut[0] = "0";
+			return sOut;
 		}
 		else{
 			return sOut;
@@ -222,15 +228,15 @@ public class CsvHandler {
 	{
 		// Stimmt die Länge des Arrays mit der Anzahl der Spalten in der verwendeten CSV-Datei überein?
 		if (aLine.length == this.iColons){
-			//System.out.println("Länge des einzufügenden Arrays: OK.");
+			System.out.println("Länge des einzufügenden Arrays: OK.");
 			
 			// Auf Vorhandensein der ID prüfen
 			if (this.getLineById(aLine[0])[0].equals(aLine[0])){
-				//System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
+				System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
 				this.updateLine(aLine);
 			}
 			else{
-				//System.out.println("Es existiert noch kein Eintrag mit dieser ID, er kann aber angelegt werden.");
+				System.out.println("Es existiert noch kein Eintrag mit dieser ID, er kann aber angelegt werden.");
 				this.addLine(aLine);
 			}
 			
@@ -273,11 +279,21 @@ public class CsvHandler {
 	 * @param aLine
 	 */
 	private void addLine(String[] aLine) {
-		// Array erweitern, neue Zeile anfügen:
 		String[][] aTmpMap = new String[this.iLines + 1][this.iColons];
 		aTmpMap = this.aMap;
 		
-		this.aMap = aTmpMap;
+		// neue Zeilenlänge als Index
+		aTmpMap[aTmpMap.length - 1] = aLine;		
+	}
+	
+	
+	
+	/**
+	 * Eine Zeile löschen
+	 */
+	private void dropLine(String sId)
+	{
+		//
 	}
 
 
