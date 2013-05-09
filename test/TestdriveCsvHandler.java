@@ -20,23 +20,34 @@ public class TestdriveCsvHandler {
 		CsvHandler oCUsers = new CsvHandler("users");
 		System.out.println("Benutzer-Map im jetzigen Zustand:\n");
 		oCUsers.viewMap();
+		/*
 		System.out.println("Vorhandene Zeile ändern, Map ausgeben\n");
 		String[] aAktualisierterSatz = {"aggi","Joh","Acki","1","1111","acki@ackivität.de"};
 		oCUsers.update(aAktualisierterSatz);
 		oCUsers.viewMap();
-		
+		*/
 		
 		
 		/**
 		 * Einen Satz anfügen (ID existiert nicht)
 		 */
-		// o.O    geht nicht
+		String[] aNeuerSatz = {"neuersatz","Ijon","Tichy","2","4444","ijon@raumstation.all"};
+		oCUsers.update(aNeuerSatz);
 		
+		String[] aNeuerSatz2 = {"neuersatz2","2Ijon","2Tichy","2","4444","ijon@raumstation.all"};
+		oCUsers.update(aNeuerSatz2);
 		
+		/**
+		 * Einen Satz löschen
+		 */
+		System.out.println("Zeile löschen: Ups, geht noch nicht.");
+		oCUsers.dropLine("schnatti");
+		oCUsers.viewMap();
 		
 		/**
 		 * Beispiele für Verwendung in Abstraktionsschichten
 		 */
+		/*
 		System.out.println("\n\nBeispiele: Benutzerinformationen abrufen\n");
 		
 		// Neues Objekt erzeugen
@@ -55,6 +66,7 @@ public class TestdriveCsvHandler {
 		
 		// Alle Ausgeben
 		oTheUser.viewMap();
+		*/
 	}
 
 }

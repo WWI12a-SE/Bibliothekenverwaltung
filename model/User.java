@@ -6,11 +6,34 @@
  */
 
 package model;
-import java.util.Date;
-
 import core.*;
 
 public class User {
+	
+	//CSV-Spalten
+	public static final int COL_LOGINNAME = 0;
+	public static final int COL_FIRSTNAME = 1;
+	public static final int COL_LASTNAME = 2;
+	public static final int COL_ROLE = 3;
+	public static final int COL_PASSWORD = 4;
+	public static final int COL_EMAIL = 5;
+	public static final int AMOUNT_COLUMNS = 6;
+	
+	//User-Rollen
+	public static final int ROLE_STUDENT = 1;
+	public static final int ROLE_LECTURER = 2;
+	public static final int ROLE_LIBRARIAN = 3;
+	
+	private static final String S_FILE_NAME = "users";
+	private static CsvHandler userHandler = new CsvHandler(S_FILE_NAME);
+	private static User[] users;
+	
+	private String sLoginName = null;
+	private String sFirstName = null;
+	private String sLastName = null;
+	private String sPassword = null; // Kennwort zunÃ¤chst, unverschlÃ¼sselt
+	private String sEmail = null;
+	private int iRole; // Benutzerrolle, siehe Konstanten
 	
 	public String getLoginName() {
 		return sLoginName;
@@ -48,94 +71,72 @@ public class User {
 	public void setEmail(String sEmail) {
 		this.sEmail = sEmail;
 	}
-	private String sLoginName = null;
-	private String sFirstName = null;
-	private String sLastName = null;
-	private int iRole; // Benutzerrolle, siehe Konstanten
-	private String sPassword = null; // Kennwort zunÃ¤chst, unverschlÃ¼sselt
-	private String sEmail = null;	
-	
-	private static UserMapper oUserMapper = new UserMapper();
-	private static User[] user;
-	
-	public static final int ROLE_STUDENT = 1;
-	public static final int ROLE_LECTURER = 2;
-	public static final int ROLE_LIBRARIAN = 3;
-	
-	/*
-	 * Aus bestehemdem Datensatz neues Benutzer-Objekt erzeugen, indem ID übergeben wird
-	 * SONST davon ausgehen, dass ein neuer Benutzer angelegt wird.
-	 * @param String
-	 * @return boolean
-	 *
-	public boolean setUser(String sLoginName)
-	{
-		// Auf jeden Fall die ID setzen, sie ist ja bereits bekannt.
-		this.sLoginName = sLoginName;
-		
-		// Wenn Datensatz mit dieser ID existiert, neues Objekt erzeugen und in this.oUser speichern.
-		// Hierfür alle Setter durchlaufen.
-		
-		// Existiert der Datensatz noch nicht, soll er neu angelegt werden. Ebenfalls setzen.
-		
-		// Mit TRUE abschließen => Erfolg.
-		return true;		
-	}*/
 	
 	/**
-	 * Speichern.
-	 * Schreibt das aktuelle Objekt in die Map zurück.
+	 * Schreibt das aktuelle Objekt in die Map zur&uuml;ck.
+	 * Die Map jedoch muss ebenfalls gespeichert werden.
 	 * 
 	 * @return boolean
 	 */
 	public void save()
 	{
-		String[] values = new String[UserMapper.AMOUNT_COLUMNS];
-		values[UserMapper.COL_ROLE] = Integer.toString(this.iRole);
-		values[UserMapper.COL_LOGINNAME] = this.sLoginName;
-		values[UserMapper.COL_FIRSTNAME] = this.sFirstName;
-		values[UserMapper.COL_LASTNAME] = this.sLastName;
-		values[UserMapper.COL_EMAIL] = this.sEmail;
-		values[UserMapper.COL_PASSWORD] = this.sPassword;
-		oUserMapper.updateLine(this.sLoginName, values);
+		String[] values = new String[AMOUNT_COLUMNS];
+		values[COL_ROLE] = Integer.toString(this.iRole);
+		values[COL_LOGINNAME] = this.sLoginName;
+		values[COL_FIRSTNAME] = this.sFirstName;
+		values[COL_LASTNAME] = this.sLastName;
+		values[COL_EMAIL] = this.sEmail;
+		values[COL_PASSWORD] = this.sPassword;
+		userHandler.update(values);
+	}
+	
+	public static void saveAll(){
+		for(int i = 0; i < users.length; i++){
+			users[i].save();
+		}
 	}
 	
 	public static User[] getAllUsers()
 	{
-		initUsers();
-		return User.user;
+		for(int k = 0; k < users.length; k++){
+			users[k].save();
+		}
+		String[][] userMap = userHandler.read();
+		users = new User[userMap.length];
+		for(int i = 0; i < users.length; i++){
+			users[i] = new User(userMap[i]);
+		}
+		return users;
 	}
 	
-	public static User getUser(String sLoginName)
+	public static User getUser(String loginName)
 	{
-		initUsers();
-		for(int i = 0; i < user.length; i++){
-			if(user[i].getLoginName().equals(sLoginName)){
-				return user[i];
+		//Durchsuche vorhandene User
+		for(int i = 0; i < users.length; i++){
+			if(users[i].getLoginName().equals(loginName)){
+				return users[i];
 			}
 		}
-		return null;
-	}
-	
-	@SuppressWarnings("deprecation")
-	private static void initUsers()
-	{
-		if(user == null){
-			int lastIndex = oUserMapper.getLastIndex();
-			user = new User[lastIndex+1];
-			for(int i = 0; i <= lastIndex; i++){
-				user[i] = new User();
-				String[] values = oUserMapper.readLine(i);
-				user[i].setLoginName(values[UserMapper.COL_LOGINNAME]);
-				user[i].setEmail(values[UserMapper.COL_EMAIL]);
-				user[i].setFirstName(values[UserMapper.COL_FIRSTNAME]);
-				user[i].setLastName(values[UserMapper.COL_LASTNAME]);
-				user[i].setPassword(values[UserMapper.COL_PASSWORD]);
-				user[i].setRole(Integer.parseInt(values[UserMapper.COL_ROLE]));
-			}
+		//Erweitere User-Array
+		User[] oldUsers = users;
+		int newIndex = users.length;
+		users = new User[newIndex+1];
+		//Kopieren des alten User-Arrays
+		for(int i = 0; i < newIndex+1; i++){
+			users[i] = oldUsers[i];
 		}
+		//Neuen User hinzufuegen
+		users[newIndex] = new User(userHandler.getLineById(loginName));
+		return users[newIndex];
 	}
-
 	
+	private User(String[] values){
+		this.setLoginName(values[COL_LOGINNAME]);
+		this.setEmail(values[COL_EMAIL]);
+		this.setFirstName(values[COL_FIRSTNAME]);
+		this.setLastName(values[COL_LASTNAME]);
+		this.setPassword(values[COL_PASSWORD]);
+		this.setRole(Integer.parseInt(values[COL_ROLE]));
+	}
 
 }
