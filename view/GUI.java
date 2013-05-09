@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -18,11 +19,11 @@ import javax.swing.event.ListSelectionListener;
 
 /**
  * Fragt aktiven Benutzer ab,
- * zeigt davon abhängig Register an.
+ * zeigt davon abhï¿½ngig Register an.
  * @author ja
  * 
  * Register:
- * - PanelStock (Bücher)
+ * - PanelStock (Bï¿½cher)
  * - PanelReservations (Meine R. (Nutzer)/Alle R. (Bibliothekar))
  * 
  * 
@@ -38,44 +39,35 @@ public class GUI extends JFrame {
 		
 		//das Frame gestalten
 		//---------------------------------------
-		
-		//dem Frame und dem bottomPanel ein GridLayout geben
-		this.setLayout(new GridLayout(2, 0));
 		this.setTitle("Bibliotheksverwaltung");
 		this.setSize(600,600);
-		this.setResizable(false);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		//oberen JPanel anlegen und ihn wieder in zwei Panels untergliedern
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new GridLayout(2,0));
-		JPanel savePanel = new JPanel();
-		JPanel searchPanel = new JPanel();
-		topPanel.add(searchPanel);
-		topPanel.add(savePanel);
-		this.add(topPanel);
+		//oberen JPanel anlegen und ihm wieder zwei Panels hinzufÃ¼gen
+		JPanel top = new JPanel(new BorderLayout());
+		this.add(top, BorderLayout.NORTH);
+		JPanel topNorth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel topSouth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		top.add(topNorth, BorderLayout.NORTH);
+		top.add(topSouth, BorderLayout.SOUTH);
 		
-		//Abmelden/Speichern-Button dem savePanel hinzufügen
-		//Such-TextField anlegen und searchPanel hinzufügen
-		JButton quitSaveButton = new JButton();
-		JLabel quitSaveLabel = new JLabel("Abmelden/Speichern");
-		quitSaveButton.add(quitSaveLabel);
-		savePanel.add(quitSaveButton);
-		savePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		JTextField searchField = new JTextField();
-		searchField.setPreferredSize(new Dimension (130, 26));
-		searchPanel.add(searchField);
-		searchPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		//Abmelden/Speichern-Button dem top hinzufuegen
+		//Such-TextField anlegen bottom hinzufuegen
+		JButton quitSaveButton = new JButton("Abmelden/Speichern");
+		topNorth.add(quitSaveButton);
 		JButton searchButton = new JButton("Suchen");
-		searchPanel.add(searchButton);
-		
+		JTextField searchField = new JTextField();
+		searchField.setPreferredSize(new Dimension (88, 26));
+		topSouth.add(searchField);
+		topSouth.add(searchButton);
 		
 		//Tableiste anlegen - kommt in den unteren Bereich des Frames
-		//Panels für die tabdPane anlegen
+		//Panels fï¿½r die tabdPane anlegeSOUTHn
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
-		this.add(tabPane);
+		this.add(tabPane, BorderLayout.CENTER);
 		JPanel tabStore = new JPanel();
 		JPanel tabReservations = new JPanel();
 		JPanel tabMyAccount = new JPanel();
@@ -83,7 +75,7 @@ public class GUI extends JFrame {
 		tabReservations.setSize(200, 200);
 		tabMyAccount.setSize(200, 200);
 		
-		//die Panels der Tableiste hinzufügen
+		//die Panels der Tableiste hinzufï¿½gen
 		tabPane.addTab("Bestand", tabStore);
 		tabPane.addTab("Reservierungen", tabReservations);
 		tabPane.addTab("Mein Konto", tabMyAccount);
@@ -103,7 +95,7 @@ public class GUI extends JFrame {
 		tabStore.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		//Reservierungen
-		String[] dataReservations = new String[] {"vier", "fünf", "sechs", "sieben"};
+		String[] dataReservations = new String[] {"vier", "fï¿½nf", "sechs", "sieben"};
 		final JList reservationList = new JList(dataReservations);
 		storeList.addListSelectionListener(new ListSelectionListener(){
 
@@ -116,7 +108,7 @@ public class GUI extends JFrame {
 		tabReservations.add(reservationList);
 		tabReservations.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		//persönliche Daten
+		//persï¿½nliche Daten
 		String[] dataUser = new String[] {"Vorname", "Nachname", "Strasse", "Ort"};
 		final JList userList = new JList(dataUser);
 		storeList.addListSelectionListener(new ListSelectionListener(){
