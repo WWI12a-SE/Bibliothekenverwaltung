@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +22,7 @@ import javax.swing.event.ListSelectionListener;
 /**
  * Fragt aktiven Benutzer ab,
  * zeigt davon abh�ngig Register an.
- * @author ja
+ * @author Tina Lindemann
  * 
  * Register:
  * - PanelStock (B�cher)
@@ -54,9 +56,23 @@ public class GUI extends JFrame {
 		
 		
 		//Abmelden/Speichern-Button dem top hinzufuegen
-		//Such-TextField anlegen bottom hinzufuegen
+		//Button einen ActionListener geben, der zum Login-Fenster zurückführt
 		JButton quitSaveButton = new JButton("Abmelden/Speichern");
 		topNorth.add(quitSaveButton);
+		quitSaveButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//aktuelles Fenster unsichtbar
+				setVisible(false);
+				//neues Login-Fenster aufbauen
+				Login login = new Login();
+				login.setVisible(true);
+				
+			}});
+		
+		
+		//Such-TextField anlegen bottom hinzufuegen
 		JButton searchButton = new JButton("Suchen");
 		JTextField searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension (88, 26));
@@ -64,7 +80,7 @@ public class GUI extends JFrame {
 		topSouth.add(searchButton);
 		
 		//Tableiste anlegen - kommt in den unteren Bereich des Frames
-		//Panels f�r die tabdPane anlegeSOUTHn
+		//Panels f�r die tabbedPane anlegen
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
 		this.add(tabPane, BorderLayout.CENTER);
