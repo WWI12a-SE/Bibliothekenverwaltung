@@ -55,7 +55,7 @@ public class GUI extends JFrame {
 		top.add(topSouth, BorderLayout.SOUTH);
 		
 		
-		//Abmelden/Speichern-Button dem top hinzufuegen
+		//Abmelden/Speichern-Button dem topNorth hinzufuegen
 		//Button einen ActionListener geben, der zum Login-Fenster zurückführt
 		JButton quitSaveButton = new JButton("Abmelden/Speichern");
 		topNorth.add(quitSaveButton);
@@ -70,14 +70,23 @@ public class GUI extends JFrame {
 				login.setVisible(true);
 				
 			}});
-		
-		
-		//Such-TextField anlegen bottom hinzufuegen
+				
+		//Such-TextField und Such-Button anlegen und sie dem topSouth hinzufügen
+		//ActionListener fuer Such-Button 
 		JButton searchButton = new JButton("Suchen");
-		JTextField searchField = new JTextField();
+		final JTextField searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension (88, 26));
 		topSouth.add(searchField);
 		topSouth.add(searchButton);
+		searchButton.addActionListener(new ActionListener () {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchField.getText();
+								
+			}});
+		
+		
 		
 		//Tableiste anlegen - kommt in den unteren Bereich des Frames
 		//Panels f�r die tabbedPane anlegen
