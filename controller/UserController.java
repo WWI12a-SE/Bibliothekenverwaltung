@@ -12,12 +12,17 @@ import model.*;
 public class UserController {
 
 	private static final String S_FILE_NAME = "users";
+	private static UserController userController;
 	private CsvHandler csvHandler;
 	private User[] users; // Alle Benutzer als Objekt in dieses Array
 	
-	public UserController()
+	private UserController()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
+	}
+	
+	public static UserController getInstance(){
+		return userController;
 	}
 	
 	public User[] getAllUsers()

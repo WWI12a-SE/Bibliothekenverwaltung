@@ -32,10 +32,11 @@ public class MyAccount {
 	// Vergleich von Anmeldenamen und Datenbanknamen
 	public void login(String sLoginName, String sPassword)
 	{
-		User loginUser = User.getUser(sLoginName);	// Suche mir den User mit diesem Namen
+		UserController userController = UserController.getInstance();
+		User loginUser = userController.getUser(sLoginName);	// Suche mir den User mit diesem Namen
 		String password = loginUser.getPassword();//Suche mit den User mit diesem Password
 		
-		//prüfung
+		//prï¿½fung
 		if ((loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword)) ){
 			//TODO
 		}else{
@@ -57,7 +58,7 @@ public class MyAccount {
 		// Globales Benutzer-Objekt leeren
 		this.oUtilities.setUser(null);
 		
-		// Hauptfenster schließen und Anmeldedialog anzeigen
+		// Hauptfenster schlieï¿½en und Anmeldedialog anzeigen
 		// ...
 	}
 	
