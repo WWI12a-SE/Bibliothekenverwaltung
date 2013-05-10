@@ -5,12 +5,21 @@ import model.*;
 public class MediaHandler {
 	
 	private static final String S_FILE_NAME = "stock";
+	private static MediaHandler mediaHandler;
+	
 	private CsvHandler csvHandler;
 	private Medium[] media;
 	
-	public MediaHandler()
+	private MediaHandler()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
+	}
+	
+	public static MediaHandler getInstance(){
+		if(mediaHandler == null){
+			mediaHandler = new MediaHandler();
+		}
+		return mediaHandler;
 	}
 	
 	public Medium[] getAllMedia()
@@ -25,13 +34,13 @@ public class MediaHandler {
 	
 	public Medium getMedium(int ID)
 	{
-		//Durchsuche vorhandene User
+		//Durchsuche vorhandene Medien
 		for(int i = 0; i < media.length; i++){
 			if(media[i].getID() == ID){
 				return media[i];
 			}
 		}
-		//Erweitere User-Array
+		//Erweitere Medien-Array
 		Medium[] oldMedia = media;
 		int newIndex = media.length;
 		media = new Medium[newIndex+1];
@@ -39,7 +48,7 @@ public class MediaHandler {
 		for(int i = 0; i < newIndex+1; i++){
 			media[i] = oldMedia[i];
 		}
-		//Neuen User hinzufuegen
+		//Neues Medium hinzufuegen
 		media[newIndex] = new Medium(this.csvHandler, ID);
 		return media[newIndex];
 	}

@@ -32,10 +32,10 @@ public class HandlerTester {
 //		}
 		
 		
-		MediaHandler mediaController = new MediaHandler();
-		Medium[] media = mediaController.getAllMedia();
+		MediaHandler mediaHandler = MediaHandler.getInstance();
+		Medium[] media = mediaHandler.getAllMedia();
 		media[Medium.COL_AUTHOR].setAuthor("Admön");
-		mediaController.save();
+		mediaHandler.save();
 		for(int i = 0; i < media.length; i++){
 			System.out.println(media[i].getAuthor());
 		}

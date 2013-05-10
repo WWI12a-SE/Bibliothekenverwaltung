@@ -17,10 +17,10 @@ public class Medium {
 	public static final int COL_AUTHOR = 2;
 	public static final int COL_PUBLISHER = 3;
 	public static final int COL_ISBN = 4;
-	public static final int COL_YEAR = 5;
-	public static final int COL_EDITION = 6;
+	public static final int COL_EDITION = 5;
+	public static final int COL_COPIES =6;
 	public static final int COL_STOCK = 7;
-	public static final int COL_COPIES = 8;
+	public static final int COL_KEYWORDS = 5;//
 	public static final int AMOUNT_COLUMNS = 9;
 
 	private int ID = 0;
@@ -28,10 +28,11 @@ public class Medium {
 	private String sAuthor = "";
 	private String sPublisher = "";
 	private String sIsbn = "";
-	private int iYear = 0;
+	private String sKeywords = "";
 	private int iEdition = 0; // Ausgabe
 	private int iOnStock = 0; // Verfügbare Exemplare
 	private int iCopies = 0; // Vorhandene Exemplare
+	
 	private CsvHandler csvHandler;
 	
 	public int getID() {
@@ -50,7 +51,6 @@ public class Medium {
 	}
 
 	public void setTitle(String sTitle) {
-		this.sTitle = sTitle;
 		if(!this.sTitle.equals(sTitle)){
 			this.sTitle = sTitle;
 			this.stage();
@@ -90,13 +90,13 @@ public class Medium {
 		}
 	}
 
-	public int getYear() {
-		return iYear;
+	public String getKeywords() {
+		return this.sKeywords;
 	}
 
-	public void setYear(int iYear) {
-		if(this.iYear != iYear){
-			this.iYear = iYear;
+	public void setKeywords(String sKeywords) {
+		if(!this.sKeywords.equals(sKeywords)){
+			this.sKeywords = sKeywords;
 			this.stage();
 		}
 	}
@@ -144,7 +144,7 @@ public class Medium {
 		this.setOnStock(Integer.parseInt(values[COL_STOCK]));
 		this.setPublisher(values[COL_PUBLISHER]);
 		this.setTitle(values[COL_TITLE]);
-		this.setYear(Integer.parseInt(values[COL_YEAR]));
+		this.setKeywords(values[COL_KEYWORDS]);
 		this.setCopies(Integer.parseInt(values[COL_COPIES]));
 	}
 	
@@ -157,7 +157,7 @@ public class Medium {
 		values[COL_ISBN] = this.getIsbn();
 		values[COL_STOCK] = String.valueOf(this.getOnStock());
 		values[COL_TITLE] = this.getTitle();
-		values[COL_YEAR] = String.valueOf(this.getYear());
+		values[COL_KEYWORDS] = String.valueOf(this.getKeywords());
 		return values;
 	}
 	

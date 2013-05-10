@@ -10,36 +10,55 @@ import java.util.Date;
 import core.*;
 
 public class Reservation {
+	
+	//CSV-Spalten
+	public static final int COL_RESERVATION_ID = 0;
+	public static final int COL_LOGINNAME = 1;
+	public static final int COL_MEDIA_ID = 2;
+	public static final int COL_RETURNDATE = 3;
+	public static final int COL_EXTENSIONS = 4;
+	public static final int AMOUNT_COLUMNS = 5;
+	
 	private int reservationID;
 	private String sLoginName;
 	private int iMediaID;
 	private Date dateReturnDate;
 	private int iExtensions;
 	
-	private static ReservationsMapper oReservationMapper = new ReservationsMapper();
-	private static Reservation[] reservation;
+	private CsvHandler csvHandler;
 	
 	public int getReservationID() {
 		return reservationID;
 	}
 	public void setReservationID(int reservationID) {
-		this.reservationID = reservationID;
+		if(this.reservationID != reservationID){
+			this.reservationID = reservationID;
+			this.stage();
+		}
+		
 	}
 	public String getLoginName() {
 		return sLoginName;
 	}
 	public void setLoginName(String sLoginName) {
-		this.sLoginName = sLoginName;
+		if(!this.sLoginName.equals(sLoginName)){
+			this.sLoginName = sLoginName;
+			this.stage();
+		}
 	}
 	public int getMediaID() {
 		return iMediaID;
 	}
 	public void setMediaID(int iMediaID) {
-		this.iMediaID = iMediaID;
+		if(this.iMediaID != iMediaID){
+			this.iMediaID = iMediaID;
+			this.stage();
+		}
 	}
 	public Date getReturnDate() {
 		return dateReturnDate;
 	}
+	//TODO fix Date
 	public void setReturnDate(Date dateReturnDate) {
 		this.dateReturnDate = dateReturnDate;
 	}
@@ -47,59 +66,36 @@ public class Reservation {
 		return iExtensions;
 	}
 	public void setExtensions(int iExtensions) {
-		this.iExtensions = iExtensions;
-	}
-	
-	/**
-	 * Speichern.
-	 * Schreibt das aktuelle Objekt in die Map zurück.
-	 * 
-	 * @return boolean
-	 */
-	public void save()
-	{
-		String[] values = new String[ReservationsMapper.AMOUNT_COLUMNS];
-		values[ReservationsMapper.COL_RESERVATION_ID] = Integer.toString(this.reservationID);
-		values[ReservationsMapper.COL_MEDIA_ID] = Integer.toString(this.iMediaID);
-		values[ReservationsMapper.COL_EXTENSIONS] = Integer.toString(this.iExtensions);
-		values[ReservationsMapper.COL_RETURNDATE] = this.dateReturnDate.toString();
-		values[ReservationsMapper.COL_LOGINNAME] = this.sLoginName;
-		oReservationMapper.updateLine(this.reservationID, values);
-	}
-	
-	public static Reservation[] getAllReservations()
-	{
-		initReservations();
-		return Reservation.reservation;
-	}
-	
-	public static Reservation getReservation(int iID)
-	{
-		initReservations();
-		for(int i = 0; i < reservation.length; i++){
-			if(reservation[i].getReservationID() == iID){
-				return reservation[i];
-			}
+		if(this.iExtensions != iExtensions){
+			this.iExtensions = iExtensions;
+			this.stage();
 		}
-		return null;
 	}
 	
-	@SuppressWarnings("deprecation")
-	private static void initReservations()
+	public Reservation(CsvHandler csvHandler, int ID){
+		this.csvHandler = csvHandler;
+		String[] values = csvHandler.getLineById(String.valueOf(ID));
+		this.setMediaID(ID);
+		this.setExtensions(Integer.parseInt(values[COL_EXTENSIONS]));
+		this.setReservationID(Integer.parseInt(values[COL_RESERVATION_ID]));
+		//TODO fix Date
+//		this.setIsbn(values[COL_ISBN]);
+		this.setLoginName(values[COL_LOGINNAME]);
+	}
+	
+	public String[] getValuesAsStringArray(){
+		String[] values = new String[AMOUNT_COLUMNS];
+		values[COL_EXTENSIONS] = String.valueOf(this.getExtensions());
+		values[COL_LOGINNAME] = this.getLoginName();
+		values[COL_MEDIA_ID] = String.valueOf(this.getMediaID());
+		values[COL_RESERVATION_ID] = String.valueOf(this.getReservationID());
+		//TODO Date
+//		values[COL_RETURNDATE] = this.getIsbn();
+		return values;
+	}
+	
+	public void stage()
 	{
-		if(reservation == null){
-			int lastIndex = oReservationMapper.getLastIndex();
-			reservation = new Reservation[lastIndex+1];
-			for(int i = 0; i <= lastIndex; i++){
-				reservation[i] = new Reservation();
-				String[] values = oReservationMapper.readLine(i);
-				reservation[i].setReservationID(Integer.parseInt(values[ReservationsMapper.COL_RESERVATION_ID]));
-				reservation[i].setMediaID(Integer.parseInt(values[ReservationsMapper.COL_MEDIA_ID]));
-				reservation[i].setExtensions(Integer.parseInt(values[ReservationsMapper.COL_EXTENSIONS]));
-				reservation[i].setLoginName(values[ReservationsMapper.COL_LOGINNAME]);
-//				reservation[i].setReturnDate(new Date(Date.parse(values[ReservationsMapper.COL_RETURNDATE])));
-				reservation[i].setReturnDate(new Date());
-			}
-		}
+		csvHandler.update(this.getValuesAsStringArray());
 	}
 }
