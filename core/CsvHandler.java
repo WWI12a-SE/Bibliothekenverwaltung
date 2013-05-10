@@ -337,7 +337,7 @@ public class CsvHandler {
 	{
 		// Existiert überhaupt eine Zeile mit dieser ID?
 		if (this.getLineById(sId)[0].equals("0")){ // Wenn "0", dann Meldung
-			System.out.println("Es existiert kein Datensatz mit dieser ID. Nichts gelöscht.");
+			//System.out.println("Es existiert kein Datensatz mit dieser ID. Nichts gelöscht.");
 		}
 		// Sonst...
 		else{
@@ -347,26 +347,30 @@ public class CsvHandler {
 			// Verkürztes Array vorbereiten
 			String[][] aTmpMap = new String[this.aMap.length - 1][this.iColons];
 			
-			// Über das alte Array laufen und Inhalte ins neue kopieren, solange iDropThisLine nicht erreicht, sonst überspringen
-			int iCntr = 0;
+			int iDropIndex = this.getLineNumber(sId) - 1;
+
+			int iCntNew = 0; // Zähler für verkürztes Array
+			int iCntOld = 0; // Zähler für altes Array
 			
-			System.out.println("Die Zeile mit der ID " + sId + " wird ausgelassen");
-			this.viewLineById(sId);
-			
-			while(iCntr < (this.aMap.length - 1)){
-				// Zeile auslassen
-				if (iCntr == iDropThisLine){
-					iCntr++; // zusätzlich erhöhen, um auszulassen
-					System.out.println("Die Zeile mit der ID " + sId + " und Index " + iDropThisLine + " wird ausgelassen");
-					this.viewLineById(sId);
-				}
-				else{
-					
+			while (iCntNew < aTmpMap.length){
+				
+				// Bei Erreichen des zu löschenden Index den Zähler für das alte Array um 1 erhöhen
+				if (iCntOld == iDropIndex){			
+					iCntOld++;
 				}
 				
-				iCntr++;
+				// Altes Array auf neues kopieren und zu löschendes übergehen
+				aTmpMap[iCntNew] = this.aMap[iCntOld];
+				
+				iCntNew++;
+				iCntOld++;
 			}
 			
+			// Neue Map auf this.aMap kopieren
+			this.aMap = aTmpMap;
+			
+			// globaler Wert der Zeilen fällt jetzt um 1
+			this.iLines = this.iLines - 1;
 		}
 	}
 
@@ -395,6 +399,7 @@ public class CsvHandler {
 	
 	/**
 	 * Schreiben: Übergebenes zweidomensionales Array in Datei schreiben
+	 * Wird nicht mehr benötigt, da sich CsvHandler selbst um die Verwaltung kümmert.
 	 * @author ja
 	 * 
 	 * @deprecated

@@ -37,11 +37,12 @@ public class TestdriveCsvHandler {
 		String[] aNeuerSatz2 = {"neuersatz2","2Ijon","2Tichy","2","4444","ijon@raumstation.all"};
 		oCUsers.update(aNeuerSatz2);
 		
+		oCUsers.viewMap();
+		
 		/**
 		 * Einen Satz löschen
 		 */
-		System.out.println("Zeile löschen: Ups, geht noch nicht.");
-		oCUsers.dropLine("schnatti");
+		oCUsers.dropLine("groti");
 		oCUsers.viewMap();
 		
 		/**
