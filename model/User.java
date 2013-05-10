@@ -12,8 +12,8 @@ public class User {
 	
 	//CSV-Spalten
 	public static final int COL_LOGINNAME = 0;
-	public static final int COL_FIRSTNAME = 1;
-	public static final int COL_LASTNAME = 2;
+	public static final int COL_LASTNAME = 1;
+	public static final int COL_FIRSTNAME = 2;
 	public static final int COL_ROLE = 3;
 	public static final int COL_PASSWORD = 4;
 	public static final int COL_EMAIL = 5;
