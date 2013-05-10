@@ -6,11 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import controller.MyAccount;
+
 /**
  * Stellt ein Loginformular bereit. 
  * @author Sandra Lang
  *
  */
+
 public class Login extends JFrame{
 	
 	//Attribute zu Darstellung
@@ -23,11 +26,7 @@ public class Login extends JFrame{
 	private JPanel userpanel;
 	private JPanel passwordpanel;
 	private JPanel buttonpanel;
-	
-	//zu logik
-	
 		
-	
 	//constructor
 	public Login(){
 		super();
@@ -70,35 +69,28 @@ public class Login extends JFrame{
 			int y = (screenSize.height - this.getHeight())/2;
 			this.setLocation(x,y);
 	}
-	
+		// Aktion des Buttons
 	class LoginListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			//eingegebene Logindaten holen
 			String username = usernamefield.getText();
 			char [] password = passwordfield.getPassword();	
-			String.valueOf(password);// Pharse password in String
+			String sPassword = String.valueOf(password);// Pharse password in String
 			
 			//Logindaten weiterleiten an MyAccount
-			boolean loginOK = false;//MyAccount.login(username, password);
+			boolean loginOK = MyAccount.login(username, sPassword); //hole daten
 						
-			if (loginOK){
+			if (loginOK == true){
 				// Welcher User ist drin
 				// Sitzung erstellen
-				// Fenster des Logins schliessen und Gui aufrufen.
-				//Login.this.setVisible(false);
-				//GUI gui = new GUI();
+				Login.this.setVisible(false);
+				GUI gui = new GUI();
+				gui.setVisible(true);
 			}else{
-				JOptionPane.showMessageDialog(null, "Das Kennwort oder das Passwort ist fasch" +
-						", bitte versuchen sie es nochmals erneut.", "Achtung", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(null, "Das Kennwort oder der Benutzername ist falsch" +
+						", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
 			}
 		}	
 	}
-		/*// Logindaten herausholen
-		public String getuTextContent (){
-			return usernamefield.getText();
-		}
-		public char[] getpTextContent(){
-			return passwordfield.getPassword();
-		}*/
 }

@@ -1,6 +1,6 @@
 /**
  * Benutzerverwaltung (angemeldeter B.)
- * -	Login
+ * -	Login (Sandra Lang)
  * -	Logout
  * -	Bei Abmeldung speichern
  * 
@@ -12,54 +12,46 @@ package controller;
 import model.*;
 
 public class MyAccount {
-	
 	/**
-	 * Private Variablen
+	 * Private Variablen:
 	 */
-	Utilities oUtilities = null;
+	//Utilities oUtilities = null;	
 	private static User oUser = null;	// Logindaten User von Backend
 	
-	
 	/**
-	 * Constructor. Neues User-Objekt erzeugen.
+	 * Login Prüfungsfunktion
 	 * @param oUser
 	 */
-		
-	
-	
-	
-	
-	// Vergleich von Anmeldenamen und Datenbanknamen
-	public void login(String sLoginName, String sPassword)
+	// Login: Vergleich von Anmeldenamen und Datenbanknamen
+	public static boolean login(String sLoginName, String sPassword)
 	{
 		UserHandler userController = UserHandler.getInstance();
 		User loginUser = userController.getUser(sLoginName);	// Suche mir den User mit diesem Namen
-		String password = loginUser.getPassword();//Suche mit den User mit diesem Password
-		
-		//prï¿½fung
-		if ((loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword)) ){
-			//TODO
+				
+		//pruefung
+		if ((loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword))){
+			return true;
 		}else{
-			//TODO
+			return false;
 		}
-		
 	}
 	
 	
+	
 	/**
+	 * Logout-Funktion:
 	 * Abmelden und dabei speichern.
 	 */
 	public void logout()
 	{
 		// Erst speichern
-		this.oUtilities.store();
+		//this.oUtilities.store();
 		
 		// Dann abmelden:
 		// Globales Benutzer-Objekt leeren
-		this.oUtilities.setUser(null);
+		//this.oUtilities.setUser(null);
 		
-		// Hauptfenster schlieï¿½en und Anmeldedialog anzeigen
+		// Hauptfenster schliessen und Anmeldedialog anzeigen
 		// ...
 	}
-	
 }
