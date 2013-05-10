@@ -32,7 +32,7 @@ public class MyAccount {
 	// Vergleich von Anmeldenamen und Datenbanknamen
 	public void login(String sLoginName, String sPassword)
 	{
-		UserController userController = UserController.getInstance();
+		UserHandler userController = UserHandler.getInstance();
 		User loginUser = userController.getUser(sLoginName);	// Suche mir den User mit diesem Namen
 		String password = loginUser.getPassword();//Suche mit den User mit diesem Password
 		

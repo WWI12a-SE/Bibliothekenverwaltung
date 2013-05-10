@@ -1,6 +1,6 @@
 package controller;
 
-public class UserController {
+public class ReservationController {
 
 	/**
 	 * @param args

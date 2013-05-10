@@ -4,7 +4,7 @@ import java.util.Date;
 import model.*;
 import controller.*;
 
-public class ControllerTester {
+public class HandlerTester {
 
 	/**
 	 * @param args
@@ -32,7 +32,7 @@ public class ControllerTester {
 //		}
 		
 		
-		MediaController mediaController = new MediaController();
+		MediaHandler mediaController = new MediaHandler();
 		Medium[] media = mediaController.getAllMedia();
 		media[Medium.COL_AUTHOR].setAuthor("Admön");
 		mediaController.save();
