@@ -9,7 +9,6 @@ import javax.swing.*;
 /**
  * Stellt ein Loginformular bereit. 
  * @author Sandra Lang
- * lalala
  *
  */
 public class Login extends JFrame{
