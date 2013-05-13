@@ -70,7 +70,10 @@ public class UserHandler {
 	 * <p>
 	 * Die Methode getUser gibt ein Objekt des gesuchten Users zurueck.
 	 * Die Suche muss ueber den LoginNamen als eindeutige ID spezifiziert werden.
+	 * </p><p>
 	 * Sollte der LoginName nicht vergeben sein wird ein neues User-Objekt erstellt und uebergeben.
+	 * Hierbei ist zu beachten dass die String-Attribute des neu erstellten Users auf "null" gesetzt sind
+	 * (mit Aussnahme des LoginNamens).
 	 * </p>
 	 * @param loginName : String -- Die ID des gesuchten Users
 	 * @return user : User -- Objekt des gesuchten Users
@@ -92,7 +95,7 @@ public class UserHandler {
 			//Erweitere User-Array
 			users = new User[newIndex+1];
 			//Kopieren des alten User-Arrays	
-			for(int i = 0; i < newIndex+1; i++){
+			for(int i = 0; i < newIndex; i++){
 				if(oldUsers[i] != null){
 					users[i] = oldUsers[i];
 				}
@@ -100,7 +103,7 @@ public class UserHandler {
 		}else{
 			newIndex = 0;
 			//Erweitere User-Array
-			users = new User[newIndex+1];
+			users = new User[1];
 		}
 		
 		//Neuen User hinzufuegen

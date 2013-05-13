@@ -171,7 +171,12 @@ public class User {
 		this.setFirstName(values[COL_FIRSTNAME]);
 		this.setLastName(values[COL_LASTNAME]);
 		this.setPassword(values[COL_PASSWORD]);
-		this.setRole(Integer.parseInt(values[COL_ROLE]));
+		try{
+			this.setRole(Integer.parseInt(values[COL_ROLE]));
+		}catch(Exception e){
+			this.setRole(User.ROLE_STUDENT);
+		}
+		
 		//Schreibe values fuer den fall dass das Objekt neu ist und der CSV-Handler 
 		//noch keinen Datensatz angelegt hat.
 		this.stage();
