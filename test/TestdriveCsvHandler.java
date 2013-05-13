@@ -20,12 +20,10 @@ public class TestdriveCsvHandler {
 		CsvHandler oCUsers = new CsvHandler("users");
 		System.out.println("Benutzer-Map im jetzigen Zustand:\n");
 		oCUsers.viewMap();
-		/*
 		System.out.println("Vorhandene Zeile ändern, Map ausgeben\n");
 		String[] aAktualisierterSatz = {"aggi","Joh","Acki","1","1111","acki@ackivität.de"};
 		oCUsers.update(aAktualisierterSatz);
 		oCUsers.viewMap();
-		*/
 		
 		
 		/**
@@ -40,10 +38,15 @@ public class TestdriveCsvHandler {
 		oCUsers.viewMap();
 		
 		/**
+		 * Speichern
+		 */
+		oCUsers.save();
+		
+		/**
 		 * Einen Satz löschen
 		 */
-		oCUsers.dropLine("groti");
-		oCUsers.viewMap();
+		oCUsers.dropLine("neuersatz2");
+		oCUsers.save();
 		
 		/**
 		 * Beispiele für Verwendung in Abstraktionsschichten

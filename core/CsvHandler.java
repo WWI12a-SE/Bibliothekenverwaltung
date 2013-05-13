@@ -8,17 +8,15 @@
  * -	Alle Werte stehen in Anführungszeichen.
  * -	Werte werden in Anführungszeichen gefasst.
  * 
- * Stundenzähler: 8,5
+ * Stundenzähler: 10,5
  * @author Johannes Ackermann
- * 
- * To do:
- * -	Zeilen mit neuer ID in Map schreiben
- * -	Map in Datei schreiben
  */
 
 package core;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import core.opencsv.*;
@@ -29,8 +27,10 @@ public class CsvHandler {
 	 * private Variablen
 	 */
 	private String sObjectType = ""; // Kurzname der CSV-Datei, mit der gearbeitet wird
-	private String sFileName = ""; //Name der Datei (mit Pfad und Erweiterung)
+	private String sFileName = ""; // Name der Datei (mit Pfad und Erweiterung)
+	private File oFile = null; // File-Objekt
 	private FileReader oFileReader = null; // FileReader-Objekt
+	private FileWriter oFileWriter = null;
 	public int iLines = 0; // Zeilen
 	public int iColons = 0; // Spalten
 	public String[][] aMap = null; // Komplette CSV-Map
@@ -341,9 +341,6 @@ public class CsvHandler {
 		}
 		// Sonst...
 		else{
-			// Zeilennummer bekommen
-			int iDropThisLine = this.getLineNumber(sId);
-			
 			// Verkürztes Array vorbereiten
 			String[][] aTmpMap = new String[this.aMap.length - 1][this.iColons];
 			
@@ -418,6 +415,36 @@ public class CsvHandler {
 	 */
 	public void save()
 	{
+		// Dateiinhalt als String vorbereiten		
+		String sOutput = "";
+		
+		for (int k = 0; k < this.aMap.length; ++k) {
+		     for (int l = 0; l < this.aMap[k].length; ++l) {
+		    	 sOutput += "\"";
+		    	 sOutput += this.aMap[k][l];
+		    	 sOutput += "\"";
+		    	 
+		    	 if (l != this.aMap[k].length - 1){
+			    	 sOutput += ";";
+		    	 }
+		     }
+		     //sOutput += "\n";
+		     sOutput += System.getProperty("line.separator");
+		}
+		
+		//Speichern
+		this.oFile = new File(this.sFileName);
+		try{
+			this.oFileWriter = new FileWriter(this.oFile,false);
+			this.oFileWriter.write(sOutput); // schreiben
+			this.oFileWriter.flush(); // Durchspülen
+			this.oFileWriter.close(); // Handle schließen
+		}
+		catch (IOException e){
+			e.printStackTrace();
+		}
+		
+		//System.out.println(sOutput);
 		
 	}
 }
