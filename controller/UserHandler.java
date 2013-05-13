@@ -1,13 +1,6 @@
-/**
- * Benutzerverwaltung für Administrator
- * Ruft alle Benutzer aus dem Speicher ab und beliefert ein Formular bereit, um diese zu bearbeiten.
- * 
- * @author ja
- */
-
 package controller;
 import core.CsvHandler;
-import model.*;
+import model.User;
 
 /**
  * <p>

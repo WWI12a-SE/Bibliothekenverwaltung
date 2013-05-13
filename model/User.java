@@ -1,12 +1,5 @@
-/**
- * Benutzermodell
- * Stellt eine Instanz von User bereit.
- * 
- * @author ja
- */
-
 package model;
-import core.*;;
+import core.CsvHandler;
 
 /**
  * <p>
