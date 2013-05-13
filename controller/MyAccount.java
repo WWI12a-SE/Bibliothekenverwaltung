@@ -29,7 +29,7 @@ public class MyAccount {
 		User loginUser = userController.getUser(sLoginName);	// Suche mir den User mit diesem Namen
 				
 		//pruefung
-		if ((loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword))){
+		if ((loginUser.getPassword()!=null&&(loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword)))){
 			return true;
 		}else{
 			return false;
