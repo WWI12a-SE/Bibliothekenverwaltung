@@ -49,15 +49,13 @@ public class UserHandler {
 	/**
 	 * <p>
 	 * Die Methode getAllUsers() holt sich alle User-Daten aus der entsprechenden CSV-Datei.
-	 * Fuer jeden User wird ein neues User-Objekt instanziiert und als Array zurueck gegeben.
-	 * </p><p>
-	 * Zuvor initialisierte User werden ebenfalls neu geladen.
-	 * Aenderungen welche nicht explizit ueber den CSV-Handler gespeichert wurden gehen hierbei verloren.
+	 * Fuer jeden User wird ein neues User-Objekt instanziiert und in einem Array zurueck gegeben.
 	 * </p>
 	 * @return allUsers : User[] -- Array aller User-Objekte
 	 */
 	public User[] getAllUsers()
 	{
+		//Alle User werden neu geladen, gestagedte Aenderungen bleiben erhalten
 		String[][] userMap = csvHandler.read();
 		users = new User[userMap.length];
 		for(int i = 0; i < users.length; i++){
@@ -82,8 +80,8 @@ public class UserHandler {
 	{
 		int newIndex;
 		
-		//Durchsuche vorhandene User
 		if(users != null){
+			//Durchsuche vorhandene User
 			for(int i = 0; i < users.length; i++){
 				if(users[i].getLoginName().equals(loginName)){
 					return users[i]; //User-Objekt gefunden

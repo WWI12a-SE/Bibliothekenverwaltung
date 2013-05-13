@@ -204,7 +204,11 @@ public class User {
 	 */
 	private void stage()
 	{
-		csvHandler.update(this.getValuesAsStringArray());
+		//Ueberpruefe ob User-Objekt gueltig (Login & PW gesetzt)
+		if(this.getLoginName() != null && this.getPassword() != null){
+			csvHandler.update(this.getValuesAsStringArray());
+		}
+		
 	}
 
 }
