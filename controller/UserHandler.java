@@ -40,20 +40,33 @@ public class UserHandler {
 	
 	public User getUser(String loginName)
 	{
+		int newIndex;
+		User[] oldUsers;
+		
 		//Durchsuche vorhandene User
-		for(int i = 0; i < users.length; i++){
-			if(users[i].getLoginName().equals(loginName)){
-				return users[i];
+		if(users != null){
+			for(int i = 0; i < users.length; i++){
+				if(users[i].getLoginName().equals(loginName)){
+					return users[i];
+				}
 			}
+			newIndex = users.length;
+			//Merke schon initialisierte User
+			oldUsers = users;
+			//Erweitere User-Array
+			users = new User[newIndex+1];
+			//Kopieren des alten User-Arrays	
+			for(int i = 0; i < newIndex+1; i++){
+				if(oldUsers[i] != null){
+					users[i] = oldUsers[i];
+				}
+			}
+		}else{
+			newIndex = 0;
+			//Erweitere User-Array
+			users = new User[newIndex+1];
 		}
-		//Erweitere User-Array
-		User[] oldUsers = users;
-		int newIndex = users.length;
-		users = new User[newIndex+1];
-		//Kopieren des alten User-Arrays
-		for(int i = 0; i < newIndex+1; i++){
-			users[i] = oldUsers[i];
-		}
+		
 		//Neuen User hinzufuegen
 		users[newIndex] = new User(this.csvHandler, loginName);
 		return users[newIndex];
