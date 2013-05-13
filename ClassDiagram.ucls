@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
-  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+<class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
   <class id="1" language="java" name="core.CsvHandler" project="BibVerwaltung" 
     file="/BibVerwaltung/src/core/CsvHandler.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1099" y="250"/>    
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="controller.MyAccount" project="BibVerwaltung" 
     file="/BibVerwaltung/src/controller/MyAccount.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="511" y="-128"/>    
+    <position height="-1" width="-1" x="516" y="-148"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="BibMain" project="BibVerwaltung" file="/BibVerwaltung/src/BibMain.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="7" y="-241"/>    
+    <position height="-1" width="-1" x="-185" y="-232"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="view.GUI" project="BibVerwaltung" file="/BibVerwaltung/src/view/GUI.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="171" y="-238"/>    
+    <position height="-1" width="-1" x="158" y="-221"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -84,8 +84,8 @@
   </class>  
   <class id="10" language="java" name="view.Login" project="BibVerwaltung" file="/BibVerwaltung/src/view/Login.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="165" y="-27"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <position height="250" width="189" x="-120" y="-137"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="view.Login.LoginListener" project="BibVerwaltung" 
     file="/BibVerwaltung/src/view/Login.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="164" y="155"/>    
+    <position height="-1" width="-1" x="-28" y="182"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
