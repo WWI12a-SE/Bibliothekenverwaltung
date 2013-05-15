@@ -176,10 +176,6 @@ public class User {
 		}catch(Exception e){
 			this.setRole(User.ROLE_STUDENT);
 		}
-		
-		//Schreibe values fuer den fall dass das Objekt neu ist und der CSV-Handler 
-		//noch keinen Datensatz angelegt hat.
-		this.stage();
 	}
 	
 	/**

@@ -1,14 +1,17 @@
-/**
- * Medien-Modell
- * Einen Datensatz aus der Datenbank lesen oder einen neuen zum Schreiben vorbereiten.
- * 
- * @author ja
- */
-
-
 package model;
-import core.*;
+import core.CsvHandler;
 
+/**
+ * <p>
+ * Die Klasse Medium repraesentiert ein echtes Medium der Bibliothek und stellt die in der CSV-Datei 
+ * gespeicherten Daten zur Verfuegung.
+ * </p><p>
+ * Um einen Medium zu instanziieren muss ueber ein MediaHandler-Objekt die Methode 
+ * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
+ * </p>
+ * @author weisseth
+ * @package model
+ */
 public class Medium {
 	
 	//CSV-Spalten
@@ -35,10 +38,18 @@ public class Medium {
 	
 	private CsvHandler csvHandler;
 	
+	/**
+	 * Getter der ID
+	 * @return ID : Integer
+	 */
 	public int getID() {
 		return this.ID;
 	}
 
+	/**
+	 * Setter der ID
+	 * @param ID : Integer
+	 */
 	public void setID(int ID) {
 		if(this.ID != ID){
 			this.ID = ID;
@@ -46,10 +57,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter des Titels
+	 * @return sTitle : String
+	 */
 	public String getTitle() {
 		return sTitle;
 	}
 
+	/**
+	 * Setter des Titels
+	 * @param sTitle : String
+	 */
 	public void setTitle(String sTitle) {
 		if(!this.sTitle.equals(sTitle)){
 			this.sTitle = sTitle;
@@ -57,10 +76,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter des Autors
+	 * @return sAuthor : String
+	 */
 	public String getAuthor() {
 		return sAuthor;
 	}
 
+	/**
+	 * Setter des Autors
+	 * @param sAuthor : String
+	 */
 	public void setAuthor(String sAuthor) {
 		if(!this.sAuthor.equals(sAuthor)){
 			this.sAuthor = sAuthor;
