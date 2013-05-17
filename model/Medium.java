@@ -23,7 +23,7 @@ public class Medium {
 	public static final int COL_EDITION = 5;
 	public static final int COL_COPIES =6;
 	public static final int COL_STOCK = 7;
-	public static final int COL_KEYWORDS = 5;//
+	public static final int COL_KEYWORDS = 8;
 	public static final int AMOUNT_COLUMNS = 9;
 
 	private int ID = 0;
