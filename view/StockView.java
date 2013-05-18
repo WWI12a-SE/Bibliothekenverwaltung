@@ -11,6 +11,9 @@ import model.Medium;
 import model.User;
 import controller.MediaHandler;
 
+import javax.swing.event.*;
+import javax.swing.table.TableModel;
+
 /**
  * 
  * @author weisseth
@@ -25,17 +28,23 @@ public class StockView extends JPanel {
 	private static final int SUBPANEL_NORTH_HEIGHT = 40;
 
 	private JTable stockTable;
+	private StockTableModelListener stockTableModelListener;
+	private StockTableModel stockTableModel;
 	private JScrollPane scrollPane;
 	private JPanel scrollPanePanel;
 	private JPanel[] scrollPaneBorderPanels;
 	private int mode;
+	private int[] IDs;
 
 
 	public StockView(int mode) {
 		
 		this.mode = mode;
 		
-		stockTable = new JTable(new StockTableModel());
+		stockTableModel = new StockTableModel();
+		stockTableModelListener = new StockTableModelListener();
+		stockTableModel.addTableModelListener(stockTableModelListener);
+		stockTable = new JTable(stockTableModel);
 //		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(stockTable);
 		
@@ -50,9 +59,9 @@ public class StockView extends JPanel {
 	}
 	
 	private void addBorderPanels(){
+		//Init
 		scrollPaneBorderPanels = new JPanel[4];
 		for(int i = 0; i < scrollPaneBorderPanels.length; i++){
-			//Init
 			scrollPaneBorderPanels[i] = new JPanel();
 			//Size
 			if(i % 2 == 0){
@@ -76,7 +85,7 @@ public class StockView extends JPanel {
 	 *
 	 */
 	@SuppressWarnings("serial")
-	private class StockTableModel extends AbstractTableModel {
+	private class StockTableModel extends AbstractTableModel{
 
 		private Object[][] data;
 		private String[] columnNames = { 
@@ -99,14 +108,16 @@ public class StockView extends JPanel {
 			
 			//Init Data
 			int rows = media.length;
-			int columns = Medium.AMOUNT_COLUMNS;
+			int columns = 8;
 			if(StockView.this.mode == User.ROLE_LIBRARIAN){
 				columns++;
 			}
 			data = new Object[rows][columns];
+			IDs  = new int[rows];
 			
 			//Init Data-Values
 			for (int row = 0; row < media.length; row++){
+				IDs[row] = media[row].getID();
 				data[row][0] = media[row].getTitle();
 				data[row][1] = media[row].getAuthor();
 				data[row][2] = media[row].getPublisher();
@@ -125,8 +136,8 @@ public class StockView extends JPanel {
 
 		@Override
 		public Class<? extends Object> getColumnClass(int c) {
-			return String.class;
-//			return getValueAt(0, c).getClass();
+//			return String.class;
+			return getValueAt(0, c).getClass();
 		}
 
 		@Override
@@ -156,7 +167,52 @@ public class StockView extends JPanel {
 			}
 			return false;
 		}
+		
+		@Override
+		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+			data[rowIndex][columnIndex] = aValue;
+			fireTableCellUpdated(rowIndex, columnIndex);
+	    }
 
+	}
+	
+	private class StockTableModelListener implements TableModelListener {
+
+	    public void tableChanged(TableModelEvent e) {
+	        int row = e.getFirstRow();
+	        int column = e.getColumn();
+	        TableModel model = (TableModel)e.getSource();
+	        Object data = model.getValueAt(row, column);
+	        
+	        MediaHandler mediaHandler = MediaHandler.getInstance();
+			Medium medium = mediaHandler.getMedium(IDs[row]);
+			switch(column){
+				case 0:
+					medium.setTitle(String.valueOf(data));
+					break;
+				case 1:
+					medium.setAuthor(String.valueOf(data));
+					break;
+				case 2:
+					medium.setPublisher(String.valueOf(data));
+					break;
+				case 3:
+					medium.setEdition(Integer.parseInt(String.valueOf(data)));
+					break;
+				case 4:
+					medium.setIsbn(String.valueOf(data));
+					break;
+				case 5:
+					medium.setCopies(Integer.parseInt(String.valueOf(data)));
+					break;
+				case 6:
+					medium.setOnStock(Integer.parseInt(String.valueOf(data)));
+					break;
+				case 7:
+					medium.setKeywords(String.valueOf(data));
+					break;
+			}
+	    }
 	}
 
 }
