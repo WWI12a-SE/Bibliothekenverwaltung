@@ -161,6 +161,17 @@ public class Medium {
 		}
 	}
 	
+	/**
+	 * <p>
+	 * Konstruktor des Mediums. Stellt die in der CSV-Datei 
+	 * gespeicherten Daten zur Verfuegung.
+	 * </p><p>
+	 * Um ein Medium zu instanziieren muss ueber ein MediaHandler-Objekt die Methode
+	 * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
+	 * </p>
+	 * @param csvHandler : CsvHandler
+	 * @param ID : Integer
+	 */
 	public Medium(CsvHandler csvHandler, int ID){
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(String.valueOf(ID));
