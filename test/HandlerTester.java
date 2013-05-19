@@ -11,13 +11,13 @@ public class HandlerTester {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		Reservation[] test = Reservation.getAllReservations();
-//		for(int i = 0; i < test.length; i++){
-//			System.out.println(test[i].getReservationID());
-//			System.out.println(test[i].getExtensions());
-//			System.out.println(test[i].getLoginName());
-//			System.out.println(test[i].getReturnDate());
-//		}
+		Reservation[] test = ReservationHandler.getInstance().getAllReservations();
+		for(int i = 0; i < test.length; i++){
+			System.out.println(test[i].getReservationID());
+			System.out.println(test[i].getExtensions());
+			System.out.println(test[i].getLoginName());
+			System.out.println(test[i].getReturnDate());
+		}
 		
 		
 //		UserController userController = new UserController();
@@ -34,13 +34,19 @@ public class HandlerTester {
 		
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		Medium[] media = mediaHandler.getAllMedia();
-		media[Medium.COL_AUTHOR].setAuthor("Admön");
-		mediaHandler.save();
+//		media[Medium.COL_AUTHOR].setAuthor("Admön");
+//		mediaHandler.save();
 		for(int i = 0; i < media.length; i++){
 			System.out.println(media[i].getAuthor());
 		}
 		
+//		System.out.println(String.valueOf(null));
 		
+		ReservationHandler reservationHandler = ReservationHandler.getInstance();
+		Reservation[] reservation = reservationHandler.getAllReservations();
+		for(int i = 0; i < reservation.length; i++){
+			System.out.println(reservation[i].getMediaID());
+		}
 		/*
 		 * 
 		 * String[][] test;

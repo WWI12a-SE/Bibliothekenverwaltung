@@ -110,6 +110,14 @@ public class UserHandler {
 	}
 	
 	/**
+	 * Entfernt einen User aus der Laufzeitumgebung (staged delete)
+	 * @param loginName : String -- Die ID des zu loeschenden User
+	 */
+	public void deleteUser(String loginName){
+		csvHandler.dropLine(loginName);
+	}
+	
+	/**
 	 * Die Methode save() weist den CsvHandler des UserHandlers an die "staged"-ten
 	 * (zum speichern bereiten) Aenderungen in die CSV-Datei zu uebertragen. Alle Aenderungen
 	 * an User-Objekten werden automatisch ge-"staged".

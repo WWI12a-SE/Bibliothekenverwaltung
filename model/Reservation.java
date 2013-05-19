@@ -1,12 +1,7 @@
-/**
- * Reservationsmodell
- * 
- * @author ja
- */
-
 package model;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
-
 import core.*;
 
 public class Reservation {
@@ -27,6 +22,26 @@ public class Reservation {
 	
 	private CsvHandler csvHandler;
 	
+	public Reservation(CsvHandler csvHandler, int ID){
+		this.csvHandler = csvHandler;
+		String[] values = csvHandler.getLineById(String.valueOf(ID));
+		this.setMediaID(ID);
+		this.setExtensions(Integer.parseInt(values[COL_EXTENSIONS]));
+		this.setReservationID(Integer.parseInt(values[COL_RESERVATION_ID]));
+		//TODO fix Date
+		try {
+			DateFormat dateFormat = DateFormat.getInstance();
+			this.setReturnDate(dateFormat.parse(values[COL_RETURNDATE]));
+			if(this.getReturnDate() == null){
+				System.out.println("Null");
+			}
+		} catch (ParseException e) {
+			System.out.println("Date-Parse-Fehler Reservation-Konstruktor");
+//			e.printStackTrace();
+		}
+		this.setLoginName(values[COL_LOGINNAME]);
+	}
+	
 	public int getReservationID() {
 		return reservationID;
 	}
@@ -41,7 +56,12 @@ public class Reservation {
 		return sLoginName;
 	}
 	public void setLoginName(String sLoginName) {
-		if(!this.sLoginName.equals(sLoginName)){
+		if(this.sLoginName != null){
+			if(!this.sLoginName.equals(sLoginName)){
+				this.sLoginName = sLoginName;
+				this.stage();
+			}
+		}else{
 			this.sLoginName = sLoginName;
 			this.stage();
 		}
@@ -58,7 +78,6 @@ public class Reservation {
 	public Date getReturnDate() {
 		return dateReturnDate;
 	}
-	//TODO fix Date
 	public void setReturnDate(Date dateReturnDate) {
 		this.dateReturnDate = dateReturnDate;
 	}
@@ -72,25 +91,17 @@ public class Reservation {
 		}
 	}
 	
-	public Reservation(CsvHandler csvHandler, int ID){
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		this.setMediaID(ID);
-		this.setExtensions(Integer.parseInt(values[COL_EXTENSIONS]));
-		this.setReservationID(Integer.parseInt(values[COL_RESERVATION_ID]));
-		//TODO fix Date
-//		this.setIsbn(values[COL_ISBN]);
-		this.setLoginName(values[COL_LOGINNAME]);
-	}
-	
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_EXTENSIONS] = String.valueOf(this.getExtensions());
 		values[COL_LOGINNAME] = this.getLoginName();
 		values[COL_MEDIA_ID] = String.valueOf(this.getMediaID());
 		values[COL_RESERVATION_ID] = String.valueOf(this.getReservationID());
-		//TODO Date
-//		values[COL_RETURNDATE] = this.getIsbn();
+		if(this.getReturnDate() != null){
+			values[COL_RETURNDATE] = this.getReturnDate().toString();//DateFormat.getInstance().format(
+		}else{
+			values[COL_RETURNDATE] = "";
+		}
 		return values;
 	}
 	
