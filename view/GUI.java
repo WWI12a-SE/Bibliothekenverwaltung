@@ -106,48 +106,6 @@ public class GUI extends JFrame {
 		tabPane.addTab("Reservierungen", tabReservations);
 		tabPane.addTab("Mein Konto", tabMyAccount);
 		
-		//Bestand-Tab
-		String[] dataMedia = new String[] {"eins", "zwei", "drei", "vier"};
-		final JList storeList = new JList(dataMedia);
-		storeList.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				storeList.getSelectedIndices();
-				
-			}});
-		storeList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabStore.add(storeList);
-		tabStore.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		//Reservierungen
-		String[] dataReservations = new String[] {"vier", "f�nf", "sechs", "sieben"};
-		final JList reservationList = new JList(dataReservations);
-		storeList.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				reservationList.getSelectedIndices();
-				
-			}});
-		storeList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabReservations.add(reservationList);
-		tabReservations.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		//pers�nliche Daten
-		String[] dataUser = new String[] {"Vorname", "Nachname", "Strasse", "Ort"};
-		final JList userList = new JList(dataUser);
-		storeList.addListSelectionListener(new ListSelectionListener(){
-
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				userList.getSelectedIndices();
-				
-			}});
-		storeList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		tabMyAccount.add(userList);
-		tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
 	}
 		
 	
