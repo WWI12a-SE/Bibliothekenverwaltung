@@ -120,10 +120,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter des Verlags
+	 * @return sPublisher : String
+	 */
 	public String getPublisher() {
 		return sPublisher;
 	}
 
+	/**
+	 * Setter des Verlags
+	 * @param sPublisher : String
+	 */
 	public void setPublisher(String sPublisher) {
 		if(!this.sPublisher.equals(sPublisher)){
 			this.sPublisher = sPublisher;
@@ -131,10 +139,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der ISBN
+	 * @return sIsbn : String
+	 */
 	public String getIsbn() {
 		return sIsbn;
 	}
 
+	/**
+	 * Setter der ISBN
+	 * @param sIsbn : String
+	 */
 	public void setIsbn(String sIsbn) {
 		if(!this.sIsbn.equals(sIsbn)){
 			this.sIsbn = sIsbn;
@@ -142,10 +158,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Stichworte
+	 * @return sKeywords : String
+	 */
 	public String getKeywords() {
 		return this.sKeywords;
 	}
 
+	/**
+	 * Setter der Stichworte
+	 * @param sKeywords : String
+	 */
 	public void setKeywords(String sKeywords) {
 		if(!this.sKeywords.equals(sKeywords)){
 			this.sKeywords = sKeywords;
@@ -153,10 +177,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Auflage
+	 * @return iEdition : Integer
+	 */
 	public int getEdition() {
 		return iEdition;
 	}
 
+	/**
+	 * Setter der Auflage
+	 * @param iEdition : Integer
+	 */
 	public void setEdition(int iEdition) {
 		if(this.iEdition != iEdition){
 			this.iEdition = iEdition;
@@ -164,10 +196,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Anzahl Exemplare im Bestand (nicht verliehen)
+	 * @return iOnStock : Integer
+	 */
 	public int getOnStock() {
 		return iOnStock;
 	}
 
+	/**
+	 * Setter der Anzahl Exemplare im Bestand (nicht verliehen)
+	 * @param iOnStock : Integer
+	 */
 	public void setOnStock(int iOnStock) {
 		if(this.iOnStock != iOnStock){
 			this.iOnStock = iOnStock;
@@ -175,10 +215,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Anzahl Exemplare im System (unabhaenging des Verleih-Status)
+	 * @return iCopies : Integer
+	 */
 	public int getCopies() {
 		return iCopies;
 	}
 
+	/**
+	 * Setter der Anzahl Exemplare im System (unabhaenging des Verleih-Status)
+	 * @param iCopies : Integer
+	 */
 	public void setCopies(int iCopies) {
 		if(this.iCopies != iCopies){
 			this.iCopies = iCopies;
