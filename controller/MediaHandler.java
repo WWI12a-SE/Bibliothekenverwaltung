@@ -71,9 +71,8 @@ public class MediaHandler {
 	 * Die Suche muss ueber die ID spezifiziert werden.
 	 * </p>
 	 * <p>
-	 * Sollte die ID nicht vergeben sein wird ein neues Medium-Objekt erstellt und uebergeben.
-	 * Hierbei ist zu beachten dass die Nicht-ID-Attribute des neu erstellten Users auf "null" gesetzt sind.
-	 * (mit Aussnahme des LoginNamens).
+	 * Sollte die ID nicht vergeben sein wird ein neues Reservierungs-Objekt erstellt und uebergeben.
+	 * Hierbei ist zu beachten dass die String-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
 	 * </p>
 	 * @param ID : Integer -- Die ID des gesuchten Mediums
 	 * @return medium : Medium -- Objekt des gesuchten Mediums

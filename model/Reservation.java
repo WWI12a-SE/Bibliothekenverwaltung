@@ -65,11 +65,7 @@ public class Reservation {
 			}
 		}
 
-		if(values[COL_LOGINNAME] == null){
-			this.sLoginName = "";
-		}else{
-			this.sLoginName = values[COL_LOGINNAME];
-		}
+		this.sLoginName = values[COL_LOGINNAME];
 	}
 	
 	/**
@@ -89,7 +85,6 @@ public class Reservation {
 			this.reservationID = reservationID;
 			this.stage();
 		}
-		
 	}
 	
 	/**
@@ -105,9 +100,14 @@ public class Reservation {
 	 * @param loginName : String
 	 */
 	public void setLoginName(String sLoginName) {
-		if(!this.sLoginName.equals(sLoginName)){
+		if(this.sLoginName == null){
 			this.sLoginName = sLoginName;
 			this.stage();
+		}else{
+			if(!this.sLoginName.equals(sLoginName)){
+				this.sLoginName = sLoginName;
+				this.stage();
+			}
 		}
 	}
 	

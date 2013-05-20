@@ -27,11 +27,7 @@ public class Medium {
 	public static final int AMOUNT_COLUMNS = 9;
 
 	private int ID = 0;
-	private String sTitle = "";
-	private String sAuthor = "";
-	private String sPublisher = "";
-	private String sIsbn = "";
-	private String sKeywords = "";
+	private String sTitle, sAuthor, sPublisher, sIsbn, sKeywords;
 	private int iEdition = 0; // Ausgabe
 	private int iOnStock = 0; // Verfügbare Exemplare
 	private int iCopies = 0; // Vorhandene Exemplare
@@ -55,11 +51,7 @@ public class Medium {
 		
 		this.ID = ID;
 		
-		if(values[COL_AUTHOR] == null){
-			this.sAuthor = "";
-		}else{
-			this.sAuthor = values[COL_AUTHOR];
-		}
+		this.sAuthor = values[COL_AUTHOR];
 		
 		if(values[COL_EDITION] == null){
 			this.iEdition = 0;
@@ -67,11 +59,7 @@ public class Medium {
 			this.iEdition = Integer.parseInt(values[COL_EDITION]);
 		}
 
-		if(values[COL_ISBN] == null){
-			this.sIsbn = "";
-		}else{
-			this.sIsbn = values[COL_ISBN];
-		}
+		this.sIsbn = values[COL_ISBN];
 		
 		if(values[COL_STOCK] == null){
 			this.iOnStock = 0;
@@ -79,23 +67,11 @@ public class Medium {
 			this.iOnStock = Integer.parseInt(values[COL_STOCK]);
 		}
 
-		if(values[COL_PUBLISHER] == null){
-			this.sPublisher = "";
-		}else{
-			this.sPublisher = values[COL_PUBLISHER];
-		}
+		this.sPublisher = values[COL_PUBLISHER];
 
-		if(values[COL_TITLE] == null){
-			this.sTitle = "";
-		}else{
-			this.sTitle = values[COL_TITLE];
-		}
+		this.sTitle = values[COL_TITLE];
 
-		if(values[COL_KEYWORDS] == null){
-			this.sKeywords = "";
-		}else{
-			this.sKeywords = values[COL_KEYWORDS];
-		}
+		this.sKeywords = values[COL_KEYWORDS];
 		
 		if(values[COL_COPIES] == null){
 			this.iCopies = 0;
@@ -136,9 +112,14 @@ public class Medium {
 	 * @param sTitle : String
 	 */
 	public void setTitle(String sTitle) {
-		if(!this.sTitle.equals(sTitle)){
+		if(this.sTitle == null){
 			this.sTitle = sTitle;
 			this.stage();
+		}else{
+			if(!this.sTitle.equals(sTitle)){
+				this.sTitle = sTitle;
+				this.stage();
+			}
 		}
 	}
 
@@ -155,9 +136,14 @@ public class Medium {
 	 * @param sAuthor : String
 	 */
 	public void setAuthor(String sAuthor) {
-		if(!this.sAuthor.equals(sAuthor)){
+		if(this.sAuthor == null){
 			this.sAuthor = sAuthor;
 			this.stage();
+		}else{
+			if(!this.sAuthor.equals(sAuthor)){
+				this.sAuthor = sAuthor;
+				this.stage();
+			}
 		}
 	}
 
@@ -174,9 +160,14 @@ public class Medium {
 	 * @param sPublisher : String
 	 */
 	public void setPublisher(String sPublisher) {
-		if(!this.sPublisher.equals(sPublisher)){
+		if(this.sPublisher == null){
 			this.sPublisher = sPublisher;
 			this.stage();
+		}else{
+			if(!this.sPublisher.equals(sPublisher)){
+				this.sPublisher = sPublisher;
+				this.stage();
+			}
 		}
 	}
 
@@ -193,9 +184,14 @@ public class Medium {
 	 * @param sIsbn : String
 	 */
 	public void setIsbn(String sIsbn) {
-		if(!this.sIsbn.equals(sIsbn)){
+		if(this.sIsbn == null){
 			this.sIsbn = sIsbn;
 			this.stage();
+		}else{
+			if(!this.sIsbn.equals(sIsbn)){
+				this.sIsbn = sIsbn;
+				this.stage();
+			}
 		}
 	}
 
@@ -212,9 +208,14 @@ public class Medium {
 	 * @param sKeywords : String
 	 */
 	public void setKeywords(String sKeywords) {
-		if(!this.sKeywords.equals(sKeywords)){
+		if(this.sKeywords == null){
 			this.sKeywords = sKeywords;
 			this.stage();
+		}else{
+			if(!this.sKeywords.equals(sKeywords)){
+				this.sKeywords = sKeywords;
+				this.stage();
+			}
 		}
 	}
 

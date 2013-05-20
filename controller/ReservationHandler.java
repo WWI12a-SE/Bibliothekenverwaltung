@@ -80,7 +80,7 @@ public class ReservationHandler {
 	 * </p>
 	 * <p>
 	 * Sollte die ID nicht vergeben sein wird ein neues Reservierungs-Objekt erstellt und uebergeben.
-	 * Hierbei ist zu beachten dass die Nicht-ID-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
+	 * Hierbei ist zu beachten dass die String-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
 	 * </p>
 	 * @param ID : Integer -- Die ID der gesuchten Reservierung
 	 * @return reservation : Reservation -- Objekt der gesuchten Reservierung

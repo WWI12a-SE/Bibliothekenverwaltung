@@ -28,11 +28,7 @@ public class User {
 	public static final int ROLE_LECTURER = 2;
 	public static final int ROLE_LIBRARIAN = 3;
 	
-	private String sLoginName = "";
-	private String sFirstName = "";
-	private String sLastName = "";
-	private String sPassword = ""; // Kennwort zunächst, unverschlüsselt
-	private String sEmail = "";
+	private String sLoginName, sFirstName, sLastName , sPassword, sEmail = "";
 	private int iRole = 0; // Benutzerrolle, siehe Konstanten
 	private CsvHandler csvHandler;
 	
@@ -54,29 +50,14 @@ public class User {
 		
 		this.sLoginName = loginName;
 		
-		if(values[COL_EMAIL] == null){
-			this.sEmail = "";
-		}else{
-			this.sEmail = values[COL_EMAIL];
-		}
+		this.sEmail = values[COL_EMAIL];
 
-		if(values[COL_FIRSTNAME] == null){
-			this.sFirstName = "";
-		}else{
-			this.sFirstName = values[COL_FIRSTNAME];
-		}
+
+		this.sFirstName = values[COL_FIRSTNAME];
 		
-		if(values[COL_LASTNAME] == null){
-			this.sLastName = "";
-		}else{
-			this.sLastName = values[COL_LASTNAME];
-		}
+		this.sLastName = values[COL_LASTNAME];
 
-		if(values[COL_PASSWORD] == null){
-			this.sPassword = "";
-		}else{
-			this.sPassword = values[COL_PASSWORD];
-		}
+		this.sPassword = values[COL_PASSWORD];
 
 		try{
 			this.setRole(Integer.parseInt(values[COL_ROLE]));
@@ -98,9 +79,14 @@ public class User {
 	 * @param loginName : String
 	 */
 	public void setLoginName(String loginName) {
-		if(!this.sLoginName.equals(loginName)){
+		if(this.sLoginName == null){
 			this.sLoginName = loginName;
 			this.stage();
+		}else{
+			if(!this.sLoginName.equals(loginName)){
+				this.sLoginName = loginName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -117,9 +103,14 @@ public class User {
 	 * @param sFirstName : String
 	 */
 	public void setFirstName(String sFirstName) {
-		if(!this.sFirstName.equals(sFirstName)){
+		if(this.sFirstName == null){
 			this.sFirstName = sFirstName;
 			this.stage();
+		}else{
+			if(!this.sFirstName.equals(sFirstName)){
+				this.sFirstName = sFirstName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -136,9 +127,14 @@ public class User {
 	 * @param sLastName : String
 	 */
 	public void setLastName(String sLastName) {
-		if(!this.sLastName.equals(sLastName)){
+		if(this.sLastName == null){
 			this.sLastName = sLastName;
 			this.stage();
+		}else{
+			if(!this.sLastName.equals(sLastName)){
+				this.sLastName = sLastName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -176,9 +172,14 @@ public class User {
 	 * @param sPassword : String
 	 */
 	public void setPassword(String sPassword) {
-		if(!this.sPassword.equals(sPassword)){
+		if(this.sPassword == null){
 			this.sPassword = sPassword;
 			this.stage();
+		}else{
+			if(!this.sPassword.equals(sPassword)){
+				this.sPassword = sPassword;
+				this.stage();
+			}
 		}
 	}
 	
@@ -195,9 +196,14 @@ public class User {
 	 * @param sEmail : String
 	 */
 	public void setEmail(String sEmail) {
-		if(!this.sEmail.equals(sEmail)){
+		if(this.sEmail == null){
 			this.sEmail = sEmail;
 			this.stage();
+		}else{
+			if(!this.sEmail.equals(sEmail)){
+				this.sEmail = sEmail;
+				this.stage();
+			}
 		}
 	}
 	
