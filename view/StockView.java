@@ -45,7 +45,6 @@ public class StockView extends JPanel {
 	private static final int COL_COPIES = 5;
 	private static final int COL_ONSTOCK = 6;
 	private static final int COL_KEYWORDS = 7;
-	private static final int COL_ACTIONS = 8;
 
 	private JTable stockTable;
 	private StockTableModelListener stockTableModelListener;
@@ -80,7 +79,8 @@ public class StockView extends JPanel {
 					int mediaID = IDs[stockTable.getSelectedRow()];
 					
 					StockLogic stockLogic = StockLogic.getInstance();
-					buttonLease.setEnabled(stockLogic.isReservable(mediaID));
+					boolean showButtonLease = stockLogic.isReservable(mediaID);
+					buttonLease.setEnabled(showButtonLease);
 				}
 				
 			}
@@ -132,7 +132,7 @@ public class StockView extends JPanel {
 		eastBorderPanel.setBackground(Color.WHITE);
 		centerPanel.setBackground(Color.WHITE);
 
-		if(this.mode == User.ROLE_STUDENT){
+		if(this.mode == User.ROLE_STUDENT || this.mode == User.ROLE_LECTURER){
 
 			//Zurueckgeben
 			buttonReturn = getButtonReturn();
@@ -145,14 +145,6 @@ public class StockView extends JPanel {
 		}
 		
 		if(this.mode == User.ROLE_LECTURER){
-			
-			//Zurueckgeben
-			buttonReturn = getButtonReturn();
-			centerPanel.add(buttonReturn);
-			
-			//Ausleihen
-			buttonLease = getButtonLease();
-			centerPanel.add(buttonLease);
 			
 			//Verlaengern
 			buttonExtend = getButtonExtend();
@@ -201,6 +193,7 @@ public class StockView extends JPanel {
 					int selectedIndex = stockTable.getSelectedRow();
 					StockLogic stockLogic = StockLogic.getInstance();
 					stockLogic.reserve(IDs[selectedIndex]);
+					StockView.this.buttonLease.setEnabled(false);
 				}
 			}
 			

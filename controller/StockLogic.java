@@ -37,9 +37,8 @@ public class StockLogic {
 		if(isReservable(mediumID)){
 //			TODO MyAccount getUser()
 //			User user = MyAccount.getLoggedInUser();
-			User user = UserHandler.getInstance().getUser("admin");
+			User user = UserHandler.getInstance().getUser("admin");//TODO
 			String loginName = user.getLoginName();
-			
 			ReservationHandler reservationHandler = ReservationHandler.getInstance();
 			int reservationID = reservationHandler.getNewID();
 			Reservation reservation = reservationHandler.getReservation(reservationID);
@@ -65,14 +64,19 @@ public class StockLogic {
 		Reservation[] reservations = reservationHandler.getAllReservations();
 //		TODO MyAccount getUser() entklammern sobald abgesprochen
 //		User user = MyAccount.getLoggedInUser();
-		User user = UserHandler.getInstance().getUser("admin");
+		User user = UserHandler.getInstance().getUser("admin");//TODO
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
+			System.out.println("resID:"+reservations[i].getReservationID());
+			System.out.println("mediaID:"+reservations[i].getMediaID());
+			System.out.println("loginID:"+reservations[i].getLoginName());
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
 				isReservable = false;
 				break;
 			}
 		}
+		System.out.println("reservations.length: "+reservations.length);//TODO
+		System.out.println("isReservable: "+isReservable);
 		return isReservable;
 	}
 	
