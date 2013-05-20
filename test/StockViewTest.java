@@ -14,7 +14,7 @@ public class StockViewTest {
 	private StockViewTest(){
 		JFrame frame = new JFrame("StockViewTest");
 		frame.setSize(800, 600);
-		JPanel panel = new StockView(User.ROLE_LIBRARIAN);
+		JPanel panel = new StockView(User.ROLE_STUDENT);
 		frame.add(panel);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

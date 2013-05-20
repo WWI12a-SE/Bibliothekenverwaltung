@@ -7,21 +7,12 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Medium;
 import model.User;
 import controller.MediaHandler;
-import controller.ReservationHandler;
 import controller.StockLogic;
-
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
@@ -84,7 +75,13 @@ public class StockView extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				//Buttons enablen / diseblen
-				System.out.println(stockTable.getSelectedRow());
+				if(buttonLease != null){
+					System.out.println(stockTable.getSelectedRow());
+					int mediaID = IDs[stockTable.getSelectedRow()];
+					
+					StockLogic stockLogic = StockLogic.getInstance();
+					buttonLease.setEnabled(stockLogic.isReservable(mediaID));
+				}
 				
 			}
 			
@@ -180,6 +177,10 @@ public class StockView extends JPanel {
 		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_WEST_INDEX], BorderLayout.WEST);
 	}
 	
+	/**
+	 * Gibt den initialisierten mit ActionListener ausgestatteten RueckgabeButton zurueck.
+	 * @return
+	 */
 	private JButton getButtonLease(){
 		JButton buttonLease = new JButton("Ausleihen");
 		buttonLease.addActionListener(new ActionListener(){
@@ -233,15 +234,14 @@ public class StockView extends JPanel {
 
 		private Object[][] data;
 		private String[] columnNames = { 
-				"Titel", 
-				"Autor", 
+				"Titel", 		//0
+				"Autor", 		//1
 				"Verlag", 
 				"Auflage", 
 				"ISBN", 
-				"Exemplare", 
+				"Exemplare", 	//5
 				"Verfügbar", 
-				"Stichworte", 
-				"Aktion"
+				"Stichworte", 	//7
 		};
 
 		private StockTableModel() {
@@ -252,10 +252,7 @@ public class StockView extends JPanel {
 			
 			//Init Data
 			int rows = media.length;
-			int columns = 8;
-			if(StockView.this.mode == User.ROLE_LIBRARIAN){
-				columns++;
-			}
+			int columns = columnNames.length;
 			data = new Object[rows][columns];
 			IDs  = new int[rows];
 			
@@ -271,14 +268,13 @@ public class StockView extends JPanel {
 				data[row][COL_ONSTOCK] = media[row].getOnStock();
 				data[row][COL_KEYWORDS] = media[row].getKeywords();
 			}
-			if(StockView.this.mode == User.ROLE_LIBRARIAN){
-				for (int row = 0; row < media.length; row++){
-//					data[row][COL_ACTIONS] = new String("löschen"+row);
-					JPanel panel = new JPanel();
-					panel.add(new JLabel("tttt"));
-					data[row][COL_ACTIONS] = panel;
-				}
-			}
+//			if(StockView.this.mode == User.ROLE_LIBRARIAN){
+//				for (int row = 0; row < media.length; row++){
+//					JPanel panel = new JPanel();
+//					panel.add(new JLabel("tttt"));
+//					data[row][COL_ACTIONS] = panel;
+//				}
+//			}
 		}
 
 		@Override
