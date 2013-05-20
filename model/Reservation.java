@@ -38,6 +38,8 @@ public class Reservation {
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(String.valueOf(ID));
 		
+		this.setReservationID(ID);
+		
 		if(values[COL_MEDIA_ID] == null){
 			this.iMediaID = 0;
 		}else{
@@ -49,8 +51,6 @@ public class Reservation {
 		}else{
 			this.iExtensions = Integer.parseInt(values[COL_EXTENSIONS]);
 		}
-		
-		this.setReservationID(ID);
 		
 		if(values[COL_RETURNDATE] == null){
 			this.dateReturnDate = new Date();

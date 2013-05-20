@@ -52,7 +52,7 @@ public class User {
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(loginName);
 		
-		this.setLoginName(loginName);
+		this.sLoginName = loginName;
 		
 		if(values[COL_EMAIL] == null){
 			this.sEmail = "";
