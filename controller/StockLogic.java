@@ -33,33 +33,46 @@ public class StockLogic {
 		return mediaHandler.getMedium(mediaHandler.getNewID());
 	}
 	
-	public void reserve(int mediumID){
-		if(isReservable(mediumID)){
+	public boolean reserve(int mediaID){
+		if(isReservable(mediaID)){
+			
 //			TODO MyAccount getUser()
 //			User user = MyAccount.getLoggedInUser();
 			User user = UserHandler.getInstance().getUser("admin");//TODO
 			String loginName = user.getLoginName();
+			
+			//Erstelle neue Reservierung
 			ReservationHandler reservationHandler = ReservationHandler.getInstance();
 			int reservationID = reservationHandler.getNewID();
 			Reservation reservation = reservationHandler.getReservation(reservationID);
 			reservation.setLoginName(loginName);
 			reservation.setExtensions(0);
-			reservation.setMediaID(mediumID);
+			reservation.setMediaID(mediaID);
 			reservation.setReturnDate(this.getNewReturnDate());
+			
+			//Verringere Bestand
+			Medium medium = MediaHandler.getInstance().getMedium(mediaID);
+			medium.setOnStock(medium.getOnStock() - 1);
+			return true;
 		}
+		return false;
 	}
 	
 	public boolean isReservable(int mediaID){
 		
 		boolean isReservable = true;
-		//Anzahl Exemplare im Bestand > 0
+		/*
+		 * Anzahl Exemplare im Bestand > 0
+		 */
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		Medium medium = mediaHandler.getMedium(mediaID);
 		if(medium.getOnStock() <= 0){
 			isReservable = false;
 		}
 		
-		//Der aktuell angemeldete User hat noch kein Exemplar entliehen
+		/*
+		 * Der aktuell angemeldete User hat noch kein Exemplar entliehen
+		 */
 		ReservationHandler reservationHandler = ReservationHandler.getInstance();
 		Reservation[] reservations = reservationHandler.getAllReservations();
 //		TODO MyAccount getUser() entklammern sobald abgesprochen
@@ -67,17 +80,14 @@ public class StockLogic {
 		User user = UserHandler.getInstance().getUser("admin");//TODO
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
-			System.out.println("resID:"+reservations[i].getReservationID());
-			System.out.println("mediaID:"+reservations[i].getMediaID());
-			System.out.println("loginID:"+reservations[i].getLoginName());
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
 				isReservable = false;
 				break;
 			}
 		}
-		System.out.println("reservations.length: "+reservations.length);//TODO
-		System.out.println("isReservable: "+isReservable);
+		
 		return isReservable;
+		
 	}
 	
 	private Date getNewReturnDate(){

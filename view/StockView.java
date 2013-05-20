@@ -73,14 +73,19 @@ public class StockView extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				
 				//Buttons enablen / diseblen
 				if(buttonLease != null){
-					System.out.println(stockTable.getSelectedRow());
+					
 					int mediaID = IDs[stockTable.getSelectedRow()];
 					
 					StockLogic stockLogic = StockLogic.getInstance();
 					boolean showButtonLease = stockLogic.isReservable(mediaID);
 					buttonLease.setEnabled(showButtonLease);
+					
+					if(buttonReturn != null){
+						buttonReturn.setEnabled(!showButtonLease);
+					}
 				}
 				
 			}
@@ -170,7 +175,7 @@ public class StockView extends JPanel {
 	}
 	
 	/**
-	 * Gibt den initialisierten mit ActionListener ausgestatteten RueckgabeButton zurueck.
+	 * Gibt den initialisierten mit ActionListener ausgestatteten Rueckgabe-Button zurueck.
 	 * @return
 	 */
 	private JButton getButtonLease(){
@@ -192,14 +197,20 @@ public class StockView extends JPanel {
 				}else{//Auswahl OK
 					int selectedIndex = stockTable.getSelectedRow();
 					StockLogic stockLogic = StockLogic.getInstance();
-					stockLogic.reserve(IDs[selectedIndex]);
-					StockView.this.buttonLease.setEnabled(false);
+					boolean success = stockLogic.reserve(IDs[selectedIndex]);
+					if(success){
+//						JButton b = (JButton)(e.getSource());
+						StockView.this.buttonLease.setEnabled(false);
+						StockView.this.buttonReturn.setEnabled(true);
+//						StockView.this.buttonExtend.setEnabled(true);
+					}
 				}
 			}
 			
 		});
 		buttonLease.setPreferredSize(new Dimension(126,30));
 		buttonLease.setMargin(new Insets(0,0,0,0));
+		buttonLease.setEnabled(false);
 		return buttonLease;
 	}
 	
@@ -207,6 +218,7 @@ public class StockView extends JPanel {
 		JButton buttonReturn = new JButton("Zurückgeben");
 		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
+		buttonReturn.setEnabled(false);
 		return buttonReturn;
 	}
 	

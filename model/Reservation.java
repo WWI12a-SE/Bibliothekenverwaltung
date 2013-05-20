@@ -38,7 +38,7 @@ public class Reservation {
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(String.valueOf(ID));
 		
-		this.setReservationID(ID);
+		this.reservationID = ID;
 		
 		if(values[COL_MEDIA_ID] == null){
 			this.iMediaID = 0;
@@ -81,6 +81,7 @@ public class Reservation {
 	 * @param ID : Integer
 	 */
 	public void setReservationID(int reservationID) {
+		System.out.println(this.reservationID +" : "+ reservationID + " : "+ (this.reservationID != reservationID));
 		if(this.reservationID != reservationID){
 			this.reservationID = reservationID;
 			this.stage();

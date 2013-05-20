@@ -1,6 +1,5 @@
 package test;
 
-import java.util.Date;
 import model.*;
 import controller.*;
 
@@ -12,11 +11,14 @@ public class HandlerTester {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Reservation[] test = ReservationHandler.getInstance().getAllReservations();
+		System.out.println("Index\tLoginName\tMediaID\tRückgabeDatum\tVerlängerungen");
 		for(int i = 0; i < test.length; i++){
-			System.out.println(test[i].getReservationID());
-			System.out.println(test[i].getExtensions());
-			System.out.println(test[i].getLoginName());
-			System.out.println(test[i].getReturnDate());
+			String output = "";
+			String[] values = test[i].getValuesAsStringArray();
+			for(int k = 0; k < values.length; k++){
+				output += values[k] + "\t";
+			}
+			System.out.println(output);
 		}
 		
 		
@@ -34,10 +36,13 @@ public class HandlerTester {
 		
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		Medium[] media = mediaHandler.getAllMedia();
-//		media[Medium.COL_AUTHOR].setAuthor("Admön");
-//		mediaHandler.save();
 		for(int i = 0; i < media.length; i++){
-			System.out.println(media[i].getAuthor());
+			String output = "";
+			String[] values = media[i].getValuesAsStringArray();
+			for(int k = 0; k < values.length; k++){
+				output += values[k] + "\t";
+			}
+			System.out.println(output);
 		}
 		
 //		System.out.println(String.valueOf(null));
