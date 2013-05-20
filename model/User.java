@@ -37,6 +37,32 @@ public class User {
 	private CsvHandler csvHandler;
 	
 	/**
+	 * <p>
+	 * Konstruktor des Users. Stellt die in der CSV-Datei 
+	 * gespeicherten Daten zur Verfuegung.
+	 * </p><p>
+	 * Um einen User zu instanziieren muss ueber ein UserHandler-Objekt die Methode 
+	 * getUser() oder getAllUser() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
+	 * </p>
+	 * @param csvHandler : CsvHandler
+	 * @param loginName : String
+	 */
+	public User(CsvHandler csvHandler, String loginName){
+		this.csvHandler = csvHandler;
+		String[] values = csvHandler.getLineById(loginName);
+		this.setLoginName(loginName);
+		this.setEmail(values[COL_EMAIL]);
+		this.setFirstName(values[COL_FIRSTNAME]);
+		this.setLastName(values[COL_LASTNAME]);
+		this.setPassword(values[COL_PASSWORD]);
+		try{
+			this.setRole(Integer.parseInt(values[COL_ROLE]));
+		}catch(Exception e){
+			this.setRole(User.ROLE_STUDENT);
+		}
+	}
+	
+	/**
 	 * Getter des LoginNamens, der ID des Users
 	 * @return loginName : String
 	 */
@@ -151,32 +177,6 @@ public class User {
 			this.stage();
 		}
 	}
-
-	/**
-	 * <p>
-	 * Konstruktor des Users. Stellt die in der CSV-Datei 
-	 * gespeicherten Daten zur Verfuegung.
-	 * </p><p>
-	 * Um einen User zu instanziieren muss ueber ein UserHandler-Objekt die Methode 
-	 * getUser() oder getAllUser() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
-	 * </p>
-	 * @param csvHandler : CsvHandler
-	 * @param loginName : String
-	 */
-	public User(CsvHandler csvHandler, String loginName){
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(loginName);
-		this.setLoginName(loginName);
-		this.setEmail(values[COL_EMAIL]);
-		this.setFirstName(values[COL_FIRSTNAME]);
-		this.setLastName(values[COL_LASTNAME]);
-		this.setPassword(values[COL_PASSWORD]);
-		try{
-			this.setRole(Integer.parseInt(values[COL_ROLE]));
-		}catch(Exception e){
-			this.setRole(User.ROLE_STUDENT);
-		}
-	}
 	
 	/**
 	 * Liest alle Attribute des Users aus und gibt diese als String-Array zurueck.
@@ -196,7 +196,7 @@ public class User {
 	
 	/**
 	 * Die Attribute des Users werden im CsvHandler zwischengespeichert und somit 
-	 * zum speichern in der CSV-Datei bereit gestellt ("gestaged").
+	 * zum speichern in der CSV-Datei bereit gestellt ("staged").
 	 */
 	private void stage()
 	{

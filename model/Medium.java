@@ -39,6 +39,31 @@ public class Medium {
 	private CsvHandler csvHandler;
 	
 	/**
+	 * <p>
+	 * Konstruktor des Mediums. Stellt die in der CSV-Datei 
+	 * gespeicherten Daten zur Verfuegung.
+	 * </p><p>
+	 * Um ein Medium zu instanziieren muss ueber ein MediaHandler-Objekt die Methode
+	 * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
+	 * </p>
+	 * @param csvHandler : CsvHandler
+	 * @param ID : Integer
+	 */
+	public Medium(CsvHandler csvHandler, int ID){
+		this.csvHandler = csvHandler;
+		String[] values = csvHandler.getLineById(String.valueOf(ID));
+		this.setID(ID);
+		this.setAuthor(values[COL_AUTHOR]);
+		this.setEdition(Integer.parseInt(values[COL_EDITION]));
+		this.setIsbn(values[COL_ISBN]);
+		this.setOnStock(Integer.parseInt(values[COL_STOCK]));
+		this.setPublisher(values[COL_PUBLISHER]);
+		this.setTitle(values[COL_TITLE]);
+		this.setKeywords(values[COL_KEYWORDS]);
+		this.setCopies(Integer.parseInt(values[COL_COPIES]));
+	}
+
+	/**
 	 * Getter der ID
 	 * @return ID : Integer
 	 */
@@ -162,30 +187,10 @@ public class Medium {
 	}
 	
 	/**
-	 * <p>
-	 * Konstruktor des Mediums. Stellt die in der CSV-Datei 
-	 * gespeicherten Daten zur Verfuegung.
-	 * </p><p>
-	 * Um ein Medium zu instanziieren muss ueber ein MediaHandler-Objekt die Methode
-	 * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
-	 * </p>
-	 * @param csvHandler : CsvHandler
-	 * @param ID : Integer
+	 * Liest alle Attribute des Mediums aus und gibt diese als String-Array zurueck.
+	 * Die Indiziers entsprechen den CSV-Spalten, welche den Medium-Konstanten zu entnehmen sind.
+	 * @return values : String[]
 	 */
-	public Medium(CsvHandler csvHandler, int ID){
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		this.setID(ID);
-		this.setAuthor(values[COL_AUTHOR]);
-		this.setEdition(Integer.parseInt(values[COL_EDITION]));
-		this.setIsbn(values[COL_ISBN]);
-		this.setOnStock(Integer.parseInt(values[COL_STOCK]));
-		this.setPublisher(values[COL_PUBLISHER]);
-		this.setTitle(values[COL_TITLE]);
-		this.setKeywords(values[COL_KEYWORDS]);
-		this.setCopies(Integer.parseInt(values[COL_COPIES]));
-	}
-	
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_AUTHOR] = this.getAuthor();
@@ -199,7 +204,11 @@ public class Medium {
 		return values;
 	}
 	
-	public void stage()
+	/**
+	 * Die Attribute des Mediums werden im CsvHandler zwischengespeichert und somit 
+	 * zum speichern in der CSV-Datei bereit gestellt ("gestaged").
+	 */
+	private void stage()
 	{
 		csvHandler.update(this.getValuesAsStringArray());
 	}
