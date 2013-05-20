@@ -259,42 +259,34 @@
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="12"/>  
   </nesting>  
-  <association id="59">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="60" name="loggedInUser"/>      
-      <multiplicity id="61" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="62">    
+  <dependency id="59">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="9"/>  
   </dependency>  
-  <dependency id="63">    
+  <dependency id="60">    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="10"/>  
   </dependency>  
-  <association id="64">    
+  <association id="61">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="65" name="csvHandler"/>      
-      <multiplicity id="66" minimum="0" maximum="1"/>    
+      <attribute id="62" name="csvHandler"/>      
+      <multiplicity id="63" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="67">    
+  <dependency id="64">    
     <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="13"/>  
   </dependency>  
-  <nesting id="68">    
+  <nesting id="65">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="11"/>  
   </nesting>  
-  <association id="69">    
+  <association id="66">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="70" name="media"/>      
-      <multiplicity id="71" minimum="0" maximum="2147483647"/>    
+      <attribute id="67" name="media"/>      
+      <multiplicity id="68" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

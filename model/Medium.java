@@ -52,15 +52,56 @@ public class Medium {
 	public Medium(CsvHandler csvHandler, int ID){
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		this.setID(ID);
-		this.setAuthor(values[COL_AUTHOR]);
-		this.setEdition(Integer.parseInt(values[COL_EDITION]));
-		this.setIsbn(values[COL_ISBN]);
-		this.setOnStock(Integer.parseInt(values[COL_STOCK]));
-		this.setPublisher(values[COL_PUBLISHER]);
-		this.setTitle(values[COL_TITLE]);
-		this.setKeywords(values[COL_KEYWORDS]);
-		this.setCopies(Integer.parseInt(values[COL_COPIES]));
+		
+		this.ID = ID;
+		
+		if(values[COL_AUTHOR] == null){
+			this.sAuthor = "";
+		}else{
+			this.sAuthor = values[COL_AUTHOR];
+		}
+		
+		if(values[COL_EDITION] == null){
+			this.iEdition = 0;
+		}else{
+			this.iEdition = Integer.parseInt(values[COL_EDITION]);
+		}
+
+		if(values[COL_ISBN] == null){
+			this.sIsbn = "";
+		}else{
+			this.sIsbn = values[COL_ISBN];
+		}
+		
+		if(values[COL_STOCK] == null){
+			this.iOnStock = 0;
+		}else{
+			this.iOnStock = Integer.parseInt(values[COL_STOCK]);
+		}
+
+		if(values[COL_PUBLISHER] == null){
+			this.sPublisher = "";
+		}else{
+			this.sPublisher = values[COL_PUBLISHER];
+		}
+
+		if(values[COL_TITLE] == null){
+			this.sTitle = "";
+		}else{
+			this.sTitle = values[COL_TITLE];
+		}
+
+		if(values[COL_KEYWORDS] == null){
+			this.sKeywords = "";
+		}else{
+			this.sKeywords = values[COL_KEYWORDS];
+		}
+		
+		if(values[COL_COPIES] == null){
+			this.iCopies = 0;
+		}else{
+			this.iCopies = Integer.parseInt(values[COL_COPIES]);
+		}
 	}
 
 	/**

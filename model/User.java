@@ -48,17 +48,40 @@ public class User {
 	 * @param loginName : String
 	 */
 	public User(CsvHandler csvHandler, String loginName){
+		
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(loginName);
+		
 		this.setLoginName(loginName);
-		this.setEmail(values[COL_EMAIL]);
-		this.setFirstName(values[COL_FIRSTNAME]);
-		this.setLastName(values[COL_LASTNAME]);
-		this.setPassword(values[COL_PASSWORD]);
+		
+		if(values[COL_EMAIL] == null){
+			this.sEmail = "";
+		}else{
+			this.sEmail = values[COL_EMAIL];
+		}
+
+		if(values[COL_FIRSTNAME] == null){
+			this.sFirstName = "";
+		}else{
+			this.sFirstName = values[COL_FIRSTNAME];
+		}
+		
+		if(values[COL_LASTNAME] == null){
+			this.sLastName = "";
+		}else{
+			this.sLastName = values[COL_LASTNAME];
+		}
+
+		if(values[COL_PASSWORD] == null){
+			this.sPassword = "";
+		}else{
+			this.sPassword = values[COL_PASSWORD];
+		}
+
 		try{
 			this.setRole(Integer.parseInt(values[COL_ROLE]));
 		}catch(Exception e){
-			this.setRole(User.ROLE_STUDENT);
+			this.iRole = User.ROLE_STUDENT;
 		}
 	}
 	

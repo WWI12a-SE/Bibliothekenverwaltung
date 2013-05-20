@@ -53,18 +53,18 @@ public class Reservation {
 		this.setReservationID(ID);
 		
 		if(values[COL_RETURNDATE] == null){
-			this.setReturnDate(new Date());
+			this.dateReturnDate = new Date();
 		}else{
 			try {
 				DateFormat dateFormat = DateFormat.getInstance();
-				this.setReturnDate(dateFormat.parse(values[COL_RETURNDATE]));
+				this.dateReturnDate = dateFormat.parse(values[COL_RETURNDATE]);
 			} catch (ParseException e) {
 //				TODO Fehlerausgabe Date-ParseException
 				System.out.println("Date-Parse-Fehler Reservation-Konstruktor");
 //				e.printStackTrace();
 			}
 		}
-		
+
 		if(values[COL_LOGINNAME] == null){
 			this.sLoginName = "";
 		}else{
