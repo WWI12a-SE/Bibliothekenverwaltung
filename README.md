@@ -7,7 +7,7 @@ Beschreibung
 ============
 
 -	DHBW-Projekt/2. Semester
--	Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher.
+-	Einfache Bibliothekenverwaltung mit CSV-Dateien als Speicher
 -	Singe-User
 
 
@@ -26,16 +26,13 @@ Verzeichnisstruktur
 ===================
 
 /core
--	Enthält Kernkomponenten wie CSV-Handler
+-	Enthält den CSV-Handler (Kern)
 -	Mapper für bestimmte CSV-Dateien
 
 /core/Exception
 -	Klassen für Ausnahmebehandlung
 
 /core/opencsv
--	Drittanbieterklassen (Apache-Lizenz)
-
-/core/commonsio
 -	Drittanbieterklassen (Apache-Lizenz)
 
 /models
@@ -56,3 +53,9 @@ Verzeichnisstruktur
 		
 /test
 -	Ausführbare Tests
+
+Programm für UML-Diagramm:
+ObjectAid
+GEF - Graphical Eclipse Framework //Kann sein dass das auch benötigt wird
+
+Beide Über Eclipse automatisch installierbar (URL selbst angeben)
