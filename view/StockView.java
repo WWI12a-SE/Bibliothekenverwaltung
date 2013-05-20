@@ -14,6 +14,7 @@ import model.Medium;
 import model.User;
 import controller.MediaHandler;
 import controller.ReservationHandler;
+import controller.StockLogic;
 
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
@@ -126,7 +127,8 @@ public class StockView extends JPanel {
 					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
 				}else{//Auswahl OK
 					int selectedIndex = stockTable.getSelectedColumn();
-//					stockLogic.reserve(IDs[selectedIndex]);
+					StockLogic stockLogic = StockLogic.getInstance();
+					stockLogic.reserve(IDs[selectedIndex]);
 				}
 			}
 			
