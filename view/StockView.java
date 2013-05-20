@@ -7,6 +7,12 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -57,7 +63,7 @@ public class StockView extends JPanel {
 	private JPanel scrollPanePanel;
 	private JPanel[] scrollPaneBorderPanels;
 	
-	private JButton buttonLease, buttonReturn, buttonDelete, buttonNew;
+	private JButton buttonLease, buttonReturn, buttonExtend, buttonDelete, buttonNew;
 	
 	private int mode;
 	private int[] IDs;
@@ -70,7 +76,25 @@ public class StockView extends JPanel {
 		stockTableModel = new StockTableModel();
 		stockTableModelListener = new StockTableModelListener();
 		stockTableModel.addTableModelListener(stockTableModelListener);
-		stockTable = new JTable(stockTableModel);
+		
+		ListSelectionModel listSelectionModel = new DefaultListSelectionModel();
+		listSelectionModel.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				//Buttons enablen / diseblen
+				System.out.println(stockTable.getSelectedRow());
+				
+			}
+			
+		});
+		
+		stockTable = new JTable(stockTableModel);//, JTable.DefaultTableColumnModel(), listSelectionModel);
+//		stockTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		stockTable.setSelectionModel(listSelectionModel);
+//		stockTable.getse
+		
 //		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(stockTable);
 		
@@ -110,7 +134,54 @@ public class StockView extends JPanel {
 		middleBorderPanel.setBackground(Color.WHITE);
 		eastBorderPanel.setBackground(Color.WHITE);
 		centerPanel.setBackground(Color.WHITE);
-		buttonLease = new JButton("Ausleihen");
+
+		if(this.mode == User.ROLE_STUDENT){
+
+			//Zurueckgeben
+			buttonReturn = getButtonReturn();
+			centerPanel.add(buttonReturn);
+			
+			//Ausleihen
+			buttonLease = getButtonLease();
+			centerPanel.add(buttonLease);
+			
+		}
+		
+		if(this.mode == User.ROLE_LECTURER){
+			
+			//Zurueckgeben
+			buttonReturn = getButtonReturn();
+			centerPanel.add(buttonReturn);
+			
+			//Ausleihen
+			buttonLease = getButtonLease();
+			centerPanel.add(buttonLease);
+			
+			//Verlaengern
+			buttonExtend = getButtonExtend();
+			centerPanel.add(buttonExtend);
+			
+		}
+		
+		if(this.mode == User.ROLE_LIBRARIAN){
+
+		}
+		
+		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
+		eastBorderPanel.setPreferredSize(new Dimension(SUBPANEL_VERTICAL_WIDTH, SUBPANEL_VERTICAL_HEIGHT));
+		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(middleBorderPanel, BorderLayout.WEST);
+		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(eastBorderPanel, BorderLayout.EAST);
+		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(centerPanel, BorderLayout.CENTER);
+		
+		//Layout
+		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_NORTH_INDEX], BorderLayout.NORTH);
+		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_EAST_INDEX], BorderLayout.EAST);
+		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_SOUTH_INDEX], BorderLayout.SOUTH);
+		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_WEST_INDEX], BorderLayout.WEST);
+	}
+	
+	private JButton getButtonLease(){
+		JButton buttonLease = new JButton("Ausleihen");
 		buttonLease.addActionListener(new ActionListener(){
 			
 			@Override
@@ -133,25 +204,23 @@ public class StockView extends JPanel {
 			}
 			
 		});
-		buttonReturn = new JButton("Zurückgeben");
 		buttonLease.setPreferredSize(new Dimension(126,30));
-		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonLease.setMargin(new Insets(0,0,0,0));
+		return buttonLease;
+	}
+	
+	private JButton getButtonReturn(){
+		JButton buttonReturn = new JButton("Zurückgeben");
+		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
-		centerPanel.add(buttonReturn);
-		centerPanel.add(buttonLease);
-		
-		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
-		eastBorderPanel.setPreferredSize(new Dimension(SUBPANEL_VERTICAL_WIDTH, SUBPANEL_VERTICAL_HEIGHT));
-		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(middleBorderPanel, BorderLayout.WEST);
-		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(eastBorderPanel, BorderLayout.EAST);
-		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(centerPanel, BorderLayout.CENTER);
-		
-		//Layout
-		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_NORTH_INDEX], BorderLayout.NORTH);
-		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_EAST_INDEX], BorderLayout.EAST);
-		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_SOUTH_INDEX], BorderLayout.SOUTH);
-		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_WEST_INDEX], BorderLayout.WEST);
+		return buttonReturn;
+	}
+	
+	private JButton getButtonExtend(){
+		JButton buttonReturn = new JButton("Verlängern");
+		buttonReturn.setPreferredSize(new Dimension(126,30));
+		buttonReturn.setMargin(new Insets(0,0,0,0));
+		return buttonReturn;
 	}
 	
 	/**
