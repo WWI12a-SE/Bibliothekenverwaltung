@@ -123,7 +123,8 @@ public class MediaHandler {
 	 */
 	public int getNewID(){
 		String[] ids = csvHandler.getAllIDs();
-		return Integer.parseInt(ids[ids.length-1]);
+		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		return newID;
 	}
 	
 	/**

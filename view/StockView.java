@@ -126,7 +126,7 @@ public class StockView extends JPanel {
 					}
 					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
 				}else{//Auswahl OK
-					int selectedIndex = stockTable.getSelectedColumn();
+					int selectedIndex = stockTable.getSelectedRow();
 					StockLogic stockLogic = StockLogic.getInstance();
 					stockLogic.reserve(IDs[selectedIndex]);
 				}

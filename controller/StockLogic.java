@@ -1,9 +1,13 @@
 package controller;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import model.*;
 
 public class StockLogic {
+	
+	public static final int RESERVATION_DAYS = 14;
 	
 	private static StockLogic stockLogic;
 	
@@ -25,7 +29,8 @@ public class StockLogic {
 	
 	public void reserve(int mediumID){
 
-		User user = MyAccount.getLoggedInUser();
+//		User user = MyAccount.getLoggedInUser();
+		User user = UserHandler.getInstance().getUser("admin");
 		String loginName = user.getLoginName();
 		
 		ReservationHandler reservationHandler = ReservationHandler.getInstance();
@@ -38,6 +43,17 @@ public class StockLogic {
 	}
 	
 	private Date getNewReturnDate(){
-		return new Date();
+		Date returnDate = new Date();
+		
+		System.out.println(DateFormat.getInstance().format(returnDate));
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(returnDate);
+		calendar.add(Calendar.DATE, RESERVATION_DAYS);
+		returnDate = calendar.getTime();
+		
+		System.out.println(DateFormat.getInstance().format(returnDate));
+		
+		return returnDate;
 	}
 }

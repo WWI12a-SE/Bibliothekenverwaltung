@@ -34,23 +34,42 @@ public class Reservation {
 	 * @param ID : Integer
 	 */
 	public Reservation(CsvHandler csvHandler, int ID){
+		
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		this.setMediaID(ID);
-		this.setExtensions(Integer.parseInt(values[COL_EXTENSIONS]));
-		this.setReservationID(Integer.parseInt(values[COL_RESERVATION_ID]));
-		try {
-			DateFormat dateFormat = DateFormat.getInstance();
-			this.setReturnDate(dateFormat.parse(values[COL_RETURNDATE]));
-			if(this.getReturnDate() == null){
-				System.out.println("Null");
-			}
-		} catch (ParseException e) {
-//			TODO Fehlerausgabe Date-ParseException
-			System.out.println("Date-Parse-Fehler Reservation-Konstruktor");
-//			e.printStackTrace();
+		
+		if(values[COL_MEDIA_ID] == null){
+			this.iMediaID = 0;
+		}else{
+			this.iMediaID = Integer.parseInt(values[COL_MEDIA_ID]);
 		}
-		this.setLoginName(values[COL_LOGINNAME]);
+		
+		if(values[COL_EXTENSIONS] == null){
+			this.iExtensions = 0;
+		}else{
+			this.iExtensions = Integer.parseInt(values[COL_EXTENSIONS]);
+		}
+		
+		this.setReservationID(ID);
+		
+		if(values[COL_RETURNDATE] == null){
+			this.setReturnDate(new Date());
+		}else{
+			try {
+				DateFormat dateFormat = DateFormat.getInstance();
+				this.setReturnDate(dateFormat.parse(values[COL_RETURNDATE]));
+			} catch (ParseException e) {
+//				TODO Fehlerausgabe Date-ParseException
+				System.out.println("Date-Parse-Fehler Reservation-Konstruktor");
+//				e.printStackTrace();
+			}
+		}
+		
+		if(values[COL_LOGINNAME] == null){
+			this.sLoginName = "";
+		}else{
+			this.sLoginName = values[COL_LOGINNAME];
+		}
 	}
 	
 	/**
@@ -86,12 +105,7 @@ public class Reservation {
 	 * @param loginName : String
 	 */
 	public void setLoginName(String sLoginName) {
-		if(this.sLoginName != null){
-			if(!this.sLoginName.equals(sLoginName)){
-				this.sLoginName = sLoginName;
-				this.stage();
-			}
-		}else{
+		if(!this.sLoginName.equals(sLoginName)){
 			this.sLoginName = sLoginName;
 			this.stage();
 		}
@@ -160,7 +174,7 @@ public class Reservation {
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_EXTENSIONS] = String.valueOf(this.getExtensions());
-		values[COL_LOGINNAME] = this.getLoginName();
+		values[COL_LOGINNAME] = String.valueOf(this.getLoginName());
 		values[COL_MEDIA_ID] = String.valueOf(this.getMediaID());
 		values[COL_RESERVATION_ID] = String.valueOf(this.getReservationID());
 		if(this.getReturnDate() != null){
