@@ -55,12 +55,31 @@ public class UserHandler {
 	 */
 	public User[] getAllUsers()
 	{
-		//Alle User werden neu geladen, gestagedte Aenderungen bleiben erhalten
-		String[][] userMap = csvHandler.read();
-		users = new User[userMap.length];
-		for(int i = 0; i < users.length; i++){
-			users[i] = new User(this.csvHandler, userMap[i][User.COL_LOGINNAME]);
+		//Es gibt schon User
+		if(users != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(users.length < ids.length){
+				//Neues Arrey +ids.length lines
+				User[] newUsers = new User[ids.length];
+				for(int i = 0; i < users.length; i++){
+					newUsers[i] = users[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = users.length; i < ids.length; i++){
+					newUsers[i] = new User(this.csvHandler, ids[i]);
+				}
+				this.users = newUsers;
+			}
+		}else{
+//			Alle User werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] usersMap = csvHandler.read();
+			users = new User[usersMap.length];
+			for(int i = 0; i < users.length; i++){
+				users[i] = new User(this.csvHandler, usersMap[i][User.COL_LOGINNAME]);
+			}
 		}
+		
 		return users;
 	}
 	

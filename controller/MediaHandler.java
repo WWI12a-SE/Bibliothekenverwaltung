@@ -1,4 +1,6 @@
 package controller;
+import java.lang.reflect.Array;
+
 import core.CsvHandler;
 import model.*;
 
@@ -56,11 +58,29 @@ public class MediaHandler {
 	 */
 	public Medium[] getAllMedia()
 	{
-		//Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
-		String[][] mediaMap = csvHandler.read();
-		media = new Medium[mediaMap.length];
-		for(int i = 0; i < media.length; i++){
-			media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+		//Es gibt schon Media
+		if(media != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(media.length < ids.length){
+				//Neues Arrey +ids.length lines
+				Medium[] newMedia = new Medium[ids.length];
+				for(int i = 0; i < media.length; i++){
+					newMedia[i] = media[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = media.length; i < ids.length; i++){
+					newMedia[i] = new Medium(this.csvHandler, Integer.parseInt(ids[i]));
+				}
+				this.media = newMedia;
+			}
+		}else{
+//			Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] mediaMap = csvHandler.read();
+			media = new Medium[mediaMap.length];
+			for(int i = 0; i < media.length; i++){
+				media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+			}
 		}
 		return media;
 	}
@@ -71,9 +91,8 @@ public class MediaHandler {
 	 * Die Suche muss ueber die ID spezifiziert werden.
 	 * </p>
 	 * <p>
-	 * Sollte die ID nicht vergeben sein wird ein neues Medium-Objekt erstellt und uebergeben.
-	 * Hierbei ist zu beachten dass die Nicht-ID-Attribute des neu erstellten Users auf "null" gesetzt sind.
-	 * (mit Aussnahme des LoginNamens).
+	 * Sollte die ID nicht vergeben sein wird ein neues Reservierungs-Objekt erstellt und uebergeben.
+	 * Hierbei ist zu beachten dass die String-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
 	 * </p>
 	 * @param ID : Integer -- Die ID des gesuchten Mediums
 	 * @return medium : Medium -- Objekt des gesuchten Mediums
@@ -123,7 +142,8 @@ public class MediaHandler {
 	 */
 	public int getNewID(){
 		String[] ids = csvHandler.getAllIDs();
-		return Integer.parseInt(ids[ids.length-1]);
+		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		return newID;
 	}
 	
 	/**

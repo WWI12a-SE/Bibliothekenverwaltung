@@ -65,11 +65,31 @@ public class ReservationHandler {
 	 */
 	public Reservation[] getAllReservations()
 	{
-		String[][] reservationMap = csvHandler.read();
-		reservations = new Reservation[reservationMap.length];
-		for(int i = 0; i < reservations.length; i++){
-			reservations[i] = new Reservation(this.csvHandler, Integer.parseInt(reservationMap[i][Reservation.COL_RESERVATION_ID]));
+		//Es gibt schon Reservierungen
+		if(reservations != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(reservations.length < ids.length){
+				//Neues Arrey +ids.length lines
+				Reservation[] newReservations = new Reservation[ids.length];
+				for(int i = 0; i < reservations.length; i++){
+					newReservations[i] = reservations[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = reservations.length; i < ids.length; i++){
+					newReservations[i] = new Reservation(this.csvHandler, Integer.parseInt(ids[i]));
+				}
+				this.reservations = newReservations;
+			}
+		}else{
+//			Alle Reservierungen werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] reservationsMap = csvHandler.read();
+			reservations = new Reservation[reservationsMap.length];
+			for(int i = 0; i < reservations.length; i++){
+				reservations[i] = new Reservation(this.csvHandler, Integer.parseInt(reservationsMap[i][Reservation.COL_RESERVATION_ID]));
+			}
 		}
+
 		return reservations;
 	}
 	
@@ -80,27 +100,43 @@ public class ReservationHandler {
 	 * </p>
 	 * <p>
 	 * Sollte die ID nicht vergeben sein wird ein neues Reservierungs-Objekt erstellt und uebergeben.
-	 * Hierbei ist zu beachten dass die Nicht-ID-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
+	 * Hierbei ist zu beachten dass die String-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
 	 * </p>
 	 * @param ID : Integer -- Die ID der gesuchten Reservierung
 	 * @return reservation : Reservation -- Objekt der gesuchten Reservierung
 	 */
 	public Reservation getReservation(int ID)
-	{
-		//Durchsuche vorhandene Reservierungen
-		for(int i = 0; i < reservations.length; i++){
-			if(reservations[i].getReservationID() == ID){
-				return reservations[i];
+	{		
+		int newIndex;
+		
+		//Es gibt geladene Reservierungen
+		if(reservations != null){
+			
+			//Durchsuche vorhandene Reservierungen
+			for(int i = 0; i < reservations.length; i++){
+				if(reservations[i].getReservationID() == ID){
+					return reservations[i]; //Reservierung gefunden
+				}
 			}
+			
+			//Init neue Reservierung
+			newIndex = reservations.length;
+			//Merke schon initialisierte Reservierungen
+			Reservation[] oldReservations = reservations;
+			//Erweitere Reservierung-Array
+			reservations = new Reservation[newIndex+1];
+			//Kopieren des alten Reservierung-Arrays
+			for(int i = 0; i < newIndex; i++){
+				if(oldReservations[i] != null){
+					reservations[i] = oldReservations[i];
+				}
+			}
+		}else{
+			newIndex = 0;
+			//Erweitere Reservierung-Array
+			reservations = new Reservation[1];
 		}
-		//Erweitere Reservierungs-Array
-		Reservation[] oldMedia = reservations;
-		int newIndex = reservations.length;
-		reservations = new Reservation[newIndex+1];
-		//Kopieren des alten User-Arrays
-		for(int i = 0; i < newIndex+1; i++){
-			reservations[i] = oldMedia[i];
-		}
+		
 		//Neue Reservierung hinzufuegen
 		reservations[newIndex] = new Reservation(this.csvHandler, ID);
 		return reservations[newIndex];
@@ -114,7 +150,8 @@ public class ReservationHandler {
 	 */
 	public int getNewID(){
 		String[] ids = csvHandler.getAllIDs();
-		return Integer.parseInt(ids[ids.length]);
+		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		return newID;
 	}
 	
 	/**

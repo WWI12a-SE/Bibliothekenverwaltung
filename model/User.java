@@ -28,11 +28,7 @@ public class User {
 	public static final int ROLE_LECTURER = 2;
 	public static final int ROLE_LIBRARIAN = 3;
 	
-	private String sLoginName = "";
-	private String sFirstName = "";
-	private String sLastName = "";
-	private String sPassword = ""; // Kennwort zunächst, unverschlüsselt
-	private String sEmail = "";
+	private String sLoginName, sFirstName, sLastName , sPassword, sEmail = "";
 	private int iRole = 0; // Benutzerrolle, siehe Konstanten
 	private CsvHandler csvHandler;
 	
@@ -48,17 +44,25 @@ public class User {
 	 * @param loginName : String
 	 */
 	public User(CsvHandler csvHandler, String loginName){
+		
 		this.csvHandler = csvHandler;
 		String[] values = csvHandler.getLineById(loginName);
-		this.setLoginName(loginName);
-		this.setEmail(values[COL_EMAIL]);
-		this.setFirstName(values[COL_FIRSTNAME]);
-		this.setLastName(values[COL_LASTNAME]);
-		this.setPassword(values[COL_PASSWORD]);
+		
+		this.sLoginName = loginName;
+		
+		this.sEmail = values[COL_EMAIL];
+
+
+		this.sFirstName = values[COL_FIRSTNAME];
+		
+		this.sLastName = values[COL_LASTNAME];
+
+		this.sPassword = values[COL_PASSWORD];
+
 		try{
 			this.setRole(Integer.parseInt(values[COL_ROLE]));
 		}catch(Exception e){
-			this.setRole(User.ROLE_STUDENT);
+			this.iRole = User.ROLE_STUDENT;
 		}
 	}
 	
@@ -75,9 +79,14 @@ public class User {
 	 * @param loginName : String
 	 */
 	public void setLoginName(String loginName) {
-		if(!this.sLoginName.equals(loginName)){
+		if(this.sLoginName == null){
 			this.sLoginName = loginName;
 			this.stage();
+		}else{
+			if(!this.sLoginName.equals(loginName)){
+				this.sLoginName = loginName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -94,9 +103,14 @@ public class User {
 	 * @param sFirstName : String
 	 */
 	public void setFirstName(String sFirstName) {
-		if(!this.sFirstName.equals(sFirstName)){
+		if(this.sFirstName == null){
 			this.sFirstName = sFirstName;
 			this.stage();
+		}else{
+			if(!this.sFirstName.equals(sFirstName)){
+				this.sFirstName = sFirstName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -113,9 +127,14 @@ public class User {
 	 * @param sLastName : String
 	 */
 	public void setLastName(String sLastName) {
-		if(!this.sLastName.equals(sLastName)){
+		if(this.sLastName == null){
 			this.sLastName = sLastName;
 			this.stage();
+		}else{
+			if(!this.sLastName.equals(sLastName)){
+				this.sLastName = sLastName;
+				this.stage();
+			}
 		}
 	}
 	
@@ -153,9 +172,14 @@ public class User {
 	 * @param sPassword : String
 	 */
 	public void setPassword(String sPassword) {
-		if(!this.sPassword.equals(sPassword)){
+		if(this.sPassword == null){
 			this.sPassword = sPassword;
 			this.stage();
+		}else{
+			if(!this.sPassword.equals(sPassword)){
+				this.sPassword = sPassword;
+				this.stage();
+			}
 		}
 	}
 	
@@ -172,9 +196,14 @@ public class User {
 	 * @param sEmail : String
 	 */
 	public void setEmail(String sEmail) {
-		if(!this.sEmail.equals(sEmail)){
+		if(this.sEmail == null){
 			this.sEmail = sEmail;
 			this.stage();
+		}else{
+			if(!this.sEmail.equals(sEmail)){
+				this.sEmail = sEmail;
+				this.stage();
+			}
 		}
 	}
 	
@@ -183,7 +212,7 @@ public class User {
 	 * Die Indiziers entsprechen den CSV-Spalten, welche den User-Konstanten zu entnehmen sind.
 	 * @return values : String[]
 	 */
-	private String[] getValuesAsStringArray(){
+	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_ROLE] = Integer.toString(this.iRole);
 		values[COL_LOGINNAME] = this.sLoginName;

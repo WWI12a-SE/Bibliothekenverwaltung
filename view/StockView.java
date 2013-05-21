@@ -7,15 +7,12 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Medium;
 import model.User;
 import controller.MediaHandler;
-import controller.ReservationHandler;
 import controller.StockLogic;
-
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
@@ -48,7 +45,6 @@ public class StockView extends JPanel {
 	private static final int COL_COPIES = 5;
 	private static final int COL_ONSTOCK = 6;
 	private static final int COL_KEYWORDS = 7;
-	private static final int COL_ACTIONS = 8;
 
 	private JTable stockTable;
 	private StockTableModelListener stockTableModelListener;
@@ -57,7 +53,7 @@ public class StockView extends JPanel {
 	private JPanel scrollPanePanel;
 	private JPanel[] scrollPaneBorderPanels;
 	
-	private JButton buttonLease, buttonReturn, buttonDelete, buttonNew;
+	private JButton buttonLease, buttonReturn, buttonExtend, buttonDelete, buttonNew;
 	
 	private int mode;
 	private int[] IDs;
@@ -70,7 +66,37 @@ public class StockView extends JPanel {
 		stockTableModel = new StockTableModel();
 		stockTableModelListener = new StockTableModelListener();
 		stockTableModel.addTableModelListener(stockTableModelListener);
-		stockTable = new JTable(stockTableModel);
+		
+		ListSelectionModel listSelectionModel = new DefaultListSelectionModel();
+		listSelectionModel.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				
+				//Buttons enablen / diseblen
+				if(buttonLease != null){
+					
+					int mediaID = IDs[stockTable.getSelectedRow()];
+					
+					StockLogic stockLogic = StockLogic.getInstance();
+					boolean showButtonLease = stockLogic.isReservable(mediaID);
+					buttonLease.setEnabled(showButtonLease);
+					
+					if(buttonReturn != null){
+						buttonReturn.setEnabled(!showButtonLease);
+					}
+				}
+				
+			}
+			
+		});
+		
+		stockTable = new JTable(stockTableModel);//, JTable.DefaultTableColumnModel(), listSelectionModel);
+//		stockTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		stockTable.setSelectionModel(listSelectionModel);
+//		stockTable.getse
+		
 //		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(stockTable);
 		
@@ -110,36 +136,30 @@ public class StockView extends JPanel {
 		middleBorderPanel.setBackground(Color.WHITE);
 		eastBorderPanel.setBackground(Color.WHITE);
 		centerPanel.setBackground(Color.WHITE);
-		buttonLease = new JButton("Ausleihen");
-		buttonLease.addActionListener(new ActionListener(){
+
+		if(this.mode == User.ROLE_STUDENT || this.mode == User.ROLE_LECTURER){
+
+			//Zurueckgeben
+			buttonReturn = getButtonReturn();
+			centerPanel.add(buttonReturn);
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(stockTable.getSelectedRowCount() != 1){//Fehler
-					String message = "";
-					if(stockTable.getSelectedRowCount() == 0){
-						message = "Bitte selektieren Sie das Buch, welches Sie entleihen wollen!";
-					}
-					if(stockTable.getSelectedRowCount() > 1){
-						message = "Bitte selektieren Sie nur ein Buch!";
-					}
-					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
-				}else{//Auswahl OK
-					int selectedIndex = stockTable.getSelectedColumn();
-					StockLogic stockLogic = StockLogic.getInstance();
-					stockLogic.reserve(IDs[selectedIndex]);
-				}
-			}
+			//Ausleihen
+			buttonLease = getButtonLease();
+			centerPanel.add(buttonLease);
 			
-		});
-		buttonReturn = new JButton("Zurückgeben");
-		buttonLease.setPreferredSize(new Dimension(126,30));
-		buttonReturn.setPreferredSize(new Dimension(126,30));
-		buttonLease.setMargin(new Insets(0,0,0,0));
-		buttonReturn.setMargin(new Insets(0,0,0,0));
-		centerPanel.add(buttonReturn);
-		centerPanel.add(buttonLease);
+		}
+		
+		if(this.mode == User.ROLE_LECTURER){
+			
+			//Verlaengern
+			buttonExtend = getButtonExtend();
+			centerPanel.add(buttonExtend);
+			
+		}
+		
+		if(this.mode == User.ROLE_LIBRARIAN){
+
+		}
 		
 		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
 		eastBorderPanel.setPreferredSize(new Dimension(SUBPANEL_VERTICAL_WIDTH, SUBPANEL_VERTICAL_HEIGHT));
@@ -155,6 +175,61 @@ public class StockView extends JPanel {
 	}
 	
 	/**
+	 * Gibt den initialisierten mit ActionListener ausgestatteten Rueckgabe-Button zurueck.
+	 * @return
+	 */
+	private JButton getButtonLease(){
+		JButton buttonLease = new JButton("Ausleihen");
+		buttonLease.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(stockTable.getSelectedRowCount() != 1){//Fehler
+					String message = "";
+					if(stockTable.getSelectedRowCount() == 0){
+						message = "Bitte selektieren Sie das Buch, welches Sie entleihen wollen!";
+					}
+					if(stockTable.getSelectedRowCount() > 1){
+						message = "Bitte selektieren Sie nur ein Buch!";
+					}
+					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
+				}else{//Auswahl OK
+					int selectedIndex = stockTable.getSelectedRow();
+					StockLogic stockLogic = StockLogic.getInstance();
+					boolean success = stockLogic.reserve(IDs[selectedIndex]);
+					if(success){
+//						JButton b = (JButton)(e.getSource());
+						StockView.this.buttonLease.setEnabled(false);
+						StockView.this.buttonReturn.setEnabled(true);
+//						StockView.this.buttonExtend.setEnabled(true);
+					}
+				}
+			}
+			
+		});
+		buttonLease.setPreferredSize(new Dimension(126,30));
+		buttonLease.setMargin(new Insets(0,0,0,0));
+		buttonLease.setEnabled(false);
+		return buttonLease;
+	}
+	
+	private JButton getButtonReturn(){
+		JButton buttonReturn = new JButton("Zurückgeben");
+		buttonReturn.setPreferredSize(new Dimension(126,30));
+		buttonReturn.setMargin(new Insets(0,0,0,0));
+		buttonReturn.setEnabled(false);
+		return buttonReturn;
+	}
+	
+	private JButton getButtonExtend(){
+		JButton buttonReturn = new JButton("Verlängern");
+		buttonReturn.setPreferredSize(new Dimension(126,30));
+		buttonReturn.setMargin(new Insets(0,0,0,0));
+		return buttonReturn;
+	}
+	
+	/**
 	 * Innere Klasse StockTableModel
 	 * @author weisseth
 	 *
@@ -164,15 +239,14 @@ public class StockView extends JPanel {
 
 		private Object[][] data;
 		private String[] columnNames = { 
-				"Titel", 
-				"Autor", 
+				"Titel", 		//0
+				"Autor", 		//1
 				"Verlag", 
 				"Auflage", 
 				"ISBN", 
-				"Exemplare", 
+				"Exemplare", 	//5
 				"Verfügbar", 
-				"Stichworte", 
-				"Aktion"
+				"Stichworte", 	//7
 		};
 
 		private StockTableModel() {
@@ -183,10 +257,7 @@ public class StockView extends JPanel {
 			
 			//Init Data
 			int rows = media.length;
-			int columns = 8;
-			if(StockView.this.mode == User.ROLE_LIBRARIAN){
-				columns++;
-			}
+			int columns = columnNames.length;
 			data = new Object[rows][columns];
 			IDs  = new int[rows];
 			
@@ -202,14 +273,13 @@ public class StockView extends JPanel {
 				data[row][COL_ONSTOCK] = media[row].getOnStock();
 				data[row][COL_KEYWORDS] = media[row].getKeywords();
 			}
-			if(StockView.this.mode == User.ROLE_LIBRARIAN){
-				for (int row = 0; row < media.length; row++){
-//					data[row][COL_ACTIONS] = new String("löschen"+row);
-					JPanel panel = new JPanel();
-					panel.add(new JLabel("tttt"));
-					data[row][COL_ACTIONS] = panel;
-				}
-			}
+//			if(StockView.this.mode == User.ROLE_LIBRARIAN){
+//				for (int row = 0; row < media.length; row++){
+//					JPanel panel = new JPanel();
+//					panel.add(new JLabel("tttt"));
+//					data[row][COL_ACTIONS] = panel;
+//				}
+//			}
 		}
 
 		@Override
