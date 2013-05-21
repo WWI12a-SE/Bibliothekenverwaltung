@@ -17,6 +17,7 @@ public class MyAccount {
 	 */
 	//Utilities oUtilities = null;	
 	private static User oUser = null;	// Logindaten User von Backend
+	private static User loggedInUser; // Der aktuell angemeldete User	// @Thorsten
 	
 	/**
 	 * Login Pr�fungsfunktion
@@ -30,13 +31,12 @@ public class MyAccount {
 				
 		//pruefung
 		if ((loginUser.getPassword()!=null&&(loginUser.getLoginName().equals(sLoginName))&(loginUser.getPassword().equals(sPassword)))){
+			loggedInUser = loginUser;	// @Thorsten
 			return true;
 		}else{
 			return false;
 		}
 	}
-	
-	
 	
 	/**
 	 * Logout-Funktion:
@@ -53,5 +53,16 @@ public class MyAccount {
 		
 		// Hauptfenster schliessen und Anmeldedialog anzeigen
 		// ...
+		
+		loggedInUser = null;	// @Thorsten
+	}
+	
+	/**
+	 * Gibt den aktuell angemeldeten User zurueck.
+	 * Sollte kein User angemeldet sein wir null zurueck gegeben.
+	 * @return loggedInUser : User | null
+	 */
+	public static User getLoggedInUser(){
+		return loggedInUser;
 	}
 }
