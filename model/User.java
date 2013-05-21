@@ -212,7 +212,7 @@ public class User {
 	 * Die Indiziers entsprechen den CSV-Spalten, welche den User-Konstanten zu entnehmen sind.
 	 * @return values : String[]
 	 */
-	private String[] getValuesAsStringArray(){
+	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_ROLE] = Integer.toString(this.iRole);
 		values[COL_LOGINNAME] = this.sLoginName;

@@ -65,11 +65,31 @@ public class ReservationHandler {
 	 */
 	public Reservation[] getAllReservations()
 	{
-		String[][] reservationMap = csvHandler.read();
-		reservations = new Reservation[reservationMap.length];
-		for(int i = 0; i < reservations.length; i++){
-			reservations[i] = new Reservation(this.csvHandler, Integer.parseInt(reservationMap[i][Reservation.COL_RESERVATION_ID]));
+		//Es gibt schon Reservierungen
+		if(reservations != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(reservations.length < ids.length){
+				//Neues Arrey +ids.length lines
+				Reservation[] newReservations = new Reservation[ids.length];
+				for(int i = 0; i < reservations.length; i++){
+					newReservations[i] = reservations[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = reservations.length; i < ids.length; i++){
+					newReservations[i] = new Reservation(this.csvHandler, Integer.parseInt(ids[i]));
+				}
+				this.reservations = newReservations;
+			}
+		}else{
+//			Alle Reservierungen werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] reservationsMap = csvHandler.read();
+			reservations = new Reservation[reservationsMap.length];
+			for(int i = 0; i < reservations.length; i++){
+				reservations[i] = new Reservation(this.csvHandler, Integer.parseInt(reservationsMap[i][Reservation.COL_RESERVATION_ID]));
+			}
 		}
+
 		return reservations;
 	}
 	
@@ -95,7 +115,7 @@ public class ReservationHandler {
 			//Durchsuche vorhandene Reservierungen
 			for(int i = 0; i < reservations.length; i++){
 				if(reservations[i].getReservationID() == ID){
-					return reservations[i]; //Medium gefunden
+					return reservations[i]; //Reservierung gefunden
 				}
 			}
 			

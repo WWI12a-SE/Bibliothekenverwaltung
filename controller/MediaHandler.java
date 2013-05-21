@@ -1,4 +1,6 @@
 package controller;
+import java.lang.reflect.Array;
+
 import core.CsvHandler;
 import model.*;
 
@@ -56,11 +58,29 @@ public class MediaHandler {
 	 */
 	public Medium[] getAllMedia()
 	{
-		//Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
-		String[][] mediaMap = csvHandler.read();
-		media = new Medium[mediaMap.length];
-		for(int i = 0; i < media.length; i++){
-			media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+		//Es gibt schon Media
+		if(media != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(media.length < ids.length){
+				//Neues Arrey +ids.length lines
+				Medium[] newMedia = new Medium[ids.length];
+				for(int i = 0; i < media.length; i++){
+					newMedia[i] = media[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = media.length; i < ids.length; i++){
+					newMedia[i] = new Medium(this.csvHandler, Integer.parseInt(ids[i]));
+				}
+				this.media = newMedia;
+			}
+		}else{
+//			Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] mediaMap = csvHandler.read();
+			media = new Medium[mediaMap.length];
+			for(int i = 0; i < media.length; i++){
+				media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+			}
 		}
 		return media;
 	}

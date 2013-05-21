@@ -54,7 +54,7 @@ public class Medium {
 		this.sAuthor = values[COL_AUTHOR];
 		
 		if(values[COL_EDITION] == null){
-			this.iEdition = 0;
+			this.iEdition = 1;
 		}else{
 			this.iEdition = Integer.parseInt(values[COL_EDITION]);
 		}
@@ -284,6 +284,7 @@ public class Medium {
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_AUTHOR] = this.getAuthor();
+		values[COL_PUBLISHER] = this.getPublisher();
 		values[COL_COPIES] = String.valueOf(this.getCopies());
 		values[COL_EDITION] = String.valueOf(this.getEdition());
 		values[COL_ID] = String.valueOf(this.getID());
