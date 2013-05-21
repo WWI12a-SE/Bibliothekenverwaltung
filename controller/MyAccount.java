@@ -19,7 +19,7 @@ public class MyAccount {
 	private static User oUser = null;	// Logindaten User von Backend
 	
 	/**
-	 * Login Prüfungsfunktion
+	 * Login Prï¿½fungsfunktion
 	 * @param oUser
 	 */
 	// Login: Vergleich von Anmeldenamen und Datenbanknamen

@@ -53,3 +53,9 @@ Verzeichnisstruktur
 		
 /test
 -	Ausführbare Tests
+
+Programm für UML-Diagramm:
+ObjectAid
+GEF - Graphical Eclipse Framework //Kann sein dass das auch benötigt wird
+
+Beide Über Eclipse automatisch installierbar (URL selbst angeben)

@@ -1,4 +1,6 @@
 package controller;
+import java.lang.reflect.Array;
+
 import core.CsvHandler;
 import model.*;
 
@@ -56,11 +58,29 @@ public class MediaHandler {
 	 */
 	public Medium[] getAllMedia()
 	{
-		//Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
-		String[][] mediaMap = csvHandler.read();
-		media = new Medium[mediaMap.length];
-		for(int i = 0; i < media.length; i++){
-			media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+		//Es gibt schon Media
+		if(media != null){
+			//Unvollstaendig
+			String[] ids = csvHandler.getAllIDs();
+			if(media.length < ids.length){
+				//Neues Arrey +ids.length lines
+				Medium[] newMedia = new Medium[ids.length];
+				for(int i = 0; i < media.length; i++){
+					newMedia[i] = media[i];
+				}
+				//Neue Objekte hinzufuegen
+				for(int i = media.length; i < ids.length; i++){
+					newMedia[i] = new Medium(this.csvHandler, Integer.parseInt(ids[i]));
+				}
+				this.media = newMedia;
+			}
+		}else{
+//			Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
+			String[][] mediaMap = csvHandler.read();
+			media = new Medium[mediaMap.length];
+			for(int i = 0; i < media.length; i++){
+				media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+			}
 		}
 		return media;
 	}
@@ -69,31 +89,29 @@ public class MediaHandler {
 	 * <p>
 	 * Die Methode getMedium gibt ein Objekt des gesuchten Mediums zurueck.
 	 * Die Suche muss ueber die ID spezifiziert werden.
-	 * </p><p>
-	 * Sollte die ID nicht vergeben sein wird ein neues User-Objekt erstellt und uebergeben.
-	 * Hierbei ist zu beachten dass die String-Attribute des neu erstellten Users auf "null" gesetzt sind
-	 * (mit Aussnahme des LoginNamens).
 	 * </p>
-	 * @param loginName : String -- Die ID des gesuchten Users
-	 * @return user : User -- Objekt des gesuchten Users
-	 */
-	/*
-	 * TODO
-	 * Was ist mit neuen Medien???
-	 * Wird ueberhaupt eine getMedium-Methode benötigt?
-	 * Man kennt doch die ID nicht ohne getAllMedia()
+	 * <p>
+	 * Sollte die ID nicht vergeben sein wird ein neues Reservierungs-Objekt erstellt und uebergeben.
+	 * Hierbei ist zu beachten dass die String-Attribute der neu erstellten Reservierung auf "null" gesetzt sind.
+	 * </p>
+	 * @param ID : Integer -- Die ID des gesuchten Mediums
+	 * @return medium : Medium -- Objekt des gesuchten Mediums
 	 */
 	public Medium getMedium(int ID)
 	{
 		int newIndex;
 		
+		//Es gibt geladene Medien
 		if(media != null){
+			
 			//Durchsuche vorhandene Medien
 			for(int i = 0; i < media.length; i++){
 				if(media[i].getID() == ID){
 					return media[i]; //Medium gefunden
 				}
 			}
+			
+			//Init neues Medium
 			newIndex = media.length;
 			//Merke schon initialisierte Medien
 			Medium[] oldMedia = media;
@@ -114,6 +132,26 @@ public class MediaHandler {
 		//Neues Medium hinzufuegen
 		media[newIndex] = new Medium(this.csvHandler, ID);
 		return media[newIndex];
+	}
+	
+	/**
+	 * <p>
+	 * Uebergibt die nächste freie ID um getMedium(newID) ein neues Medium zu instanziieren.
+	 * </p>
+	 * @return id : Integer
+	 */
+	public int getNewID(){
+		String[] ids = csvHandler.getAllIDs();
+		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		return newID;
+	}
+	
+	/**
+	 * Entfernt ein Medium aus der Laufzeitumgebung (staged delete)
+	 * @param id : Integer -- Die ID des zu loeschenden Mediums
+	 */
+	public void deleteMedium(int id){
+		csvHandler.dropLine(""+id);
 	}
 	
 	/**

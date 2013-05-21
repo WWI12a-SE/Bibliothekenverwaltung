@@ -23,21 +23,63 @@ public class Medium {
 	public static final int COL_EDITION = 5;
 	public static final int COL_COPIES =6;
 	public static final int COL_STOCK = 7;
-	public static final int COL_KEYWORDS = 5;//
+	public static final int COL_KEYWORDS = 8;
 	public static final int AMOUNT_COLUMNS = 9;
 
 	private int ID = 0;
-	private String sTitle = "";
-	private String sAuthor = "";
-	private String sPublisher = "";
-	private String sIsbn = "";
-	private String sKeywords = "";
+	private String sTitle, sAuthor, sPublisher, sIsbn, sKeywords;
 	private int iEdition = 0; // Ausgabe
 	private int iOnStock = 0; // Verfügbare Exemplare
 	private int iCopies = 0; // Vorhandene Exemplare
 	
 	private CsvHandler csvHandler;
 	
+	/**
+	 * <p>
+	 * Konstruktor des Mediums. Stellt die in der CSV-Datei 
+	 * gespeicherten Daten zur Verfuegung.
+	 * </p><p>
+	 * Um ein Medium zu instanziieren muss ueber ein MediaHandler-Objekt die Methode
+	 * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
+	 * </p>
+	 * @param csvHandler : CsvHandler
+	 * @param ID : Integer
+	 */
+	public Medium(CsvHandler csvHandler, int ID){
+		this.csvHandler = csvHandler;
+		String[] values = csvHandler.getLineById(String.valueOf(ID));
+		
+		this.ID = ID;
+		
+		this.sAuthor = values[COL_AUTHOR];
+		
+		if(values[COL_EDITION] == null){
+			this.iEdition = 1;
+		}else{
+			this.iEdition = Integer.parseInt(values[COL_EDITION]);
+		}
+
+		this.sIsbn = values[COL_ISBN];
+		
+		if(values[COL_STOCK] == null){
+			this.iOnStock = 0;
+		}else{
+			this.iOnStock = Integer.parseInt(values[COL_STOCK]);
+		}
+
+		this.sPublisher = values[COL_PUBLISHER];
+
+		this.sTitle = values[COL_TITLE];
+
+		this.sKeywords = values[COL_KEYWORDS];
+		
+		if(values[COL_COPIES] == null){
+			this.iCopies = 0;
+		}else{
+			this.iCopies = Integer.parseInt(values[COL_COPIES]);
+		}
+	}
+
 	/**
 	 * Getter der ID
 	 * @return ID : Integer
@@ -70,9 +112,14 @@ public class Medium {
 	 * @param sTitle : String
 	 */
 	public void setTitle(String sTitle) {
-		if(!this.sTitle.equals(sTitle)){
+		if(this.sTitle == null){
 			this.sTitle = sTitle;
 			this.stage();
+		}else{
+			if(!this.sTitle.equals(sTitle)){
+				this.sTitle = sTitle;
+				this.stage();
+			}
 		}
 	}
 
@@ -89,49 +136,101 @@ public class Medium {
 	 * @param sAuthor : String
 	 */
 	public void setAuthor(String sAuthor) {
-		if(!this.sAuthor.equals(sAuthor)){
+		if(this.sAuthor == null){
 			this.sAuthor = sAuthor;
 			this.stage();
+		}else{
+			if(!this.sAuthor.equals(sAuthor)){
+				this.sAuthor = sAuthor;
+				this.stage();
+			}
 		}
 	}
 
+	/**
+	 * Getter des Verlags
+	 * @return sPublisher : String
+	 */
 	public String getPublisher() {
 		return sPublisher;
 	}
 
+	/**
+	 * Setter des Verlags
+	 * @param sPublisher : String
+	 */
 	public void setPublisher(String sPublisher) {
-		if(!this.sPublisher.equals(sPublisher)){
+		if(this.sPublisher == null){
 			this.sPublisher = sPublisher;
 			this.stage();
+		}else{
+			if(!this.sPublisher.equals(sPublisher)){
+				this.sPublisher = sPublisher;
+				this.stage();
+			}
 		}
 	}
 
+	/**
+	 * Getter der ISBN
+	 * @return sIsbn : String
+	 */
 	public String getIsbn() {
 		return sIsbn;
 	}
 
+	/**
+	 * Setter der ISBN
+	 * @param sIsbn : String
+	 */
 	public void setIsbn(String sIsbn) {
-		if(!this.sIsbn.equals(sIsbn)){
+		if(this.sIsbn == null){
 			this.sIsbn = sIsbn;
 			this.stage();
+		}else{
+			if(!this.sIsbn.equals(sIsbn)){
+				this.sIsbn = sIsbn;
+				this.stage();
+			}
 		}
 	}
 
+	/**
+	 * Getter der Stichworte
+	 * @return sKeywords : String
+	 */
 	public String getKeywords() {
 		return this.sKeywords;
 	}
 
+	/**
+	 * Setter der Stichworte
+	 * @param sKeywords : String
+	 */
 	public void setKeywords(String sKeywords) {
-		if(!this.sKeywords.equals(sKeywords)){
+		if(this.sKeywords == null){
 			this.sKeywords = sKeywords;
 			this.stage();
+		}else{
+			if(!this.sKeywords.equals(sKeywords)){
+				this.sKeywords = sKeywords;
+				this.stage();
+			}
 		}
 	}
 
+	/**
+	 * Getter der Auflage
+	 * @return iEdition : Integer
+	 */
 	public int getEdition() {
 		return iEdition;
 	}
 
+	/**
+	 * Setter der Auflage
+	 * @param iEdition : Integer
+	 */
 	public void setEdition(int iEdition) {
 		if(this.iEdition != iEdition){
 			this.iEdition = iEdition;
@@ -139,10 +238,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Anzahl Exemplare im Bestand (nicht verliehen)
+	 * @return iOnStock : Integer
+	 */
 	public int getOnStock() {
 		return iOnStock;
 	}
 
+	/**
+	 * Setter der Anzahl Exemplare im Bestand (nicht verliehen)
+	 * @param iOnStock : Integer
+	 */
 	public void setOnStock(int iOnStock) {
 		if(this.iOnStock != iOnStock){
 			this.iOnStock = iOnStock;
@@ -150,10 +257,18 @@ public class Medium {
 		}
 	}
 
+	/**
+	 * Getter der Anzahl Exemplare im System (unabhaenging des Verleih-Status)
+	 * @return iCopies : Integer
+	 */
 	public int getCopies() {
 		return iCopies;
 	}
 
+	/**
+	 * Setter der Anzahl Exemplare im System (unabhaenging des Verleih-Status)
+	 * @param iCopies : Integer
+	 */
 	public void setCopies(int iCopies) {
 		if(this.iCopies != iCopies){
 			this.iCopies = iCopies;
@@ -161,23 +276,15 @@ public class Medium {
 		}
 	}
 	
-	public Medium(CsvHandler csvHandler, int ID){
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		this.setID(ID);
-		this.setAuthor(values[COL_AUTHOR]);
-		this.setEdition(Integer.parseInt(values[COL_EDITION]));
-		this.setIsbn(values[COL_ISBN]);
-		this.setOnStock(Integer.parseInt(values[COL_STOCK]));
-		this.setPublisher(values[COL_PUBLISHER]);
-		this.setTitle(values[COL_TITLE]);
-		this.setKeywords(values[COL_KEYWORDS]);
-		this.setCopies(Integer.parseInt(values[COL_COPIES]));
-	}
-	
+	/**
+	 * Liest alle Attribute des Mediums aus und gibt diese als String-Array zurueck.
+	 * Die Indiziers entsprechen den CSV-Spalten, welche den Medium-Konstanten zu entnehmen sind.
+	 * @return values : String[]
+	 */
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
 		values[COL_AUTHOR] = this.getAuthor();
+		values[COL_PUBLISHER] = this.getPublisher();
 		values[COL_COPIES] = String.valueOf(this.getCopies());
 		values[COL_EDITION] = String.valueOf(this.getEdition());
 		values[COL_ID] = String.valueOf(this.getID());
@@ -188,7 +295,11 @@ public class Medium {
 		return values;
 	}
 	
-	public void stage()
+	/**
+	 * Die Attribute des Mediums werden im CsvHandler zwischengespeichert und somit 
+	 * zum speichern in der CSV-Datei bereit gestellt ("gestaged").
+	 */
+	private void stage()
 	{
 		csvHandler.update(this.getValuesAsStringArray());
 	}
