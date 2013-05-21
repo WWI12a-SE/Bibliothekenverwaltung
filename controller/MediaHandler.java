@@ -19,10 +19,12 @@ import model.*;
 public class MediaHandler {
 	
 	private static final String S_FILE_NAME = "stock";
-	private static MediaHandler mediaHandler;
 	
-	private CsvHandler csvHandler;
-	private Medium[] media;
+	private static MediaHandler mediaHandler;
+	private static CsvHandler csvHandler;
+	private static MediaMapper mediaMapper;
+	
+	private static Medium[] media;
 	
 	/**
 	 * Der Konstruktor dieser Klasse ist, um eine mehrmalige Instanzierung zu verhindern, privatisiert.
@@ -31,6 +33,8 @@ public class MediaHandler {
 	private MediaHandler()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
+		mediaMapper = new MediaMapper(csvHandler);
+		media = new Medium[csvHandler.getAllIDs().length];
 	}
 	
 	/**
@@ -58,28 +62,9 @@ public class MediaHandler {
 	 */
 	public Medium[] getAllMedia()
 	{
-		//Es gibt schon Media
-		if(media != null){
-			//Unvollstaendig
-			String[] ids = csvHandler.getAllIDs();
-			if(media.length < ids.length){
-				//Neues Arrey +ids.length lines
-				Medium[] newMedia = new Medium[ids.length];
-				for(int i = 0; i < media.length; i++){
-					newMedia[i] = media[i];
-				}
-				//Neue Objekte hinzufuegen
-				for(int i = media.length; i < ids.length; i++){
-					newMedia[i] = new Medium(this.csvHandler, Integer.parseInt(ids[i]));
-				}
-				this.media = newMedia;
-			}
-		}else{
-//			Alle Medien werden neu geladen, gestagedte Aenderungen bleiben erhalten
-			String[][] mediaMap = csvHandler.read();
-			media = new Medium[mediaMap.length];
-			for(int i = 0; i < media.length; i++){
-				media[i] = new Medium(this.csvHandler, Integer.parseInt(mediaMap[i][Medium.COL_ID]));
+		for(int i = 0; i < media.length; i++){
+			if(media[i] == null){
+				media[i] = new Medium(mediaMapper, i);
 			}
 		}
 		return media;
@@ -99,39 +84,25 @@ public class MediaHandler {
 	 */
 	public Medium getMedium(int ID)
 	{
-		int newIndex;
-		
-		//Es gibt geladene Medien
-		if(media != null){
-			
-			//Durchsuche vorhandene Medien
-			for(int i = 0; i < media.length; i++){
-				if(media[i].getID() == ID){
-					return media[i]; //Medium gefunden
-				}
+		//Schon vorhanden
+		for(int i = 0; i < media.length; i++){
+			if(media[i] == null){
+				media[i] = new Medium(mediaMapper, i);
 			}
-			
-			//Init neues Medium
-			newIndex = media.length;
-			//Merke schon initialisierte Medien
-			Medium[] oldMedia = media;
-			//Erweitere Medien-Array
-			media = new Medium[newIndex+1];
-			//Kopieren des alten Medien-Arrays
-			for(int i = 0; i < newIndex; i++){
-				if(oldMedia[i] != null){
-					media[i] = oldMedia[i];
-				}
+			if(media[i].getID() == ID){
+				return media[i];
 			}
-		}else{
-			newIndex = 0;
-			//Erweitere Medien-Array
-			media = new Medium[1];
 		}
 		
-		//Neues Medium hinzufuegen
-		media[newIndex] = new Medium(this.csvHandler, ID);
-		return media[newIndex];
+		//Neu
+		Medium[] oldMedia = media;
+		media = new Medium[oldMedia.length+1];
+		
+		mediaMapper.addRow();
+		media[oldMedia.length] = new Medium(mediaMapper, oldMedia.length);
+		
+		return media[oldMedia.length];
+
 	}
 	
 	/**

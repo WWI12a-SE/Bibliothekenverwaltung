@@ -1,4 +1,5 @@
 package model;
+import controller.MediaMapper;
 import core.CsvHandler;
 
 /**
@@ -25,14 +26,10 @@ public class Medium {
 	public static final int COL_STOCK = 7;
 	public static final int COL_KEYWORDS = 8;
 	public static final int AMOUNT_COLUMNS = 9;
-
-	private int ID = 0;
-	private String sTitle, sAuthor, sPublisher, sIsbn, sKeywords;
-	private int iEdition = 0; // Ausgabe
-	private int iOnStock = 0; // Verfügbare Exemplare
-	private int iCopies = 0; // Vorhandene Exemplare
 	
-	private CsvHandler csvHandler;
+	private static MediaMapper mediaMapper;
+
+	private int row;
 	
 	/**
 	 * <p>
@@ -45,39 +42,11 @@ public class Medium {
 	 * @param csvHandler : CsvHandler
 	 * @param ID : Integer
 	 */
-	public Medium(CsvHandler csvHandler, int ID){
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(String.valueOf(ID));
+	public Medium(MediaMapper mediaMapper, int row){
 		
-		this.ID = ID;
+		this.row = row;
+		Medium.mediaMapper = mediaMapper;
 		
-		this.sAuthor = values[COL_AUTHOR];
-		
-		if(values[COL_EDITION] == null){
-			this.iEdition = 1;
-		}else{
-			this.iEdition = Integer.parseInt(values[COL_EDITION]);
-		}
-
-		this.sIsbn = values[COL_ISBN];
-		
-		if(values[COL_STOCK] == null){
-			this.iOnStock = 0;
-		}else{
-			this.iOnStock = Integer.parseInt(values[COL_STOCK]);
-		}
-
-		this.sPublisher = values[COL_PUBLISHER];
-
-		this.sTitle = values[COL_TITLE];
-
-		this.sKeywords = values[COL_KEYWORDS];
-		
-		if(values[COL_COPIES] == null){
-			this.iCopies = 0;
-		}else{
-			this.iCopies = Integer.parseInt(values[COL_COPIES]);
-		}
 	}
 
 	/**
@@ -85,7 +54,9 @@ public class Medium {
 	 * @return ID : Integer
 	 */
 	public int getID() {
-		return this.ID;
+//		return (Integer)mediaMapper.getData(row, COL_ID);
+		System.out.println(mediaMapper.getData(row, COL_ID));
+		return 444;
 	}
 
 	/**
@@ -93,10 +64,7 @@ public class Medium {
 	 * @param ID : Integer
 	 */
 	public void setID(int ID) {
-		if(this.ID != ID){
-			this.ID = ID;
-			this.stage();
-		}
+		mediaMapper.setData(row, COL_ID, ID);
 	}
 
 	/**
@@ -104,7 +72,7 @@ public class Medium {
 	 * @return sTitle : String
 	 */
 	public String getTitle() {
-		return sTitle;
+		return (String)mediaMapper.getData(row, COL_TITLE);
 	}
 
 	/**
@@ -112,15 +80,7 @@ public class Medium {
 	 * @param sTitle : String
 	 */
 	public void setTitle(String sTitle) {
-		if(this.sTitle == null){
-			this.sTitle = sTitle;
-			this.stage();
-		}else{
-			if(!this.sTitle.equals(sTitle)){
-				this.sTitle = sTitle;
-				this.stage();
-			}
-		}
+		mediaMapper.setData(row, COL_TITLE, sTitle);
 	}
 
 	/**
@@ -128,7 +88,7 @@ public class Medium {
 	 * @return sAuthor : String
 	 */
 	public String getAuthor() {
-		return sAuthor;
+		return (String)mediaMapper.getData(row, COL_AUTHOR);
 	}
 
 	/**
@@ -136,15 +96,7 @@ public class Medium {
 	 * @param sAuthor : String
 	 */
 	public void setAuthor(String sAuthor) {
-		if(this.sAuthor == null){
-			this.sAuthor = sAuthor;
-			this.stage();
-		}else{
-			if(!this.sAuthor.equals(sAuthor)){
-				this.sAuthor = sAuthor;
-				this.stage();
-			}
-		}
+		mediaMapper.setData(row, COL_AUTHOR, sAuthor);
 	}
 
 	/**
@@ -152,7 +104,7 @@ public class Medium {
 	 * @return sPublisher : String
 	 */
 	public String getPublisher() {
-		return sPublisher;
+		return (String)mediaMapper.getData(row, COL_PUBLISHER);
 	}
 
 	/**
@@ -160,15 +112,7 @@ public class Medium {
 	 * @param sPublisher : String
 	 */
 	public void setPublisher(String sPublisher) {
-		if(this.sPublisher == null){
-			this.sPublisher = sPublisher;
-			this.stage();
-		}else{
-			if(!this.sPublisher.equals(sPublisher)){
-				this.sPublisher = sPublisher;
-				this.stage();
-			}
-		}
+		mediaMapper.setData(row, COL_PUBLISHER, sPublisher);
 	}
 
 	/**
@@ -176,7 +120,7 @@ public class Medium {
 	 * @return sIsbn : String
 	 */
 	public String getIsbn() {
-		return sIsbn;
+		return (String)mediaMapper.getData(row, COL_ISBN);
 	}
 
 	/**
@@ -184,15 +128,7 @@ public class Medium {
 	 * @param sIsbn : String
 	 */
 	public void setIsbn(String sIsbn) {
-		if(this.sIsbn == null){
-			this.sIsbn = sIsbn;
-			this.stage();
-		}else{
-			if(!this.sIsbn.equals(sIsbn)){
-				this.sIsbn = sIsbn;
-				this.stage();
-			}
-		}
+		mediaMapper.setData(row, COL_ISBN, sIsbn);
 	}
 
 	/**
@@ -200,7 +136,7 @@ public class Medium {
 	 * @return sKeywords : String
 	 */
 	public String getKeywords() {
-		return this.sKeywords;
+		return (String)mediaMapper.getData(row, COL_KEYWORDS);
 	}
 
 	/**
@@ -208,15 +144,7 @@ public class Medium {
 	 * @param sKeywords : String
 	 */
 	public void setKeywords(String sKeywords) {
-		if(this.sKeywords == null){
-			this.sKeywords = sKeywords;
-			this.stage();
-		}else{
-			if(!this.sKeywords.equals(sKeywords)){
-				this.sKeywords = sKeywords;
-				this.stage();
-			}
-		}
+		mediaMapper.setData(row, COL_KEYWORDS, sKeywords);
 	}
 
 	/**
@@ -224,7 +152,7 @@ public class Medium {
 	 * @return iEdition : Integer
 	 */
 	public int getEdition() {
-		return iEdition;
+		return Integer.parseInt((String) mediaMapper.getData(row, COL_EDITION));
 	}
 
 	/**
@@ -232,10 +160,7 @@ public class Medium {
 	 * @param iEdition : Integer
 	 */
 	public void setEdition(int iEdition) {
-		if(this.iEdition != iEdition){
-			this.iEdition = iEdition;
-			this.stage();
-		}
+		mediaMapper.setData(row, COL_EDITION, iEdition);
 	}
 
 	/**
@@ -243,7 +168,7 @@ public class Medium {
 	 * @return iOnStock : Integer
 	 */
 	public int getOnStock() {
-		return iOnStock;
+		return Integer.parseInt((String)mediaMapper.getData(row, COL_STOCK));
 	}
 
 	/**
@@ -251,10 +176,7 @@ public class Medium {
 	 * @param iOnStock : Integer
 	 */
 	public void setOnStock(int iOnStock) {
-		if(this.iOnStock != iOnStock){
-			this.iOnStock = iOnStock;
-			this.stage();
-		}
+		mediaMapper.setData(row, COL_STOCK, iOnStock);
 	}
 
 	/**
@@ -262,7 +184,7 @@ public class Medium {
 	 * @return iCopies : Integer
 	 */
 	public int getCopies() {
-		return iCopies;
+		return Integer.parseInt((String) mediaMapper.getData(row, COL_COPIES));
 	}
 
 	/**
@@ -270,10 +192,7 @@ public class Medium {
 	 * @param iCopies : Integer
 	 */
 	public void setCopies(int iCopies) {
-		if(this.iCopies != iCopies){
-			this.iCopies = iCopies;
-			this.stage();
-		}
+		mediaMapper.setData(row, COL_COPIES, iCopies);
 	}
 	
 	/**
@@ -293,15 +212,6 @@ public class Medium {
 		values[COL_TITLE] = this.getTitle();
 		values[COL_KEYWORDS] = String.valueOf(this.getKeywords());
 		return values;
-	}
-	
-	/**
-	 * Die Attribute des Mediums werden im CsvHandler zwischengespeichert und somit 
-	 * zum speichern in der CSV-Datei bereit gestellt ("gestaged").
-	 */
-	private void stage()
-	{
-		csvHandler.update(this.getValuesAsStringArray());
 	}
 	
 }

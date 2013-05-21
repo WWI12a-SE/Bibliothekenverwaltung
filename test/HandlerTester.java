@@ -53,6 +53,7 @@ public class HandlerTester {
 			}
 			System.out.println(output);
 		}
+		
 		System.out.println("-----------------------------------------");
 		Medium[] newMedia = mediaHandler.getAllMedia();
 		for(int i = 0; i < newMedia.length; i++){
@@ -63,8 +64,33 @@ public class HandlerTester {
 			}
 			System.out.println(output);
 		}
+		
 		newMedia[0].setAuthor("XXXX");
 		System.out.println(media[0].getAuthor().equals(newMedia[0].getAuthor()));
+		
+		newMedia[0].setEdition(4);
+		System.out.println(media[0].getEdition() == newMedia[0].getEdition());
+		
+		
+		System.out.println("-----------------------------------------");
+		for(int i = 0; i < media.length; i++){
+			String output = "";
+			String[] values = media[i].getValuesAsStringArray();
+			for(int k = 0; k < values.length; k++){
+				output += values[k] + "\t";
+			}
+			System.out.println(output);
+		}
+		
+		System.out.println("-----------------------------------------");
+		for(int i = 0; i < newMedia.length; i++){
+			String output = "";
+			String[] values = newMedia[i].getValuesAsStringArray();
+			for(int k = 0; k < values.length; k++){
+				output += values[k] + "\t";
+			}
+			System.out.println(output);
+		}
 		
 	}
 
