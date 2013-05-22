@@ -1,4 +1,5 @@
 package model;
+import controller.MediaHandler;
 import controller.MediaMapper;
 import core.CsvHandler;
 
@@ -40,7 +41,7 @@ public class Medium {
 	 * getMedium() oder getAllMedia() verwendet werden um die Konsistenz der Daten zu gewaehrleisten.
 	 * </p>
 	 * @param csvHandler : CsvHandler
-	 * @param ID : Integer
+	 * @param row : Integer
 	 */
 	public Medium(MediaMapper mediaMapper, int row){
 		
@@ -51,20 +52,18 @@ public class Medium {
 
 	/**
 	 * Getter der ID
-	 * @return ID : Integer
+	 * @return iID : Integer
 	 */
 	public int getID() {
-		return Integer.parseInt((String)mediaMapper.getIntegerData(row, COL_ID));
-//		System.out.println(mediaMapper.getData(row, COL_ID));
-//		return 444;
+		return mediaMapper.getIntegerData(row, COL_ID);
 	}
 
 	/**
 	 * Setter der ID
-	 * @param ID : Integer
+	 * @param iID : Integer
 	 */
-	public void setID(int ID) {
-		mediaMapper.setData(row, COL_ID, ID);
+	public void setID(int iID) {
+		mediaMapper.setData(this.row, COL_ID, iID);
 	}
 
 	/**

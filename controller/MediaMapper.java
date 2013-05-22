@@ -14,7 +14,7 @@ public class MediaMapper {
 		
 		this.csvHandler = csvHandler;
 		
-		String[][] readArray = this.csvHandler.read();//csvHandler.aMap.clone();
+		String[][] readArray = this.csvHandler.read().clone();
 		this.data = new Object[readArray.length][AMOUNT_COLUMNS];
 		
 		for(int i = 0; i < readArray.length; i++){
@@ -43,38 +43,26 @@ public class MediaMapper {
 		this.data[row][col] = String.valueOf(data);
 	}
 	
-//	public Object getData(int row, int col){
-//		return (this.data[row][col] == null)? new Object() : this.data[row][col];
-//	}
+	public Object getData(int row, int col){
+		return this.data[row][col];
+	}
 	
-	public Object getIntegerData(int row, int col){
+	public int getIntegerData(int row, int col){
 		if(this.data[row][col] == null){
 			return 0;
 		}
 		if(this.data[row][col].equals("null")){
 			return 0;
 		}
-		return this.data[row][col];
+		
+		return Integer.parseInt(String.valueOf(this.data[row][col]));
 	}
 	
 	public Object getStringData(int row, int col){
-		return (this.data[row][col] == null)? (String)null : (String)this.data[row][col];
+		return (String)this.data[row][col];
 	}
 	
 	public void storeMap(){
-		
-//		String[][] string= new String[data.length][AMOUNT_COLUMNS-1];
-//		for(int i = 0; i < data.length; i++){
-//			if(this.data[i][COL_DELFLAG] != null){
-//				if(Integer.parseInt(String.valueOf(this.getIntegerData(i, COL_DELFLAG))) == 1){
-//					for(int k = 0; k < AMOUNT_COLUMNS-1; k++){
-//						string[i][k] = (String)data[i][k];
-//					}
-////					
-//				}
-//			}
-//		}
-//		csvHandler.write(string);
 		
 		// Update
 		String[] stringData = new String[Medium.AMOUNT_COLUMNS];
@@ -82,33 +70,20 @@ public class MediaMapper {
 			//Delflag gesetzt => loeschen
 			if(this.data[i][COL_DELFLAG] != null){
 				if(Integer.parseInt(String.valueOf(this.getIntegerData(i, COL_DELFLAG))) == 1){
-					System.out.println("drop1--------------------------------");
 					this.csvHandler.dropLine((String)data[i][Medium.COL_ID]);
 				}else{
 					//Auch Speichern
 					for(int c = 0; c < stringData.length; c++){
 						stringData[c] = (String)getStringData(i, c);//
-//						System.out.println("update: "+i+" : "+c+" : "+stringData[c]);
 					}
-					if(stringData[0] == null){
-						System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					}else{
-						System.out.println(stringData[0]);
-					}
-					this.csvHandler.update(stringData);//stringData);
+					this.csvHandler.update(stringData.clone());//stringData);
 				}
 			}else{
 				//Speichern
 				for(int c = 0; c < stringData.length; c++){
 					stringData[c] = (String)getStringData(i, c);
-//					System.out.println("update: "+i+" : "+c+" : "+stringData[c]);
 				}
-				if(stringData[0] == null){
-					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				}else{
-					System.out.println(stringData[0]);
-				}
-				this.csvHandler.update(stringData);//stringData);
+				this.csvHandler.update(stringData.clone());//stringData);
 			}
 		}
 				
@@ -117,7 +92,8 @@ public class MediaMapper {
 	
 	public void deleteRow(int id){
 		for(int i = 0; i < data.length; i++){
-			if(Integer.parseInt((String)this.data[i][Medium.COL_ID]) == id){
+			int colID = Integer.parseInt((String)this.data[i][Medium.COL_ID]);
+			if(colID == id){
 				this.setData(i, COL_DELFLAG, 1);
 				break;
 			}
@@ -132,11 +108,5 @@ public class MediaMapper {
 		}
 		this.data[oldData.length] = new Object[AMOUNT_COLUMNS];
 	}
-	
-//	public String viewMap(){
-////		for(int i = 0; i < data.length; i++){
-////			for(int k = )
-////		}
-//	}
 	
 }

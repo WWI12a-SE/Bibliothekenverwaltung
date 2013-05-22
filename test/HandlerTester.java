@@ -13,6 +13,8 @@ public class HandlerTester {
 		
 		
 		CsvHandler csvHandler = new CsvHandler("stock");
+		csvHandler.viewMap();
+		System.out.println("++++++++++++++++++++++++");
 //		csvHandler.viewLineById("0");
 		/*
 		 * Reservierungen
@@ -73,16 +75,23 @@ public class HandlerTester {
 //		System.out.println(media[0].getAuthor().equals(newMedia[0].getAuthor()));
 		
 		int newID = mediaHandler.getNewID();
-		System.out.println("newID: "+newID);
 		Medium med = mediaHandler.getMedium(newID);
 		med.setAuthor("Frank");
+		
+		newID = mediaHandler.getNewID();
+		Medium med2 = mediaHandler.getMedium(newID);
+		med2.setAuthor("Alex");
+		
+		mediaHandler.deleteMedium(2);
 		
 //		int newID2 = mediaHandler.getNewID();
 //		Medium med2 = mediaHandler.getMedium(newID2);
 //		med2.setAuthor("Max");
 		mediaHandler.save();
 		
-		
+		System.out.println("++++++++++++++++++++++++");
+		csvHandler.viewMap();
+		System.out.println("++++++++++++++++++++++++");
 		
 //		newMedia[0].setEdition(4);
 //		System.out.println(media[0].getEdition() == newMedia[0].getEdition());

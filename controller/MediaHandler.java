@@ -1,6 +1,4 @@
 package controller;
-import java.lang.reflect.Array;
-
 import core.CsvHandler;
 import model.*;
 
@@ -104,7 +102,7 @@ public class MediaHandler {
 		
 		mediaMapper.addRow();
 		media[oldMedia.length] = new Medium(mediaMapper, oldMedia.length);
-		media[oldMedia.length].setID(ID);
+		media[oldMedia.length].setID(this.getNewID());
 		
 		return media[oldMedia.length];
 
@@ -119,12 +117,12 @@ public class MediaHandler {
 	public int getNewID(){
 		int newID = 0;
 		for(int i = 0; i < media.length; i++){
-			if(media[i].getID() >= newID){
-				newID = media[i].getID()+1;
+			if(media[i] != null){
+				if(media[i].getID() >= newID){
+					newID = media[i].getID()+1;
+				}
 			}
 		}
-//		mediaMapper.
-//		int newID = Integer.parseInt(ids[ids.length-1])+1;
 		return newID;
 	}
 	
@@ -134,7 +132,6 @@ public class MediaHandler {
 	 */
 	public void deleteMedium(int id){
 		mediaMapper.deleteRow(id);
-//		csvHandler.dropLine(""+id);
 	}
 	
 	/**
@@ -143,7 +140,6 @@ public class MediaHandler {
 	 * an Medium-Objekten werden automatisch ge-"staged".
 	 */
 	public void save(){
-//		csvHandler.save();
 		mediaMapper.storeMap();
 	}
 
