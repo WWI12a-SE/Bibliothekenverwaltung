@@ -54,9 +54,9 @@ public class Medium {
 	 * @return ID : Integer
 	 */
 	public int getID() {
-//		return (Integer)mediaMapper.getData(row, COL_ID);
-		System.out.println(mediaMapper.getData(row, COL_ID));
-		return 444;
+		return Integer.parseInt((String)mediaMapper.getIntegerData(row, COL_ID));
+//		System.out.println(mediaMapper.getData(row, COL_ID));
+//		return 444;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class Medium {
 	 * @return sTitle : String
 	 */
 	public String getTitle() {
-		return (String)mediaMapper.getData(row, COL_TITLE);
+		return String.valueOf(mediaMapper.getStringData(row, COL_TITLE));
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class Medium {
 	 * @return sAuthor : String
 	 */
 	public String getAuthor() {
-		return (String)mediaMapper.getData(row, COL_AUTHOR);
+		return (String)mediaMapper.getStringData(row, COL_AUTHOR);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class Medium {
 	 * @return sPublisher : String
 	 */
 	public String getPublisher() {
-		return (String)mediaMapper.getData(row, COL_PUBLISHER);
+		return (String)mediaMapper.getStringData(row, COL_PUBLISHER);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Medium {
 	 * @return sIsbn : String
 	 */
 	public String getIsbn() {
-		return (String)mediaMapper.getData(row, COL_ISBN);
+		return (String)mediaMapper.getStringData(row, COL_ISBN);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class Medium {
 	 * @return sKeywords : String
 	 */
 	public String getKeywords() {
-		return (String)mediaMapper.getData(row, COL_KEYWORDS);
+		return (String)mediaMapper.getStringData(row, COL_KEYWORDS);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class Medium {
 	 * @return iEdition : Integer
 	 */
 	public int getEdition() {
-		return Integer.parseInt((String) mediaMapper.getData(row, COL_EDITION));
+		return Integer.parseInt(String.valueOf(mediaMapper.getIntegerData(row, COL_EDITION)));
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class Medium {
 	 * @return iOnStock : Integer
 	 */
 	public int getOnStock() {
-		return Integer.parseInt((String)mediaMapper.getData(row, COL_STOCK));
+		return Integer.parseInt(String.valueOf(mediaMapper.getIntegerData(row, COL_STOCK)));
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class Medium {
 	 * @return iCopies : Integer
 	 */
 	public int getCopies() {
-		return Integer.parseInt((String) mediaMapper.getData(row, COL_COPIES));
+		return Integer.parseInt(String.valueOf(mediaMapper.getIntegerData(row, COL_COPIES)));
 	}
 
 	/**

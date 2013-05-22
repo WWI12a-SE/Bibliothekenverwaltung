@@ -98,8 +98,13 @@ public class MediaHandler {
 		Medium[] oldMedia = media;
 		media = new Medium[oldMedia.length+1];
 		
+		for(int i = 0; i < oldMedia.length; i++){
+			media[i] = oldMedia[i];
+		}
+		
 		mediaMapper.addRow();
 		media[oldMedia.length] = new Medium(mediaMapper, oldMedia.length);
+		media[oldMedia.length].setID(ID);
 		
 		return media[oldMedia.length];
 
@@ -112,8 +117,14 @@ public class MediaHandler {
 	 * @return id : Integer
 	 */
 	public int getNewID(){
-		String[] ids = csvHandler.getAllIDs();
-		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		int newID = 0;
+		for(int i = 0; i < media.length; i++){
+			if(media[i].getID() >= newID){
+				newID = media[i].getID()+1;
+			}
+		}
+//		mediaMapper.
+//		int newID = Integer.parseInt(ids[ids.length-1])+1;
 		return newID;
 	}
 	
@@ -122,7 +133,8 @@ public class MediaHandler {
 	 * @param id : Integer -- Die ID des zu loeschenden Mediums
 	 */
 	public void deleteMedium(int id){
-		csvHandler.dropLine(""+id);
+		mediaMapper.deleteRow(id);
+//		csvHandler.dropLine(""+id);
 	}
 	
 	/**
@@ -131,7 +143,8 @@ public class MediaHandler {
 	 * an Medium-Objekten werden automatisch ge-"staged".
 	 */
 	public void save(){
-		csvHandler.save();
+//		csvHandler.save();
+		mediaMapper.storeMap();
 	}
 
 }
