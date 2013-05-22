@@ -1,6 +1,6 @@
 package model;
 import controller.MediaHandler;
-import controller.MediaMapper;
+import controller.Mapper;
 import core.CsvHandler;
 
 /**
@@ -28,7 +28,7 @@ public class Medium {
 	public static final int COL_KEYWORDS = 8;
 	public static final int AMOUNT_COLUMNS = 9;
 	
-	private static MediaMapper mediaMapper;
+	private static Mapper mediaMapper;
 
 	private int row;
 	
@@ -43,7 +43,7 @@ public class Medium {
 	 * @param csvHandler : CsvHandler
 	 * @param row : Integer
 	 */
-	public Medium(MediaMapper mediaMapper, int row){
+	public Medium(Mapper mediaMapper, int row){
 		
 		this.row = row;
 		Medium.mediaMapper = mediaMapper;

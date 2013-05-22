@@ -3,14 +3,14 @@ import model.Medium;
 import model.User;
 import core.CsvHandler;
 
-public class MediaMapper {
+public class Mapper {
 	
 	private static final int AMOUNT_COLUMNS = 10;
 	private static final int COL_DELFLAG = 9;
 	private Object[][] data;
 	private CsvHandler csvHandler;
 	
-	public MediaMapper(CsvHandler csvHandler){
+	public Mapper(CsvHandler csvHandler){
 		
 		this.csvHandler = csvHandler;
 		

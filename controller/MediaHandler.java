@@ -20,7 +20,7 @@ public class MediaHandler {
 	
 	private static MediaHandler mediaHandler;
 	private static CsvHandler csvHandler;
-	private static MediaMapper mediaMapper;
+	private static Mapper mediaMapper;
 	
 	private static Medium[] media;
 	
@@ -31,7 +31,7 @@ public class MediaHandler {
 	private MediaHandler()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
-		mediaMapper = new MediaMapper(csvHandler);
+		mediaMapper = new Mapper(csvHandler);
 		media = new Medium[csvHandler.getAllIDs().length];
 	}
 	
