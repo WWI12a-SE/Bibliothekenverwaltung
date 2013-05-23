@@ -13,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import model.User;
+
+import controller.MyAccount;
+
 import core.Exception.InvalidFormatException;
 import core.Exception.UnequalPasswordsException;
 
@@ -81,7 +85,7 @@ public class ModifyUserDataPanel extends JPanel {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {					
+				try {		
 					save();	
 				} catch(UnequalPasswordsException e) {
 					JOptionPane.showMessageDialog(ModifyUserDataPanel.this, "Bitte überprüfen Sie, ob Ihre Passwörter übereinstimmen!!");
@@ -95,14 +99,16 @@ public class ModifyUserDataPanel extends JPanel {
 		
 		this.setVisible(true);
 	}
-	//die save-Methode, die die geänderten Daten speichert und zugleich auf fehlerhafte Eingaben prüft
-	//gegebenenfalls "throwt" sie Exceptions, die im ActionListener gefangen werden
+	//die save-Methode, die die geänderten Daten speichert 
 	public void save() throws UnequalPasswordsException, InvalidFormatException {
 		String firstName = firstNameTextField.getText();
 		String secondName = secondNameTextField.getText();
 		String email = emailTextField.getText();
 		String password = String.valueOf(passwordTextField.getPassword());	
 		String password2 = String.valueOf(repeatPasswordTextField.getPassword());
+		
+		//es wird zugleich auf fehlerhafte Eingaben geprüft
+		//gegebenenfalls werden Exceptions "gethrowt", die im ActionListener gefangen werden
 		if(!password.equals(password2)) {
 			passwordTextField.setText("");
 			repeatPasswordTextField.setText("");
@@ -112,6 +118,16 @@ public class ModifyUserDataPanel extends JPanel {
 			emailTextField.setText("");
 			throw new InvalidFormatException();
 		}
+		//der aktuell eingeloggte User wird geholt
+		//seine Daten werden mit den von ihm geänderten Daten überschrieben
+		User loggedInUser = MyAccount.getLoggedInUser();
+		loggedInUser.setFirstName(firstName);
+		loggedInUser.setLastName(secondName);
+		loggedInUser.setEmail(email);
+		loggedInUser.setPassword(password);
+		
+		//
+		
 	}
 	//main-Methode, die nur vorübergehend da ist, wird später gelöscht
 	public static void main(String[] args){
