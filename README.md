@@ -2,7 +2,6 @@ Bibliothekenverwaltung
 ======================
 
 
-
 Beschreibung
 ============
 
@@ -39,7 +38,7 @@ Verzeichnisstruktur
 -	Abstrahierte Datenmodelle der einzelnen CSV-Dateien
 
 /controller
--	Controller für Benutzeroberfläche. Logik für Benutzerebene gehört hier hin.
+-	Controller für BenutzeroberflÃ¤che. Logik für Benutzerebene gehört hier hin.
 
 /view
 -	GUI-Bestandteile
@@ -49,13 +48,12 @@ Verzeichnisstruktur
 		-	users.csv: Benutzer
 		-	stock.csv: Bestand
 		-	reservations.csv: Reservationen
-		-	lastid.csv: Zuletzt genutzte hochgezählte IDs für o.g. Dateien
+		-	lastid.csv: Zuletzt genutzte hochgezÃ¤hlte IDs fÃ¼r o.g. Dateien
 		
 /test
 -	Ausführbare Tests
 
 Programm für UML-Diagramm:
 ObjectAid
-GEF - Graphical Eclipse Framework //Kann sein dass das auch benötigt wird
-
-Beide Über Eclipse automatisch installierbar (URL selbst angeben)
+-	GEF - Graphical Eclipse Framework //Kann sein, dass das auch benötigt wird
+-	Beide über Eclipse automatisch installierbar (URL selbst angeben)

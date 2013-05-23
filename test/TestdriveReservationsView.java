@@ -1,13 +1,17 @@
+/**
+ * Reservationen anzeigen
+ * 
+ * @author ja
+ */
+
 package test;
+
+import view.*;
 
 public class TestdriveReservationsView {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args){
+		ReservationsView oReserView = new ReservationsView();
 	}
 
 }
