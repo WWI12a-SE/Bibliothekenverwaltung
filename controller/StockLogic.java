@@ -36,9 +36,7 @@ public class StockLogic {
 	public boolean reserve(int mediaID){
 		if(isReservable(mediaID)){
 			
-//			TODO MyAccount getUser()
-//			User user = MyAccount.getLoggedInUser();
-			User user = UserHandler.getInstance().getUser("admin");//TODO
+			User user = MyAccount.getLoggedInUser();
 			String loginName = user.getLoginName();
 			
 			//Erstelle neue Reservierung
@@ -48,7 +46,7 @@ public class StockLogic {
 			reservation.setLoginName(loginName);
 			reservation.setExtensions(0);
 			reservation.setMediaID(mediaID);
-			reservation.setReturnDate(this.getNewReturnDate());
+			reservation.setReturnDate(this.getNewReturnDate(RESERVATION_DAYS));
 			
 			//Verringere Bestand
 			Medium medium = MediaHandler.getInstance().getMedium(mediaID);
@@ -71,13 +69,11 @@ public class StockLogic {
 		}
 		
 		/*
-		 * Der aktuell angemeldete User hat noch kein Exemplar entliehen
+		 * Der aktuell angemeldete User hat noch kein Exemplar dieses Mediums entliehen
 		 */
 		ReservationHandler reservationHandler = ReservationHandler.getInstance();
 		Reservation[] reservations = reservationHandler.getAllReservations();
-//		TODO MyAccount getUser() entklammern sobald abgesprochen
-//		User user = MyAccount.getLoggedInUser();
-		User user = UserHandler.getInstance().getUser("admin");//TODO
+		User user = MyAccount.getLoggedInUser();
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
@@ -90,14 +86,14 @@ public class StockLogic {
 		
 	}
 	
-	private Date getNewReturnDate(){
+	private Date getNewReturnDate(int daysUntilReturn){
 		Date returnDate = new Date();
 		
 //		System.out.println(DateFormat.getInstance().format(returnDate));
 		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(returnDate);
-		calendar.add(Calendar.DATE, RESERVATION_DAYS);
+		calendar.add(Calendar.DATE, daysUntilReturn);
 		returnDate = calendar.getTime();
 		
 //		System.out.println(DateFormat.getInstance().format(returnDate));
