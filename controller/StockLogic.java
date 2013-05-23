@@ -14,6 +14,7 @@ import model.*;
 public class StockLogic {
 	
 	public static final int RESERVATION_DAYS = 14;
+	public static final int EXTENSIONS_MAX = 1;
 	
 	private static StockLogic stockLogic;
 	
@@ -33,10 +34,43 @@ public class StockLogic {
 		return mediaHandler.getMedium(mediaHandler.getNewID());
 	}
 	
-	public boolean reserve(int mediaID){
-		if(isReservable(mediaID)){
-			
-			User user = MyAccount.getLoggedInUser();
+	public boolean returnMedium(User user, int mediaID){
+		
+		if(!isReturnable(user, mediaID)){
+			return false;
+		}
+		
+		/*
+		 * Reservierung suchen und loeschen
+		 */
+		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
+		String loginName = user.getLoginName();
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
+				ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID());
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Das Gegenteil von hasReservation.
+	 * @param user
+	 * @param mediaID
+	 * @return
+	 */
+	public boolean isReturnable(User user, int mediaID){
+		if(!hasReservation(user, mediaID)){
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean leaseMedium(User user, int mediaID){
+		
+		if(isLeaseable(user, mediaID)){
 			String loginName = user.getLoginName();
 			
 			//Erstelle neue Reservierung
@@ -56,16 +90,21 @@ public class StockLogic {
 		return false;
 	}
 	
-	public boolean isReservable(int mediaID){
-		
-		boolean isReservable = true;
+	public boolean isLeaseable(User user, int mediaID){
+
+		/*
+		 * User hat das erforderliche Recht
+		 */
+		if(user.getRole() != User.ROLE_LECTURER && user.getRole() != User.ROLE_STUDENT){
+			return false;
+		}
 		/*
 		 * Anzahl Exemplare im Bestand > 0
 		 */
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		Medium medium = mediaHandler.getMedium(mediaID);
 		if(medium.getOnStock() <= 0){
-			isReservable = false;
+			return false;
 		}
 		
 		/*
@@ -73,16 +112,14 @@ public class StockLogic {
 		 */
 		ReservationHandler reservationHandler = ReservationHandler.getInstance();
 		Reservation[] reservations = reservationHandler.getAllReservations();
-		User user = MyAccount.getLoggedInUser();
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
-				isReservable = false;
-				break;
+				return false;
 			}
 		}
 		
-		return isReservable;
+		return true;
 		
 	}
 	
@@ -99,5 +136,47 @@ public class StockLogic {
 //		System.out.println(DateFormat.getInstance().format(returnDate));
 		
 		return returnDate;
+	}
+	
+public boolean isExtendable(User user, int mediaID){
+		
+		/*
+		 * User hat das erforderliche Recht
+		 */
+		if(user.getRole() != User.ROLE_LECTURER){
+			return false;
+		}
+		/*
+		 * User hat entleihgrenze noch nicht erreicht
+		 */
+		ReservationHandler reservationHandler = ReservationHandler.getInstance();
+		Reservation reservation = reservationHandler.getReservation(mediaID);
+		if(reservation.getExtensions() >= EXTENSIONS_MAX){
+			return false;
+		}
+		
+		/*
+		 * User hat ein Exemplar dieses Mediums entliehen
+		 */
+		if(!hasReservation(MyAccount.getLoggedInUser(), mediaID)){
+			return false;
+		}
+		
+		return true;
+		
+	}
+
+	public boolean hasReservation(User user, int mediaID){
+		/*
+		 * Der User hat noch kein Exemplar dieses Mediums entliehen
+		 */
+		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
+		String loginName = user.getLoginName();
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
