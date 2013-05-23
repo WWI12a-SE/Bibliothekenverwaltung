@@ -16,19 +16,23 @@ public class HandlerTester {
 		csvHandler.viewMap();
 		System.out.println("++++++++++++++++++++++++");
 
+		//Mapper
 		viewReservations();
 		viewUsers();
 		viewMedia();
 		
-		
-		
+		//Media
 		addMedium("Autor");
-		addMedium("Jemand");
-		
+		addMedium("Autor2");
 		MediaHandler mediaHandler = MediaHandler.getInstance();
-		
 		mediaHandler.deleteMedium(2);
+		
+		//Reservation
+		addReservation("Nutzer");
+		addReservation("Nutzer2");
+		ReservationHandler.getInstance().deleteReservation(12);
 
+		//Save
 		mediaHandler.save();
 		
 		viewReservations();
@@ -96,5 +100,12 @@ public class HandlerTester {
 		int newID = mediaHandler.getNewID();
 		Medium med = mediaHandler.getMedium(newID);
 		med.setAuthor(author);
+	}
+	
+	private static void addReservation(String sLoginName){
+		ReservationHandler reservationHandler = ReservationHandler.getInstance();
+		int newID = reservationHandler.getNewID();
+		Reservation reservation = reservationHandler.getReservation(newID);
+		reservation.setLoginName(sLoginName);
 	}
 }
