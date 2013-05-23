@@ -1,6 +1,5 @@
 package model;
 import java.util.Date;
-
 import controller.Mapper;
 
 public class Reservation {
@@ -32,6 +31,7 @@ public class Reservation {
 		
 		this.row = row;
 		Reservation.reservationMapper = reservationMapper;
+		
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class Reservation {
 			Date date = (Date)reservationMapper.getData(this.row, COL_RETURNDATE);
 			return date;
 		}catch(Exception e){
-			return new Date();
+			return null;
 		}
 	}
 	

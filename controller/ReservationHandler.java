@@ -1,6 +1,6 @@
 package controller;
 import core.CsvHandler;
-import model.*;
+import model.Reservation;;
 
 /**
  * <p>
@@ -93,18 +93,18 @@ public class ReservationHandler {
 		}
 		
 		//Neu
-		Reservation[] oldMedia = reservations;
-		reservations = new Reservation[oldMedia.length+1];
+		Reservation[] oldReservations = reservations;
+		reservations = new Reservation[oldReservations.length+1];
 		
-		for(int i = 0; i < oldMedia.length; i++){
-			reservations[i] = oldMedia[i];
+		for(int i = 0; i < oldReservations.length; i++){
+			reservations[i] = oldReservations[i];
 		}
 		
 		reservationMapper.addRow();
-		reservations[oldMedia.length] = new Reservation(reservationMapper, oldMedia.length);
-		reservations[oldMedia.length].setReservationID(this.getNewID());
+		reservations[oldReservations.length] = new Reservation(reservationMapper, oldReservations.length);
+		reservations[oldReservations.length].setReservationID(this.getNewID());
 		
-		return reservations[oldMedia.length];
+		return reservations[oldReservations.length];
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 package model;
-import core.CsvHandler;
+import controller.Mapper;
 
 /**
  * <p>
@@ -28,9 +28,9 @@ public class User {
 	public static final int ROLE_LECTURER = 2;
 	public static final int ROLE_LIBRARIAN = 3;
 	
-	private String sLoginName, sFirstName, sLastName , sPassword, sEmail = "";
-	private int iRole = 0; // Benutzerrolle, siehe Konstanten
-	private CsvHandler csvHandler;
+	private static Mapper userMapper;
+	
+	private int row;
 	
 	/**
 	 * <p>
@@ -43,27 +43,11 @@ public class User {
 	 * @param csvHandler : CsvHandler
 	 * @param loginName : String
 	 */
-	public User(CsvHandler csvHandler, String loginName){
+	public User(Mapper userMapper, int row){
 		
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(loginName);
+		this.row = row;
+		User.userMapper = userMapper;
 		
-		this.sLoginName = loginName;
-		
-		this.sEmail = values[COL_EMAIL];
-
-
-		this.sFirstName = values[COL_FIRSTNAME];
-		
-		this.sLastName = values[COL_LASTNAME];
-
-		this.sPassword = values[COL_PASSWORD];
-
-		try{
-			this.setRole(Integer.parseInt(values[COL_ROLE]));
-		}catch(Exception e){
-			this.iRole = User.ROLE_STUDENT;
-		}
 	}
 	
 	/**
@@ -71,23 +55,15 @@ public class User {
 	 * @return loginName : String
 	 */
 	public String getLoginName() {
-		return sLoginName;
+		return String.valueOf(userMapper.getStringData(row, COL_LOGINNAME));
 	}
 	
 	/**
 	 * Setter des LoginNamens, der ID des Users
 	 * @param loginName : String
 	 */
-	public void setLoginName(String loginName) {
-		if(this.sLoginName == null){
-			this.sLoginName = loginName;
-			this.stage();
-		}else{
-			if(!this.sLoginName.equals(loginName)){
-				this.sLoginName = loginName;
-				this.stage();
-			}
-		}
+	public void setLoginName(String sLoginName) {
+		userMapper.setData(row, COL_LOGINNAME, sLoginName);
 	}
 	
 	/**
@@ -95,7 +71,7 @@ public class User {
 	 * @return sFirstName : String
 	 */
 	public String getFirstName() {
-		return sFirstName;
+		return String.valueOf(userMapper.getStringData(row, COL_FIRSTNAME));
 	}
 	
 	/**
@@ -103,15 +79,7 @@ public class User {
 	 * @param sFirstName : String
 	 */
 	public void setFirstName(String sFirstName) {
-		if(this.sFirstName == null){
-			this.sFirstName = sFirstName;
-			this.stage();
-		}else{
-			if(!this.sFirstName.equals(sFirstName)){
-				this.sFirstName = sFirstName;
-				this.stage();
-			}
-		}
+		userMapper.setData(row, COL_FIRSTNAME, sFirstName);
 	}
 	
 	/**
@@ -119,7 +87,7 @@ public class User {
 	 * @return sLastName : String
 	 */
 	public String getLastName() {
-		return sLastName;
+		return String.valueOf(userMapper.getStringData(row, COL_LASTNAME));
 	}
 	
 	/**
@@ -127,15 +95,7 @@ public class User {
 	 * @param sLastName : String
 	 */
 	public void setLastName(String sLastName) {
-		if(this.sLastName == null){
-			this.sLastName = sLastName;
-			this.stage();
-		}else{
-			if(!this.sLastName.equals(sLastName)){
-				this.sLastName = sLastName;
-				this.stage();
-			}
-		}
+		userMapper.setData(row, COL_LASTNAME, sLastName);
 	}
 	
 	/**
@@ -144,7 +104,7 @@ public class User {
 	 * @return iRole : Integer
 	 */
 	public int getRole() {
-		return iRole;
+		return userMapper.getIntegerData(row, COL_ROLE);
 	}
 	
 	/**
@@ -153,10 +113,7 @@ public class User {
 	 * @param iRole : Integer
 	 */
 	public void setRole(int iRole) {
-		if(this.iRole != iRole){
-			this.iRole = iRole;
-			this.stage();
-		}
+		userMapper.setData(this.row, COL_ROLE, iRole);
 	}
 	
 	/**
@@ -164,7 +121,7 @@ public class User {
 	 * @return sPassword : String
 	 */
 	public String getPassword() {
-		return sPassword;
+		return String.valueOf(userMapper.getStringData(row, COL_PASSWORD));
 	}
 	
 	/**
@@ -172,15 +129,7 @@ public class User {
 	 * @param sPassword : String
 	 */
 	public void setPassword(String sPassword) {
-		if(this.sPassword == null){
-			this.sPassword = sPassword;
-			this.stage();
-		}else{
-			if(!this.sPassword.equals(sPassword)){
-				this.sPassword = sPassword;
-				this.stage();
-			}
-		}
+		userMapper.setData(row, COL_PASSWORD, sPassword);
 	}
 	
 	/**
@@ -188,7 +137,7 @@ public class User {
 	 * @return sEmail : String
 	 */
 	public String getEmail() {
-		return sEmail;
+		return String.valueOf(userMapper.getStringData(row, COL_EMAIL));
 	}
 	
 	/**
@@ -196,15 +145,7 @@ public class User {
 	 * @param sEmail : String
 	 */
 	public void setEmail(String sEmail) {
-		if(this.sEmail == null){
-			this.sEmail = sEmail;
-			this.stage();
-		}else{
-			if(!this.sEmail.equals(sEmail)){
-				this.sEmail = sEmail;
-				this.stage();
-			}
-		}
+		userMapper.setData(row, COL_EMAIL, sEmail);
 	}
 	
 	/**
@@ -214,26 +155,13 @@ public class User {
 	 */
 	public String[] getValuesAsStringArray(){
 		String[] values = new String[AMOUNT_COLUMNS];
-		values[COL_ROLE] = Integer.toString(this.iRole);
-		values[COL_LOGINNAME] = this.sLoginName;
-		values[COL_FIRSTNAME] = this.sFirstName;
-		values[COL_LASTNAME] = this.sLastName;
-		values[COL_EMAIL] = this.sEmail;
-		values[COL_PASSWORD] = this.sPassword;
+		values[COL_ROLE] = Integer.toString(this.getRole());
+		values[COL_LOGINNAME] = this.getLoginName();
+		values[COL_FIRSTNAME] = this.getFirstName();
+		values[COL_LASTNAME] = this.getLastName();
+		values[COL_EMAIL] = this.getEmail();
+		values[COL_PASSWORD] = this.getPassword();
 		return values;
-	}
-	
-	/**
-	 * Die Attribute des Users werden im CsvHandler zwischengespeichert und somit 
-	 * zum speichern in der CSV-Datei bereit gestellt ("staged").
-	 */
-	private void stage()
-	{
-		//Ueberpruefe ob User-Objekt gueltig (Login & PW gesetzt)
-		if(this.getLoginName() != null && this.getPassword() != null){
-			csvHandler.update(this.getValuesAsStringArray());
-		}
-		
 	}
 
 }

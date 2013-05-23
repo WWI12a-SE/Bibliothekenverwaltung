@@ -39,7 +39,8 @@ public class Mapper {
 	}
 
 	public void setData(int row, int col, Object data){
-		this.data[row][col] = String.valueOf(data);
+		String string = String.valueOf(data);
+		this.data[row][col] = new String(string);
 	}
 	
 	public Object getData(int row, int col){
@@ -58,13 +59,13 @@ public class Mapper {
 	}
 	
 	public Object getStringData(int row, int col){
-		return (String)this.data[row][col];
+		return new String(String.valueOf(this.data[row][col]));
 	}
 	
 	public void storeMap(){
 		
 		// Update
-		String[] stringData = new String[Medium.AMOUNT_COLUMNS];
+		String[] stringData = new String[csvHandler.iColons];
 		for(int i = 0; i < data.length; i++){
 			//Delflag gesetzt => loeschen
 			if(this.data[i][COL_DELFLAG] != null){
@@ -73,26 +74,36 @@ public class Mapper {
 				}else{
 					//Auch Speichern
 					for(int c = 0; c < stringData.length; c++){
-						stringData[c] = (String)getStringData(i, c);//
+						stringData[c] = (String)getStringData(i, c);
 					}
-					this.csvHandler.update(stringData.clone());//stringData);
+					this.csvHandler.update(stringData.clone());
 				}
 			}else{
 				//Speichern
 				for(int c = 0; c < stringData.length; c++){
 					stringData[c] = (String)getStringData(i, c);
 				}
-				this.csvHandler.update(stringData.clone());//stringData);
+				this.csvHandler.update(stringData.clone());
 			}
 		}
 				
 		this.csvHandler.save();
 	}
 	
-	public void deleteRow(int id){
+	public void deleteRow(int key){
 		for(int i = 0; i < data.length; i++){
 			int colID = Integer.parseInt((String)this.data[i][Medium.COL_ID]);
-			if(colID == id){
+			if(colID == key){
+				this.setData(i, COL_DELFLAG, 1);
+				break;
+			}
+		}
+	}
+	
+	public void deleteRow(String key){
+		for(int i = 0; i < data.length; i++){
+			String colID = (String)this.data[i][User.COL_LOGINNAME];
+			if(colID.equals(key)){
 				this.setData(i, COL_DELFLAG, 1);
 				break;
 			}

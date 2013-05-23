@@ -21,6 +21,11 @@ public class HandlerTester {
 		viewUsers();
 		viewMedia();
 		
+		//Reservation
+		addReservation("Nutzer");
+		addReservation("Nutzer2");
+		ReservationHandler.getInstance().deleteReservation(12);
+		
 		//Media
 		addMedium("Autor");
 		addMedium("Autor2");
@@ -28,13 +33,16 @@ public class HandlerTester {
 		mediaHandler.deleteMedium(2);
 		
 		//Reservation
-		addReservation("Nutzer");
-		addReservation("Nutzer2");
-		ReservationHandler.getInstance().deleteReservation(12);
+		addUser("User1", "markus");
+		addUser("User2", "manuel");
+		UserHandler.getInstance().deleteUser("User1");
 
 		//Save
+		UserHandler.getInstance().save();
 		mediaHandler.save();
+		ReservationHandler.getInstance().save();
 		
+		//Mapper
 		viewReservations();
 		viewUsers();
 		viewMedia();
@@ -67,8 +75,6 @@ public class HandlerTester {
 		User user1 = userHandler.getUser("admin");
 		user1.setPassword("1234");
 		User[] users = userHandler.getAllUsers();
-//		user[0].setLoginName("Admön");
-//		userController.save();
 		for(int i = 0; i < users.length; i++){
 			String output = "";
 			String[] values = users[i].getValuesAsStringArray();
@@ -107,5 +113,12 @@ public class HandlerTester {
 		int newID = reservationHandler.getNewID();
 		Reservation reservation = reservationHandler.getReservation(newID);
 		reservation.setLoginName(sLoginName);
+	}
+	
+	private static void addUser(String loginName, String firstname){
+		UserHandler userHandler = UserHandler.getInstance();
+		User user = userHandler.getUser(loginName);
+		user.setLoginName(loginName);
+		user.setFirstName(firstname);
 	}
 }

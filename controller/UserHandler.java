@@ -17,8 +17,11 @@ import model.User;
 public class UserHandler {
 
 	private static final String S_FILE_NAME = "users";
-	private static UserHandler userController;
+	
+	private static UserHandler userHandler;
 	private CsvHandler csvHandler;
+	private static Mapper userMapper;
+	
 	private User[] users; // Alle Benutzer als Objekt in dieses Array
 	
 	/**
@@ -28,6 +31,8 @@ public class UserHandler {
 	private UserHandler()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
+		userMapper = new Mapper(csvHandler);
+		users = new User[csvHandler.getAllIDs().length];
 	}
 	
 	/**
@@ -40,10 +45,10 @@ public class UserHandler {
 	 * @return userHandlerObject : UserHandler -- Objekt des UserHandlers
 	 */
 	public static UserHandler getInstance(){
-		if(userController == null){
-			userController = new UserHandler();
+		if(userHandler == null){
+			userHandler = new UserHandler();
 		}
-		return userController;
+		return userHandler;
 	}
 	
 	/**
@@ -55,31 +60,11 @@ public class UserHandler {
 	 */
 	public User[] getAllUsers()
 	{
-		//Es gibt schon User
-		if(users != null){
-			//Unvollstaendig
-			String[] ids = csvHandler.getAllIDs();
-			if(users.length < ids.length){
-				//Neues Arrey +ids.length lines
-				User[] newUsers = new User[ids.length];
-				for(int i = 0; i < users.length; i++){
-					newUsers[i] = users[i];
-				}
-				//Neue Objekte hinzufuegen
-				for(int i = users.length; i < ids.length; i++){
-					newUsers[i] = new User(this.csvHandler, ids[i]);
-				}
-				this.users = newUsers;
-			}
-		}else{
-//			Alle User werden neu geladen, gestagedte Aenderungen bleiben erhalten
-			String[][] usersMap = csvHandler.read();
-			users = new User[usersMap.length];
-			for(int i = 0; i < users.length; i++){
-				users[i] = new User(this.csvHandler, usersMap[i][User.COL_LOGINNAME]);
+		for(int i = 0; i < users.length; i++){
+			if(users[i] == null){
+				users[i] = new User(userMapper, i);
 			}
 		}
-		
 		return users;
 	}
 	
@@ -97,35 +82,29 @@ public class UserHandler {
 	 */
 	public User getUser(String loginName)
 	{
-		int newIndex;
-		
-		if(users != null){
-			//Durchsuche vorhandene User
-			for(int i = 0; i < users.length; i++){
-				if(users[i].getLoginName().equals(loginName)){
-					return users[i]; //User-Objekt gefunden
-				}
+		//Schon vorhanden
+		for(int i = 0; i < users.length; i++){
+			if(users[i] == null){
+				users[i] = new User(userMapper, i);
 			}
-			newIndex = users.length;
-			//Merke schon initialisierte User
-			User[] oldUsers = users;
-			//Erweitere User-Array
-			users = new User[newIndex+1];
-			//Kopieren des alten User-Arrays	
-			for(int i = 0; i < newIndex; i++){
-				if(oldUsers[i] != null){
-					users[i] = oldUsers[i];
-				}
+			if(users[i].getLoginName().equals(loginName)){
+				return users[i];
 			}
-		}else{
-			newIndex = 0;
-			//Erweitere User-Array
-			users = new User[1];
 		}
 		
-		//Neuen User hinzufuegen
-		users[newIndex] = new User(this.csvHandler, loginName);
-		return users[newIndex];
+		//Neu
+		User[] oldUsers = users;
+		users = new User[oldUsers.length+1];
+		
+		for(int i = 0; i < oldUsers.length; i++){
+			users[i] = oldUsers[i];
+		}
+		
+		userMapper.addRow();
+		users[oldUsers.length] = new User(userMapper, oldUsers.length);
+		users[oldUsers.length].setLoginName(loginName);
+		
+		return users[oldUsers.length];
 	}
 	
 	/**
@@ -133,7 +112,7 @@ public class UserHandler {
 	 * @param loginName : String -- Die ID des zu loeschenden User
 	 */
 	public void deleteUser(String loginName){
-		csvHandler.dropLine(loginName);
+		userMapper.deleteRow(loginName);
 	}
 	
 	/**
@@ -142,7 +121,7 @@ public class UserHandler {
 	 * an User-Objekten werden automatisch ge-"staged".
 	 */
 	public void save(){
-		csvHandler.save();
+		userMapper.storeMap();
 	}
 			
 }
