@@ -32,7 +32,7 @@ public class ReservationsView extends JFrame{
 	
 	public ReservationsView()
 	{
-        oReservationsTable = new JTable(new BaseTable()); 
+        oReservationsTable = new JTable(new Reservations()); 
         
         JScrollPane oPane = new JScrollPane(oReservationsTable); 
 
@@ -48,36 +48,9 @@ public class ReservationsView extends JFrame{
     	
     	
     	JLabel oTestLabel = new JLabel("REs");
-    	getContentPane().add(oTestLabel);
-    	System.out.println("asdasasd");
+    	//getContentPane().add(oTestLabel);
+    	//System.out.println("asdasasd");
+    	
+    	
 	}
-}
-
-
-
-class BaseTable extends DefaultTableModel{
-
-
-	private int rows = 20, cols = 8; 
-     
-    private Object[] rowData = new Object[cols]; 
-
-    public BaseTable() { 
-        super(); 
-        initModelData(); 
-    } 
-
-    private void initModelData() { 
-         
-        for (int i = 0; i < cols; i++) { 
-            this.addColumn(Integer.toString(i)); 
-        } 
-
-        for (int j = 0; j < rows; j++) { 
-            for (int i = 0; i < cols; i++) { 
-                rowData[i] = j + " | " + i; 
-            } 
-            this.addRow(rowData); 
-        } 
-    } 
 }
