@@ -1,6 +1,5 @@
 package controller;
-import model.Medium;
-import model.User;
+import model.*;
 import core.CsvHandler;
 
 public class Mapper {

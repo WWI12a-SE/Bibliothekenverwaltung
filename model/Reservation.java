@@ -1,8 +1,7 @@
 package model;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
-import core.CsvHandler;
+
+import controller.Mapper;
 
 public class Reservation {
 	
@@ -14,13 +13,9 @@ public class Reservation {
 	public static final int COL_EXTENSIONS = 4;
 	public static final int AMOUNT_COLUMNS = 5;
 	
-	private int reservationID;
-	private String sLoginName;
-	private int iMediaID;
-	private Date dateReturnDate;
-	private int iExtensions;
+	private static Mapper reservationMapper;
 	
-	private CsvHandler csvHandler;
+	private int row;
 	
 	/**
 	 * <p>
@@ -33,39 +28,10 @@ public class Reservation {
 	 * @param csvHandler : CsvHandler
 	 * @param ID : Integer
 	 */
-	public Reservation(CsvHandler csvHandler, int ID){
+	public Reservation(Mapper reservationMapper, int row){
 		
-		this.csvHandler = csvHandler;
-		String[] values = csvHandler.getLineById(String.valueOf(ID));
-		
-		this.reservationID = ID;
-		
-		if(values[COL_MEDIA_ID] == null){
-			this.iMediaID = 0;
-		}else{
-			this.iMediaID = Integer.parseInt(values[COL_MEDIA_ID]);
-		}
-		
-		if(values[COL_EXTENSIONS] == null){
-			this.iExtensions = 0;
-		}else{
-			this.iExtensions = Integer.parseInt(values[COL_EXTENSIONS]);
-		}
-		
-		if(values[COL_RETURNDATE] == null){
-			this.dateReturnDate = new Date();
-		}else{
-			try {
-				DateFormat dateFormat = DateFormat.getInstance();
-				this.dateReturnDate = dateFormat.parse(values[COL_RETURNDATE]);
-			} catch (ParseException e) {
-//				TODO Fehlerausgabe Date-ParseException
-				System.out.println("Date-Parse-Fehler Reservation-Konstruktor");
-//				e.printStackTrace();
-			}
-		}
-
-		this.sLoginName = values[COL_LOGINNAME];
+		this.row = row;
+		Reservation.reservationMapper = reservationMapper;
 	}
 	
 	/**
@@ -73,7 +39,7 @@ public class Reservation {
 	 * @return ID : Integer
 	 */
 	public int getReservationID() {
-		return reservationID;
+		return reservationMapper.getIntegerData(row, COL_RESERVATION_ID);
 	}
 	
 	/**
@@ -81,11 +47,7 @@ public class Reservation {
 	 * @param ID : Integer
 	 */
 	public void setReservationID(int reservationID) {
-		System.out.println(this.reservationID +" : "+ reservationID + " : "+ (this.reservationID != reservationID));
-		if(this.reservationID != reservationID){
-			this.reservationID = reservationID;
-			this.stage();
-		}
+		reservationMapper.setData(this.row, COL_RESERVATION_ID, reservationID);
 	}
 	
 	/**
@@ -93,7 +55,7 @@ public class Reservation {
 	 * @return loginName : String
 	 */
 	public String getLoginName() {
-		return sLoginName;
+		return String.valueOf(reservationMapper.getStringData(row, COL_LOGINNAME));
 	}
 	
 	/**
@@ -101,15 +63,7 @@ public class Reservation {
 	 * @param loginName : String
 	 */
 	public void setLoginName(String sLoginName) {
-		if(this.sLoginName == null){
-			this.sLoginName = sLoginName;
-			this.stage();
-		}else{
-			if(!this.sLoginName.equals(sLoginName)){
-				this.sLoginName = sLoginName;
-				this.stage();
-			}
-		}
+		reservationMapper.setData(row, COL_LOGINNAME, sLoginName);
 	}
 	
 	/**
@@ -117,7 +71,7 @@ public class Reservation {
 	 * @return ID : Integer
 	 */
 	public int getMediaID() {
-		return iMediaID;
+		return reservationMapper.getIntegerData(row, COL_MEDIA_ID);
 	}
 	
 	/**
@@ -125,10 +79,7 @@ public class Reservation {
 	 * @return ID : Integer
 	 */
 	public void setMediaID(int iMediaID) {
-		if(this.iMediaID != iMediaID){
-			this.iMediaID = iMediaID;
-			this.stage();
-		}
+		reservationMapper.setData(this.row, COL_MEDIA_ID, iMediaID);
 	}
 	
 	/**
@@ -136,7 +87,12 @@ public class Reservation {
 	 * @return dateReturnDate : Date
 	 */
 	public Date getReturnDate() {
-		return dateReturnDate;
+		try{
+			Date date = (Date)reservationMapper.getData(this.row, COL_RETURNDATE);
+			return date;
+		}catch(Exception e){
+			return new Date();
+		}
 	}
 	
 	/**
@@ -144,8 +100,7 @@ public class Reservation {
 	 * @param dateReturnDate : Date
 	 */
 	public void setReturnDate(Date dateReturnDate) {
-		this.dateReturnDate = dateReturnDate;
-		this.stage();
+		reservationMapper.setData(row, COL_RETURNDATE, dateReturnDate);
 	}
 	
 	/**
@@ -153,7 +108,7 @@ public class Reservation {
 	 * @return iExtensions : Integer
 	 */
 	public int getExtensions() {
-		return iExtensions;
+		return reservationMapper.getIntegerData(row, COL_EXTENSIONS);
 	}
 	
 	/**
@@ -161,10 +116,7 @@ public class Reservation {
 	 * @param iExtensions : Integer
 	 */
 	public void setExtensions(int iExtensions) {
-		if(this.iExtensions != iExtensions){
-			this.iExtensions = iExtensions;
-			this.stage();
-		}
+		reservationMapper.setData(this.row, COL_EXTENSIONS, iExtensions);
 	}
 	
 	/**
@@ -185,13 +137,5 @@ public class Reservation {
 		}
 		return values;
 	}
-	
-	/**
-	 * Die Attribute de Reservierung werden im CsvHandler zwischengespeichert und somit 
-	 * zum speichern in der CSV-Datei bereit gestellt ("gestaged").
-	 */
-	private void stage()
-	{
-		csvHandler.update(this.getValuesAsStringArray());
-	}
+
 }

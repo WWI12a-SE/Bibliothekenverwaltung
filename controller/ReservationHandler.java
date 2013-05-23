@@ -1,15 +1,6 @@
-/**
- * Alle Reservationen
- * Benutzern nur ihre eigenen Reservationen zeigen.
- * @author ja
- *
- */
-
 package controller;
-import model.*;
-
-import java.util.Date;
 import core.CsvHandler;
+import model.*;
 
 /**
  * <p>
@@ -26,9 +17,11 @@ import core.CsvHandler;
 public class ReservationHandler {
 	
 	private static final String S_FILE_NAME = "reservations";
-	private static ReservationHandler reservationHandler;
 	
-	private CsvHandler csvHandler;
+	private static ReservationHandler reservationHandler;
+	private static CsvHandler csvHandler;
+	private static Mapper reservationMapper;
+	
 	private Reservation[] reservations;
 	
 	/**
@@ -38,6 +31,8 @@ public class ReservationHandler {
 	private ReservationHandler()
 	{
 		csvHandler = new CsvHandler(S_FILE_NAME);
+		reservationMapper = new Mapper(csvHandler);
+		reservations = new Reservation[csvHandler.getAllIDs().length];
 	}
 	
 	/**
@@ -65,31 +60,11 @@ public class ReservationHandler {
 	 */
 	public Reservation[] getAllReservations()
 	{
-		//Es gibt schon Reservierungen
-		if(reservations != null){
-			//Unvollstaendig
-			String[] ids = csvHandler.getAllIDs();
-			if(reservations.length < ids.length){
-				//Neues Arrey +ids.length lines
-				Reservation[] newReservations = new Reservation[ids.length];
-				for(int i = 0; i < reservations.length; i++){
-					newReservations[i] = reservations[i];
-				}
-				//Neue Objekte hinzufuegen
-				for(int i = reservations.length; i < ids.length; i++){
-					newReservations[i] = new Reservation(this.csvHandler, Integer.parseInt(ids[i]));
-				}
-				this.reservations = newReservations;
-			}
-		}else{
-//			Alle Reservierungen werden neu geladen, gestagedte Aenderungen bleiben erhalten
-			String[][] reservationsMap = csvHandler.read();
-			reservations = new Reservation[reservationsMap.length];
-			for(int i = 0; i < reservations.length; i++){
-				reservations[i] = new Reservation(this.csvHandler, Integer.parseInt(reservationsMap[i][Reservation.COL_RESERVATION_ID]));
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i] == null){
+				reservations[i] = new Reservation(reservationMapper, i);
 			}
 		}
-
 		return reservations;
 	}
 	
@@ -107,39 +82,29 @@ public class ReservationHandler {
 	 */
 	public Reservation getReservation(int ID)
 	{		
-		int newIndex;
-		
-		//Es gibt geladene Reservierungen
-		if(reservations != null){
-			
-			//Durchsuche vorhandene Reservierungen
-			for(int i = 0; i < reservations.length; i++){
-				if(reservations[i].getReservationID() == ID){
-					return reservations[i]; //Reservierung gefunden
-				}
+		//Schon vorhanden
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i] == null){
+				reservations[i] = new Reservation(reservationMapper, i);
 			}
-			
-			//Init neue Reservierung
-			newIndex = reservations.length;
-			//Merke schon initialisierte Reservierungen
-			Reservation[] oldReservations = reservations;
-			//Erweitere Reservierung-Array
-			reservations = new Reservation[newIndex+1];
-			//Kopieren des alten Reservierung-Arrays
-			for(int i = 0; i < newIndex; i++){
-				if(oldReservations[i] != null){
-					reservations[i] = oldReservations[i];
-				}
+			if(reservations[i].getReservationID() == ID){
+				return reservations[i];
 			}
-		}else{
-			newIndex = 0;
-			//Erweitere Reservierung-Array
-			reservations = new Reservation[1];
 		}
 		
-		//Neue Reservierung hinzufuegen
-		reservations[newIndex] = new Reservation(this.csvHandler, ID);
-		return reservations[newIndex];
+		//Neu
+		Reservation[] oldMedia = reservations;
+		reservations = new Reservation[oldMedia.length+1];
+		
+		for(int i = 0; i < oldMedia.length; i++){
+			reservations[i] = oldMedia[i];
+		}
+		
+		reservationMapper.addRow();
+		reservations[oldMedia.length] = new Reservation(reservationMapper, oldMedia.length);
+		reservations[oldMedia.length].setReservationID(this.getNewID());
+		
+		return reservations[oldMedia.length];
 	}
 	
 	/**
@@ -149,8 +114,14 @@ public class ReservationHandler {
 	 * @return id : Integer
 	 */
 	public int getNewID(){
-		String[] ids = csvHandler.getAllIDs();
-		int newID = Integer.parseInt(ids[ids.length-1])+1;
+		int newID = 0;
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i] != null){
+				if(reservations[i].getReservationID() >= newID){
+					newID = reservations[i].getReservationID()+1;
+				}
+			}
+		}
 		return newID;
 	}
 	
@@ -159,7 +130,7 @@ public class ReservationHandler {
 	 * @param id : Integer -- Die ID der zu loeschenden Reservierung
 	 */
 	public void deleteReservation(int id){
-		csvHandler.dropLine(""+id);
+		reservationMapper.deleteRow(id);
 	}
 	
 	/**
@@ -168,6 +139,6 @@ public class ReservationHandler {
 	 * an Reservierungs-Objekten werden automatisch ge-"staged".
 	 */
 	public void save(){
-		csvHandler.save();
+		reservationMapper.storeMap();
 	}
 }
