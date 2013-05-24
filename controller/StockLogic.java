@@ -36,10 +36,6 @@ public class StockLogic {
 	
 	public boolean returnMedium(User user, int mediaID){
 		
-//		if(!isReturnable(user, mediaID)){
-//			return false;
-//		}
-		
 		/*
 		 * Reservierung suchen und loeschen
 		 */
@@ -49,7 +45,8 @@ public class StockLogic {
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
 				if(isReturnable(user, mediaID)){
 					ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID());
-//					System.out.println("returned medium: "+mediaID+", User: "+loginName);
+					Medium medium = MediaHandler.getInstance().getMedium(mediaID);
+					medium.setOnStock(medium.getOnStock() + 1);
 					return true;
 				}
 			}

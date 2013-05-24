@@ -260,8 +260,6 @@ public class StockView extends JPanel {
 					int mediaID = IDs[selectedIndex];
 					if(stockLogic.returnMedium(user, mediaID)){
 						updateButtons(user, mediaID);	
-						//TODO
-						ReservationHandler.getInstance().save();
 					}
 				}
 			}
@@ -293,7 +291,6 @@ public class StockView extends JPanel {
 			buttonExtend.setEnabled(enableExtend);
 		}
 		
-		//TODO
 		if(buttonDelete != null){
 			buttonDelete.setEnabled(stockLogic.isReturnable(user, mediaID));
 		}
