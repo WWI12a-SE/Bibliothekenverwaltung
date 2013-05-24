@@ -63,21 +63,13 @@ public class Mapper {
 	}
 	
 	public void storeMap(){
-		
+
 		// Update
-		String[] stringData = new String[CsvHandler.iColons];
+		String[] stringData = new String[this.csvHandler.read()[0].length];//CsvHandler.iColons];
 		for(int i = 0; i < data.length; i++){
 			//Delflag gesetzt => loeschen
-			if(this.data[i][COL_DELFLAG] != null){
-				if(Integer.parseInt(String.valueOf(this.getIntegerData(i, COL_DELFLAG))) == 1){
-					this.csvHandler.dropLine((String)data[i][Medium.COL_ID]);
-				}else{
-					//Auch Speichern
-					for(int c = 0; c < stringData.length; c++){
-						stringData[c] = (String)getStringData(i, c);
-					}
-					this.csvHandler.update(stringData.clone());
-				}
+			if(this.getIntegerData(i, COL_DELFLAG) == 1){
+				this.csvHandler.dropLine((String)this.getStringData(i, 0));
 			}else{
 				//Speichern
 				for(int c = 0; c < stringData.length; c++){

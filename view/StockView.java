@@ -11,10 +11,9 @@ import javax.swing.*;
 import javax.swing.table.*;
 import model.Medium;
 import model.User;
-import controller.MediaHandler;
-import controller.MyAccount;
-import controller.ReservationHandler;
-import controller.StockLogic;
+import controller.*;
+import core.CsvHandler;
+
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
@@ -297,7 +296,12 @@ public class StockView extends JPanel {
 		if(buttonNew != null){
 			buttonNew.setEnabled(stockLogic.isReturnable(user, mediaID));
 		}
-		
+		//TODO
+		CsvHandler handler = new CsvHandler("reservations");
+		handler.viewMap();
+		MediaHandler.getInstance().save();
+		ReservationHandler.getInstance().save();
+		UserHandler.getInstance().save();
 	}
 	
 	/**
