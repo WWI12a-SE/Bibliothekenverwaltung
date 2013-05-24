@@ -31,8 +31,8 @@ public class CsvHandler {
 	private File oFile = null; // File-Objekt
 	private FileReader oFileReader = null; // FileReader-Objekt
 	private FileWriter oFileWriter = null;
-	public static int iLines = 0; // Zeilen
-	public static int iColons = 0; // Spalten
+	public int iLines = 0; // Zeilen
+	public int iColons = 0; // Spalten
 	public String[][] aMap = null; // Komplette CSV-Map
 	
 	
