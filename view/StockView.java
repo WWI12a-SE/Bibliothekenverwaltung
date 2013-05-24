@@ -297,11 +297,14 @@ public class StockView extends JPanel {
 			buttonNew.setEnabled(stockLogic.isReturnable(user, mediaID));
 		}
 		//TODO
-		CsvHandler handler = new CsvHandler("reservations");
-		handler.viewMap();
-		MediaHandler.getInstance().save();
-		ReservationHandler.getInstance().save();
-		UserHandler.getInstance().save();
+//		CsvHandler handler = new CsvHandler("reservations");
+//		System.out.println("--CSV-Reservations----------------------");
+//		handler.viewMap();
+//		System.out.println("------------------------");
+		ReservationHandler.getInstance().viewTable();
+//		MediaHandler.getInstance().save();
+//		ReservationHandler.getInstance().save();
+//		UserHandler.getInstance().save();
 	}
 	
 	/**

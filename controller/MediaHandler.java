@@ -142,5 +142,18 @@ public class MediaHandler {
 	public void save(){
 		mediaMapper.storeMap();
 	}
+	
+	public void viewTable(){
+		System.out.println("----Media-Table im MediaHandler---------");
+		Medium[] media = this.getAllMedia();
+		for(int i = 0; i < media.length; i++){
+			String[] stringArray = media[i].getValuesAsStringArray();
+			for(int k = 0; k < stringArray.length; k++){
+				System.out.print(stringArray[k]+"\t");
+			}
+			System.out.println("");
+		}
+		System.out.println("-----------------------------");
+	}
 
 }

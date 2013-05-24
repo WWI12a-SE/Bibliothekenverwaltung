@@ -1,5 +1,6 @@
 package controller;
 import core.CsvHandler;
+import model.Medium;
 import model.Reservation;;
 
 /**
@@ -140,5 +141,18 @@ public class ReservationHandler {
 	 */
 	public void save(){
 		reservationMapper.storeMap();
+	}
+	
+	public void viewTable(){
+		System.out.println("----Reservation-Table im ReservationHandler---------");
+		Reservation[] reservations = this.getAllReservations();
+		for(int i = 0; i < reservations.length; i++){
+			String[] stringArray = reservations[i].getValuesAsStringArray();
+			for(int k = 0; k < stringArray.length; k++){
+				System.out.print(stringArray[k]+"\t");
+			}
+			System.out.println("delflagged: "+reservations[i].isDeleted());
+		}
+		System.out.println("-----------------------------");
 	}
 }
