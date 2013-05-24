@@ -10,6 +10,7 @@ import core.*;
 
 import javax.swing.table.DefaultTableModel;
 
+import model.Medium;
 import model.User;
 
 public class Reservations  extends DefaultTableModel{
@@ -63,14 +64,12 @@ public class Reservations  extends DefaultTableModel{
             		oCellData[i] = aCellVal[i];
             		break;
             	case 1:	// Benutzer-ID
-            		UserHandler oUser = new UserHandler();
-            		oUser.getInstance().getUser(aCellVal[i]);
-            		
-            		oCellData[i] = oUser.getFirstName() + oUser.getLastName();
+            		User oUser = UserHandler.getInstance().getUser(aCellVal[i]);
+            		oCellData[i] = oUser.getFirstName() + " " + oUser.getLastName();
             		break;
             	case 2:	// Buch
-            		Medium oMedium = new Medium();
-            		oMedium.setID(aCellVal[i]);
+            		int iMediumID = Integer.parseInt(aCellVal[i]);
+            		Medium oMedium = MediaHandler.getInstance().getMedium(iMediumID);
             		oCellData[i] = oMedium.getTitle();
             		break;
             	case 3: // Rückgabe
