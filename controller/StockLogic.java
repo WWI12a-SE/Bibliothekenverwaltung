@@ -41,17 +41,21 @@ public class StockLogic {
 		 */
 		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
 		String loginName = user.getLoginName();
-		for(int i = 0; i < reservations.length; i++){
-			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
-				if(isReturnable(user, mediaID)){
-					System.out.println(ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID()));
+		
+		if(isReturnable(user, mediaID)){//Darf generell zurueckgegeben werden
+			for(int i = 0; i < reservations.length; i++){
+				boolean equalMediaID = reservations[i].getMediaID() == mediaID;
+				boolean equalUser = reservations[i].getLoginName().equals(loginName);
+				boolean recordIsActive = !reservations[i].isDeleted();
+				if(equalMediaID && equalUser && recordIsActive){
+//					System.out.println(ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID()));
 					Medium medium = MediaHandler.getInstance().getMedium(mediaID);
 					medium.setOnStock(medium.getOnStock() + 1);
 					return true;
 				}
 			}
 		}
-		
+
 		return false;
 	}
 	

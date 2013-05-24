@@ -59,6 +59,9 @@ public class StockView extends JPanel {
 	private int mode;
 	private int[] IDs;
 
+	public StockView(int mode, Medium[] media){
+		this(mode);
+	}
 
 	public StockView(int mode) {
 		
@@ -79,25 +82,6 @@ public class StockView extends JPanel {
 				 */
 				int mediaID = IDs[stockTable.getSelectedRow()];
 				updateButtons(MyAccount.getLoggedInUser(), mediaID);
-				
-				//Buttons enablen / diseblen
-//				int mode = StockView.this.mode;
-//				if(mode == User.ROLE_STUDENT || mode == User.ROLE_LECTURER){
-//					
-//////					int mediaID = IDs[stockTable.getSelectedRow()];
-////					
-//////					StockLogic stockLogic = StockLogic.getInstance();
-//////					boolean showButtonLease = stockLogic.isReservable(MyAccount.getLoggedInUser(), mediaID);
-//////					
-//////					
-//////					buttonLease.setEnabled(showButtonLease);
-//////					buttonReturn.setEnabled(!showButtonLease);
-//////					boolean showButtonExtend = stockLogic.isExtendable(MyAccount.getLoggedInUser(), mediaID);
-//////					if(showButtonExtend){
-//////						buttonExtend.setEnabled(true);
-//////					}
-//					
-//				}
 				
 			}
 			
