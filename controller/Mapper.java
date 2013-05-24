@@ -82,13 +82,14 @@ public class Mapper {
 		this.csvHandler.save();
 	}
 	
-	public void deleteRow(int key){
+	public boolean deleteRow(int key){
 		for(int i = 0; i < data.length; i++){
 			if(getIntegerData(i, 0) == key && this.getIntegerData(i, COL_DELFLAG) == 0){
 				this.setData(i, COL_DELFLAG, 1);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	public void deleteRow(String key){

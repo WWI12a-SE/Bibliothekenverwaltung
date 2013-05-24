@@ -129,8 +129,8 @@ public class ReservationHandler {
 	 * Entfernt eine Reservierung aus der Laufzeitumgebung (staged delete)
 	 * @param id : Integer -- Die ID der zu loeschenden Reservierung
 	 */
-	public void deleteReservation(int id){
-		reservationMapper.deleteRow(id);
+	public boolean deleteReservation(int id){
+		return reservationMapper.deleteRow(id);
 	}
 	
 	/**

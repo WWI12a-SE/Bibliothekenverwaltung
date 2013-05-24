@@ -44,7 +44,7 @@ public class StockLogic {
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
 				if(isReturnable(user, mediaID)){
-					ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID());
+					System.out.println(ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID()));
 					Medium medium = MediaHandler.getInstance().getMedium(mediaID);
 					medium.setOnStock(medium.getOnStock() + 1);
 					return true;
