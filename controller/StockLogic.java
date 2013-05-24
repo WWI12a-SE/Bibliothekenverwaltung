@@ -36,9 +36,9 @@ public class StockLogic {
 	
 	public boolean returnMedium(User user, int mediaID){
 		
-		if(!isReturnable(user, mediaID)){
-			return false;
-		}
+//		if(!isReturnable(user, mediaID)){
+//			return false;
+//		}
 		
 		/*
 		 * Reservierung suchen und loeschen
@@ -47,8 +47,11 @@ public class StockLogic {
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
-				ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID());
-				return true;
+				if(isReturnable(user, mediaID)){
+					ReservationHandler.getInstance().deleteReservation(reservations[i].getReservationID());
+//					System.out.println("returned medium: "+mediaID+", User: "+loginName);
+					return true;
+				}
 			}
 		}
 		
@@ -115,7 +118,9 @@ public class StockLogic {
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
-				return false;
+				if(!reservations[i].isDeleted()){
+					return false;
+				}
 			}
 		}
 		
@@ -174,7 +179,9 @@ public boolean isExtendable(User user, int mediaID){
 		String loginName = user.getLoginName();
 		for(int i = 0; i < reservations.length; i++){
 			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
-				return true;
+				if(!reservations[i].isDeleted()){
+					return true;
+				}
 			}
 		}
 		return false;

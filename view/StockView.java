@@ -13,6 +13,7 @@ import model.Medium;
 import model.User;
 import controller.MediaHandler;
 import controller.MyAccount;
+import controller.ReservationHandler;
 import controller.StockLogic;
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
@@ -259,6 +260,8 @@ public class StockView extends JPanel {
 					int mediaID = IDs[selectedIndex];
 					if(stockLogic.returnMedium(user, mediaID)){
 						updateButtons(user, mediaID);	
+						//TODO
+						ReservationHandler.getInstance().save();
 					}
 				}
 			}
