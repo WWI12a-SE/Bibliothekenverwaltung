@@ -21,8 +21,8 @@ public class Reservations  extends DefaultTableModel{
     public Reservations() { 
     	super();
     	this.oResHandle = new CsvHandler("reservations");
-    	this.rows = CsvHandler.iLines;
-    	this.cols = CsvHandler.iColons;
+    	this.rows = oResHandle.iLines;
+    	this.cols = oResHandle.iColons;
     	oCellData = new Object[cols];
         initTable();
     }
@@ -63,8 +63,9 @@ public class Reservations  extends DefaultTableModel{
             		oCellData[i] = aCellVal[i];
             		break;
             	case 1:	// Benutzer-ID
-            		User oUser = new User();
-            		oUser.setLoginName(aCellVal[i]);
+            		UserHandler oUser = new UserHandler();
+            		oUser.getInstance().getUser(aCellVal[i]);
+            		
             		oCellData[i] = oUser.getFirstName() + oUser.getLastName();
             		break;
             	case 2:	// Buch
