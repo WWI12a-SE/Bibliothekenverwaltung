@@ -11,8 +11,9 @@ import javax.swing.*;
 import javax.swing.table.*;
 import model.Medium;
 import model.User;
-import controller.MediaHandler;
-import controller.StockLogic;
+import controller.*;
+import core.CsvHandler;
+
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
@@ -73,20 +74,30 @@ public class StockView extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				/*
+				 * Wird mit Zeilenselektion ausgeloest
+				 */
+				int mediaID = IDs[stockTable.getSelectedRow()];
+				updateButtons(MyAccount.getLoggedInUser(), mediaID);
 				
 				//Buttons enablen / diseblen
-				if(buttonLease != null){
-					
-					int mediaID = IDs[stockTable.getSelectedRow()];
-					
-					StockLogic stockLogic = StockLogic.getInstance();
-					boolean showButtonLease = stockLogic.isReservable(mediaID);
-					buttonLease.setEnabled(showButtonLease);
-					
-					if(buttonReturn != null){
-						buttonReturn.setEnabled(!showButtonLease);
-					}
-				}
+//				int mode = StockView.this.mode;
+//				if(mode == User.ROLE_STUDENT || mode == User.ROLE_LECTURER){
+//					
+//////					int mediaID = IDs[stockTable.getSelectedRow()];
+////					
+//////					StockLogic stockLogic = StockLogic.getInstance();
+//////					boolean showButtonLease = stockLogic.isReservable(MyAccount.getLoggedInUser(), mediaID);
+//////					
+//////					
+//////					buttonLease.setEnabled(showButtonLease);
+//////					buttonReturn.setEnabled(!showButtonLease);
+//////					boolean showButtonExtend = stockLogic.isExtendable(MyAccount.getLoggedInUser(), mediaID);
+//////					if(showButtonExtend){
+//////						buttonExtend.setEnabled(true);
+//////					}
+//					
+//				}
 				
 			}
 			
@@ -95,7 +106,6 @@ public class StockView extends JPanel {
 		stockTable = new JTable(stockTableModel);//, JTable.DefaultTableColumnModel(), listSelectionModel);
 //		stockTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
 		stockTable.setSelectionModel(listSelectionModel);
-//		stockTable.getse
 		
 //		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(stockTable);
@@ -194,15 +204,20 @@ public class StockView extends JPanel {
 						message = "Bitte selektieren Sie nur ein Buch!";
 					}
 					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
+					
 				}else{//Auswahl OK
+					
 					int selectedIndex = stockTable.getSelectedRow();
 					StockLogic stockLogic = StockLogic.getInstance();
-					boolean success = stockLogic.reserve(IDs[selectedIndex]);
+					User user = MyAccount.getLoggedInUser();
+					int mediaID = IDs[selectedIndex];
+					boolean success = stockLogic.leaseMedium(user, mediaID);
 					if(success){
-//						JButton b = (JButton)(e.getSource());
-						StockView.this.buttonLease.setEnabled(false);
-						StockView.this.buttonReturn.setEnabled(true);
-//						StockView.this.buttonExtend.setEnabled(true);
+						updateButtons(user, mediaID);
+//						StockView.this.buttonLease.setEnabled(false);
+//						StockView.this.buttonReturn.setEnabled(true);
+//						boolean enableExtend = stockLogic.isExtendable(MyAccount.getLoggedInUser(), IDs[selectedIndex]);
+//						StockView.this.buttonExtend.setEnabled(enableExtend);
 					}
 				}
 			}
@@ -219,6 +234,37 @@ public class StockView extends JPanel {
 		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
 		buttonReturn.setEnabled(false);
+		
+		buttonReturn.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(stockTable.getSelectedRowCount() != 1){//Fehler
+					String message = "";
+					if(stockTable.getSelectedRowCount() == 0){
+						message = "Bitte selektieren Sie das Buch, welches Sie zurückgeben wollen!";
+					}
+					if(stockTable.getSelectedRowCount() > 1){
+						message = "Bitte selektieren Sie nur ein Buch!";
+					}
+					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
+					
+				}else{//Auswahl OK
+					
+					int selectedIndex = stockTable.getSelectedRow();
+					StockLogic stockLogic = StockLogic.getInstance();
+					
+					User user = MyAccount.getLoggedInUser();
+					int mediaID = IDs[selectedIndex];
+					if(stockLogic.returnMedium(user, mediaID)){
+						updateButtons(user, mediaID);	
+					}
+				}
+			}
+			
+		});
+
 		return buttonReturn;
 	}
 	
@@ -227,6 +273,35 @@ public class StockView extends JPanel {
 		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
 		return buttonReturn;
+	}
+	
+	private void updateButtons(User user, int mediaID){
+		
+		StockLogic stockLogic = StockLogic.getInstance();
+		
+		if(buttonLease != null){
+			buttonLease.setEnabled(stockLogic.isLeaseable(user, mediaID));
+		}
+		if(buttonReturn != null){
+			buttonReturn.setEnabled(stockLogic.isReturnable(user, mediaID));
+		}
+		if(buttonExtend != null){
+			boolean enableExtend = stockLogic.isExtendable(user, mediaID);
+			buttonExtend.setEnabled(enableExtend);
+		}
+		
+		if(buttonDelete != null){
+			buttonDelete.setEnabled(stockLogic.isReturnable(user, mediaID));
+		}
+		if(buttonNew != null){
+			buttonNew.setEnabled(stockLogic.isReturnable(user, mediaID));
+		}
+		//TODO
+		CsvHandler handler = new CsvHandler("reservations");
+		handler.viewMap();
+		MediaHandler.getInstance().save();
+		ReservationHandler.getInstance().save();
+		UserHandler.getInstance().save();
 	}
 	
 	/**
