@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +36,14 @@ public class ModifyUserDataPanel extends JPanel {
 	 */
 	public ModifyUserDataPanel() {	
 		this.setLayout(new GridLayout(6, 0));
+		this.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 30));
+		
+		/**
+		 * Der aktuell angeloggte Nutzer wird geholt.
+		 * So koennen der bisher gespeicherte Vor- und Nachname sowie E-mail-Adresse 
+		 * des Nutzers in die jeweiligen Textfelder vorgetragen werden.
+		 */
+		User loggedInUser = MyAccount.getLoggedInUser();		
 		
 		/**
 		 * Das Panel bekommt die erste Zeile "Vorname".
@@ -44,6 +53,7 @@ public class ModifyUserDataPanel extends JPanel {
 		JLabel firstNameLabel = new JLabel("Vorname ändern");
 		firstName.add(firstNameLabel);
 		firstNameTextField = new JTextField(20);
+		firstNameTextField.setText(loggedInUser.getFirstName());
 		firstName.add(firstNameTextField);
 		this.add(firstName);
 				
@@ -55,6 +65,7 @@ public class ModifyUserDataPanel extends JPanel {
 		JLabel secondNameLabel = new JLabel("Nachname ändern");
 		secondName.add(secondNameLabel); 
 		secondNameTextField = new JTextField(20);
+		secondNameTextField.setText(loggedInUser.getLastName());
 		secondName.add(secondNameTextField);
 		this.add(secondName);
 		
@@ -66,6 +77,7 @@ public class ModifyUserDataPanel extends JPanel {
 		JLabel emailLabel = new JLabel("neue E-mail-Adresse");
 		email.add(emailLabel); 
 		emailTextField = new JTextField(20);
+		emailTextField.setText(loggedInUser.getEmail());
 		email.add(emailTextField);
 		this.add(email);
 		
@@ -151,8 +163,17 @@ public class ModifyUserDataPanel extends JPanel {
 		User loggedInUser = MyAccount.getLoggedInUser();
 		loggedInUser.setFirstName(firstName);
 		loggedInUser.setLastName(secondName);
+		
+		/**
+		 * Das Passwort wird nur neu gesetzt, wenn das Passwort-Textfeld nicht leer ist.
+		 */
+		if (!(loggedInUser.getPassword() == null) || !(loggedInUser.getPassword().equals("")));
+		{
+			loggedInUser.setPassword(password);
+		}
+		
 		loggedInUser.setEmail(email);
-		loggedInUser.setPassword(password);
+		
 		
 	}
 }
