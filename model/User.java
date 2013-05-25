@@ -1,5 +1,6 @@
 package model;
 import controller.Mapper;
+import controller.ReservationHandler;
 
 /**
  * <p>
@@ -99,12 +100,27 @@ public class User {
 	}
 	
 	/**
-	 * Getter der BenutzerRolle.
+	 * Getter der Benutzer-Rolle.
 	 * Die Bedeutung des Wertes ist den User-Konstanten zu entnehmen.
 	 * @return iRole : Integer
 	 */
 	public int getRole() {
 		return userMapper.getIntegerData(row, COL_ROLE);
+	}
+	
+	/**
+	 * Getter der Benutzer-Rolle als String.
+	 * Gibt die Bezeichnung der Rolle des Nutzers zurueck:
+	 * "Student" | "Dozent" | "Bibliothekar" | "" [Default]
+	 * @return roleAsString : String
+	 */
+	public String getRoleAsString() {
+		switch(userMapper.getIntegerData(row, COL_ROLE)){
+		case ROLE_STUDENT: return "Student";
+		case ROLE_LECTURER: return "Dozent";
+		case ROLE_LIBRARIAN: return "Bibliothekar";
+		default: return "";
+		}
 	}
 	
 	/**
@@ -162,6 +178,41 @@ public class User {
 		values[COL_EMAIL] = this.getEmail();
 		values[COL_PASSWORD] = this.getPassword();
 		return values;
+	}
+	
+	/**
+	 * Gibt zurueck ob dieser Benutzer Medien entliehen hat.
+	 * @return userHasLeasedAnyMedium : boolean
+	 */
+	public boolean hasLeasedAnyMedium(){
+		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
+		String loginName = this.getLoginName();
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i].getLoginName().equals(loginName) && !reservations[i].isDeleted()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Gibt zurueck ob der Benutzer ein bestimmtes Medium enliehen hat.
+	 * 
+	 * @param mediaID : int - Die ID des zu pruefenden Mediums
+	 * @return userHasLeasedSpecificMedium : boolean
+	 */
+	public boolean hasLeasedSpecificMedium(int mediaID){
+
+		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
+		String loginName = this.getLoginName();
+		for(int i = 0; i < reservations.length; i++){
+			if(reservations[i].getMediaID() == mediaID && reservations[i].getLoginName().equals(loginName)){
+				if(!reservations[i].isDeleted()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
