@@ -19,20 +19,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import controller.MediaHandler;
+import controller.ReservationHandler;
+import controller.UserHandler;
+
 /**
- * Fragt aktiven Benutzer ab,
- * zeigt davon abh�ngig Register an.
- * @author Tina Lindemann
  * 
- * Register:
- * - PanelStock (B�cher)
- * - PanelReservations (Meine R. (Nutzer)/Alle R. (Bibliothekar))
- * 
- * 
- * http://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html
+ * Die Klasse GUI legt den Hauptframe an. Abhaengig vom Nutzer werden unterschiedliche Register angezeigt.
  *
  */
-
 
 public class GUI extends JFrame {
 	
@@ -40,14 +35,17 @@ public class GUI extends JFrame {
 	{
 		super();
 		
-		//das Frame gestalten
-		//---------------------------------------
+		/**
+		 *Der Frame wird gestaltet.
+		 */
 		this.setTitle("Bibliotheksverwaltung");
 		this.setSize(600,600);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		//oberen JPanel anlegen und ihm wieder zwei Panels hinzufügen
+		/** 
+		 * Das obere Panel "top" wird angelegt. Ihm werden zwei Panels, "topNorth" und topSouth", hinzugefuegt.
+		 */
 		JPanel top = new JPanel(new BorderLayout());
 		this.add(top, BorderLayout.NORTH);
 		JPanel topNorth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -55,25 +53,44 @@ public class GUI extends JFrame {
 		top.add(topNorth, BorderLayout.NORTH);
 		top.add(topSouth, BorderLayout.SOUTH);
 		
-		
-		//Abmelden/Speichern-Button dem topNorth hinzufuegen
-		//Button einen ActionListener geben, der zum Login-Fenster zurückführt
+		/**
+		 * Der Abmelden/Speichern-Button kommt in das Panel "topNorth"
+		 * Er bekommt einen ActionListener, der beim Klicken speichert und zurück zum Login-Fenster fuehrt.
+		 */
 		JButton quitSaveButton = new JButton("Abmelden/Speichern");
 		topNorth.add(quitSaveButton);
 		quitSaveButton.addActionListener(new ActionListener() {
 
+			/**
+			 * Der ActionListener.
+			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//aktuelles Fenster unsichtbar
+				/**
+				 * Alle Daten werden gespeichert, indem die jeweiligen Handler aufgerufen werden.
+				 * Da es immer nur jeweils einen Handler für User, Reservations und Media gibt, muss jeweils deren Instanz "geholt" werden.
+				 * An der Instanz wird dann die "save"-Methode aufgerufen.
+				 */
+				UserHandler.getInstance().save();
+				ReservationHandler.getInstance().save();
+				MediaHandler.getInstance().save();
+				
+				/**
+				 * Das Hauptfenster wird unsichtbar.
+				 */
 				setVisible(false);
-				//neues Login-Fenster aufbauen
+				/**
+				 * Das Login-Fenster wird wieder aufgebaut.
+				 */
 				Login login = new Login();
 				login.setVisible(true);
 				
 			}});
-				
-		//Such-TextField und Such-Button anlegen und sie dem topSouth hinzufügen
-		//ActionListener fuer Such-Button 
+		
+		/**
+		 * Das Textfeld "SearchField" und der Button "searchButton" wird angelegt und dem "topSouth"-Panel hinzugefuegt.
+		 * Hinzu kommt eine ActionListener für den Button.
+		 */
 		JButton searchButton = new JButton("Suchen");
 		final JTextField searchField = new JTextField();
 		searchField.setPreferredSize(new Dimension (88, 26));
@@ -81,16 +98,22 @@ public class GUI extends JFrame {
 		topSouth.add(searchButton);
 		searchButton.addActionListener(new ActionListener () {
 
+			/**
+			 * Der ActionListener
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				/**
+				 * Die Methode liest den eingegebenen Text aus dem "SearchField" aus.
+				 */
 				searchField.getText();
 								
 			}});
 		
-		
-		
-		//Tableiste anlegen - kommt in den unteren Bereich des Frames
-		//Panels f�r die tabbedPane anlegen
+		/**
+		 * Die Tableiste wird angelegt und kommt in den unteren Bereich des Frames.
+		 * Zugleich werden die Panels für die Tableiste erzeugt.
+		 */
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
 		this.add(tabPane, BorderLayout.CENTER);
@@ -100,11 +123,16 @@ public class GUI extends JFrame {
 		tabStore.setSize(200, 200);
 		tabReservations.setSize(200, 200);
 		tabMyAccount.setSize(200, 200);
+		tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		//die Panels der Tableiste hinzuf�gen
+		/**
+		 * Die Panels werden der Tableiste hinzugefuegt.
+		 */
 		tabPane.addTab("Bestand", tabStore);
 		tabPane.addTab("Reservierungen", tabReservations);
 		tabPane.addTab("Mein Konto", tabMyAccount);
+		
+		tabMyAccount.add(new ModifyUserDataPanel());
 		
 	}
 		
