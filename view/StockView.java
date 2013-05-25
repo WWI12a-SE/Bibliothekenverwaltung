@@ -46,6 +46,7 @@ public class StockView extends JPanel {
 	private static final int COL_COPIES = 5;
 	private static final int COL_ONSTOCK = 6;
 	private static final int COL_KEYWORDS = 7;
+	private static final int AMOUNT_COLUMNS = 8;
 
 	private JTable stockTable;
 	private StockTableModelListener stockTableModelListener;
@@ -59,6 +60,7 @@ public class StockView extends JPanel {
 	private int mode;
 	private int[] IDs;
 
+	//TODO media
 	public StockView(int mode, Medium[] media){
 		this(mode);
 	}
@@ -80,8 +82,7 @@ public class StockView extends JPanel {
 				/*
 				 * Wird mit Zeilenselektion ausgeloest
 				 */
-				int mediaID = IDs[stockTable.getSelectedRow()];
-				updateButtons(MyAccount.getLoggedInUser(), mediaID);
+				update(stockTable.getSelectedRow());
 				
 			}
 			
@@ -132,14 +133,14 @@ public class StockView extends JPanel {
 		centerPanel.setBackground(Color.WHITE);
 
 		if(this.mode == User.ROLE_STUDENT || this.mode == User.ROLE_LECTURER){
-
-			//Zurueckgeben
-			buttonReturn = getButtonReturn();
-			centerPanel.add(buttonReturn);
 			
 			//Ausleihen
 			buttonLease = getButtonLease();
 			centerPanel.add(buttonLease);
+
+			//Zurueckgeben
+			buttonReturn = getButtonReturn();
+			centerPanel.add(buttonReturn);
 			
 		}
 		
@@ -152,6 +153,14 @@ public class StockView extends JPanel {
 		}
 		
 		if(this.mode == User.ROLE_LIBRARIAN){
+			
+			//Neu hinzufuegen
+//			buttonNew = getButtonNew();
+//			centerPanel.add(buttonNew);
+			
+			//Loeschen
+//			buttonDelete = getButtonDelete();
+//			centerPanel.add(buttonDelete);
 
 		}
 		
@@ -179,31 +188,15 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(stockTable.getSelectedRowCount() != 1){//Fehler
-					String message = "";
-					if(stockTable.getSelectedRowCount() == 0){
-						message = "Bitte selektieren Sie das Buch, welches Sie entleihen wollen!";
-					}
-					if(stockTable.getSelectedRowCount() > 1){
-						message = "Bitte selektieren Sie nur ein Buch!";
-					}
-					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
-					
-				}else{//Auswahl OK
-					
-					int selectedIndex = stockTable.getSelectedRow();
-					StockLogic stockLogic = StockLogic.getInstance();
-					User user = MyAccount.getLoggedInUser();
-					int mediaID = IDs[selectedIndex];
-					boolean success = stockLogic.leaseMedium(user, mediaID);
-					if(success){
-						updateButtons(user, mediaID);
-//						StockView.this.buttonLease.setEnabled(false);
-//						StockView.this.buttonReturn.setEnabled(true);
-//						boolean enableExtend = stockLogic.isExtendable(MyAccount.getLoggedInUser(), IDs[selectedIndex]);
-//						StockView.this.buttonExtend.setEnabled(enableExtend);
-					}
+				int selectedIndex = stockTable.getSelectedRow();
+				StockLogic stockLogic = StockLogic.getInstance();
+				User user = MyAccount.getLoggedInUser();
+				int mediaID = IDs[selectedIndex];
+				boolean success = stockLogic.leaseMedium(user, mediaID);
+				if(success){
+					update(selectedIndex);
 				}
+				
 			}
 			
 		});
@@ -211,6 +204,33 @@ public class StockView extends JPanel {
 		buttonLease.setMargin(new Insets(0,0,0,0));
 		buttonLease.setEnabled(false);
 		return buttonLease;
+	}
+	
+	private JButton getButtonNew(){
+		JButton buttonNew = new JButton("Neu hinzufügen");
+		buttonNew.setPreferredSize(new Dimension(126,30));
+		buttonNew.setMargin(new Insets(0,0,0,0));
+		buttonNew.setEnabled(false);
+		
+		buttonNew.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int selectedIndex = stockTable.getSelectedRow();
+				StockLogic stockLogic = StockLogic.getInstance();
+				
+				User user = MyAccount.getLoggedInUser();
+				int mediaID = IDs[selectedIndex];
+				if(stockLogic.returnMedium(user, mediaID)){
+					update(selectedIndex);	
+				}
+				
+			}
+			
+		});
+
+		return buttonNew;
 	}
 	
 	private JButton getButtonReturn(){
@@ -224,27 +244,15 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(stockTable.getSelectedRowCount() != 1){//Fehler
-					String message = "";
-					if(stockTable.getSelectedRowCount() == 0){
-						message = "Bitte selektieren Sie das Buch, welches Sie zurückgeben wollen!";
-					}
-					if(stockTable.getSelectedRowCount() > 1){
-						message = "Bitte selektieren Sie nur ein Buch!";
-					}
-					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
-					
-				}else{//Auswahl OK
-					
-					int selectedIndex = stockTable.getSelectedRow();
-					StockLogic stockLogic = StockLogic.getInstance();
-					
-					User user = MyAccount.getLoggedInUser();
-					int mediaID = IDs[selectedIndex];
-					if(stockLogic.returnMedium(user, mediaID)){
-						updateButtons(user, mediaID);	
-					}
+				int selectedIndex = stockTable.getSelectedRow();
+				StockLogic stockLogic = StockLogic.getInstance();
+				
+				User user = MyAccount.getLoggedInUser();
+				int mediaID = IDs[selectedIndex];
+				if(stockLogic.returnMedium(user, mediaID)){
+					update(selectedIndex);	
 				}
+				
 			}
 			
 		});
@@ -256,11 +264,38 @@ public class StockView extends JPanel {
 		JButton buttonReturn = new JButton("Verlängern");
 		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
+		buttonReturn.setEnabled(false);
+		buttonReturn.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					
+				int selectedIndex = stockTable.getSelectedRow();
+				StockLogic stockLogic = StockLogic.getInstance();
+				
+				User user = MyAccount.getLoggedInUser();
+				int mediaID = IDs[selectedIndex];
+				
+				if(stockLogic.extendMedium(user, mediaID)){
+					update(selectedIndex);
+				}
+				
+			}
+			
+		});
 		return buttonReturn;
 	}
 	
-	private void updateButtons(User user, int mediaID){
+	private void update(int selectedIndex){
+		updateButtons();
+		stockTableModel.updateRow(selectedIndex);
+		stockTableModel.fireTableRowsUpdated(selectedIndex, selectedIndex);
+	}
+	
+	private void updateButtons(){
 		
+		User user = MyAccount.getLoggedInUser();
+		int mediaID = IDs[stockTable.getSelectedRow()];
 		StockLogic stockLogic = StockLogic.getInstance();
 		
 		if(buttonLease != null){
@@ -270,10 +305,8 @@ public class StockView extends JPanel {
 			buttonReturn.setEnabled(stockLogic.isReturnable(user, mediaID));
 		}
 		if(buttonExtend != null){
-			boolean enableExtend = stockLogic.isExtendable(user, mediaID);
-			buttonExtend.setEnabled(enableExtend);
+			buttonExtend.setEnabled(stockLogic.isExtendable(user, mediaID));
 		}
-		
 		if(buttonDelete != null){
 			buttonDelete.setEnabled(stockLogic.isReturnable(user, mediaID));
 		}
@@ -326,27 +359,25 @@ public class StockView extends JPanel {
 			//Init Data-Values
 			for (int row = 0; row < media.length; row++){
 				IDs[row] = media[row].getID();
-				data[row][COL_TITLE] = media[row].getTitle();
-				data[row][COL_AUTHOR] = media[row].getAuthor();
-				data[row][COL_PUBLISHER] = media[row].getPublisher();
-				data[row][COL_EDITION] = media[row].getEdition();
-				data[row][COL_ISBN] = media[row].getIsbn();
-				data[row][COL_COPIES] = media[row].getCopies();
-				data[row][COL_ONSTOCK] = media[row].getOnStock();
-				data[row][COL_KEYWORDS] = media[row].getKeywords();
+				updateRow(row);
 			}
-//			if(StockView.this.mode == User.ROLE_LIBRARIAN){
-//				for (int row = 0; row < media.length; row++){
-//					JPanel panel = new JPanel();
-//					panel.add(new JLabel("tttt"));
-//					data[row][COL_ACTIONS] = panel;
-//				}
-//			}
+
+		}
+		
+		public void updateRow(int row){
+			Medium media = MediaHandler.getInstance().getMedium(IDs[row]);
+			data[row][COL_TITLE] = media.getTitle();
+			data[row][COL_AUTHOR] = media.getAuthor();
+			data[row][COL_PUBLISHER] = media.getPublisher();
+			data[row][COL_EDITION] = media.getEdition();
+			data[row][COL_ISBN] = media.getIsbn();
+			data[row][COL_COPIES] = media.getCopies();
+			data[row][COL_ONSTOCK] = media.getOnStock();
+			data[row][COL_KEYWORDS] = media.getKeywords();
 		}
 
 		@Override
 		public Class<? extends Object> getColumnClass(int c) {
-//			return String.class;
 			return getValueAt(0, c).getClass();
 		}
 
@@ -388,40 +419,55 @@ public class StockView extends JPanel {
 	
 	private class StockTableModelListener implements TableModelListener {
 
+		private void updateCol(Medium medium, int column, Object data){
+			switch(column){
+			case COL_TITLE:
+				medium.setTitle(String.valueOf(data));
+				break;
+			case COL_AUTHOR:
+				medium.setAuthor(String.valueOf(data));
+				break;
+			case COL_PUBLISHER:
+				medium.setPublisher(String.valueOf(data));
+				break;
+			case COL_EDITION:
+				medium.setEdition(Integer.parseInt(String.valueOf(data)));
+				break;
+			case COL_ISBN:
+				medium.setIsbn(String.valueOf(data));
+				break;
+			case COL_COPIES:
+				medium.setCopies(Integer.parseInt(String.valueOf(data)));
+				break;
+			case COL_ONSTOCK:
+				medium.setOnStock(Integer.parseInt(String.valueOf(data)));
+				break;
+			case COL_KEYWORDS:
+				medium.setKeywords(String.valueOf(data));
+				break;
+		}
+		}
+		
 	    public void tableChanged(TableModelEvent e) {
+	    	
 	        int row = e.getFirstRow();
 	        int column = e.getColumn();
+	        
 	        TableModel model = (TableModel)e.getSource();
-	        Object data = model.getValueAt(row, column);
 	        
 	        MediaHandler mediaHandler = MediaHandler.getInstance();
 			Medium medium = mediaHandler.getMedium(IDs[row]);
-			switch(column){
-				case COL_TITLE:
-					medium.setTitle(String.valueOf(data));
-					break;
-				case COL_AUTHOR:
-					medium.setAuthor(String.valueOf(data));
-					break;
-				case COL_PUBLISHER:
-					medium.setPublisher(String.valueOf(data));
-					break;
-				case COL_EDITION:
-					medium.setEdition(Integer.parseInt(String.valueOf(data)));
-					break;
-				case COL_ISBN:
-					medium.setIsbn(String.valueOf(data));
-					break;
-				case COL_COPIES:
-					medium.setCopies(Integer.parseInt(String.valueOf(data)));
-					break;
-				case COL_ONSTOCK:
-					medium.setOnStock(Integer.parseInt(String.valueOf(data)));
-					break;
-				case COL_KEYWORDS:
-					medium.setKeywords(String.valueOf(data));
-					break;
-			}
+			
+	        if(column == TableModelEvent.ALL_COLUMNS){
+	        	for(int col = 0; col < AMOUNT_COLUMNS; col++){
+	        		Object data = model.getValueAt(row, col);
+	        		updateCol(medium, col, data);
+	        	}
+	        }else{
+	        	Object data = model.getValueAt(row, column);
+	        	updateCol(medium, column, data);
+	        }
+	        
 	    }
 	}
 

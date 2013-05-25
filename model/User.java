@@ -124,7 +124,7 @@ public class User {
 	}
 	
 	/**
-	 * Setter der BenutzerRolle.
+	 * Setter der Benutzer-Rolle.
 	 * Die Bedeutung des Wertes ist den User-Konstanten zu entnehmen.
 	 * @param iRole : Integer
 	 */

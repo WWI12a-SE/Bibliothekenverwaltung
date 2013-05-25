@@ -59,6 +59,31 @@ public class StockLogic {
 		return false;
 	}
 	
+public boolean extendMedium(User user, int mediaID){
+		
+		/*
+		 * Reservierung suchen und loeschen
+		 */
+		Reservation[] reservations = ReservationHandler.getInstance().getAllReservations();
+		String loginName = user.getLoginName();
+		
+		if(isExtendable(user, mediaID)){//Darf generell zurueckgegeben werden
+			for(int i = 0; i < reservations.length; i++){
+				boolean equalMediaID = reservations[i].getMediaID() == mediaID;
+				boolean equalUser = reservations[i].getLoginName().equals(loginName);
+				boolean recordIsActive = !reservations[i].isDeleted();
+				boolean moreAllowed = (reservations[i].getExtensions() == 0);
+				if(equalMediaID && equalUser && recordIsActive && moreAllowed){
+					Reservation reserv = ReservationHandler.getInstance().getReservation(reservations[i].getReservationID());
+					reserv.setExtensions(reserv.getExtensions() + 1);
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	
 	/**
 	 * Das Gegenteil von hasReservation.
 	 * @param user
@@ -156,19 +181,20 @@ public boolean isExtendable(User user, int mediaID){
 		 * User hat entleihgrenze noch nicht erreicht
 		 */
 		ReservationHandler reservationHandler = ReservationHandler.getInstance();
-		Reservation reservation = reservationHandler.getReservation(mediaID);
-		if(reservation.getExtensions() >= EXTENSIONS_MAX){
-			return false;
+		Reservation[] reservations = reservationHandler.getAllReservations();
+		for(int i = 0; i < reservations.length; i++){
+			boolean equalUserID = (reservations[i].getLoginName().equals(user.getLoginName()));
+			boolean equalMediaID = (reservations[i].getMediaID() == mediaID);
+			boolean isActive = !reservations[i].isDeleted();
+			if(equalUserID && equalMediaID && isActive){
+				if(reservations[i].getExtensions() >= EXTENSIONS_MAX){
+					return false;
+				}else{
+					return true;
+				}
+			}
 		}
-		
-		/*
-		 * User hat ein Exemplar dieses Mediums entliehen
-		 */
-		if(!MyAccount.getLoggedInUser().hasLeasedSpecificMedium(mediaID)){
-			return false;
-		}
-		
-		return true;
+		return false;
 		
 	}
 
