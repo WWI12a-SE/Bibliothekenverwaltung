@@ -1,14 +1,14 @@
 /**
  * CSV-Handler
  * Liest eine CSV-Datei ein und parst sie in einem zweidimensionalen Array.
- * Unterstützt das Schreiben von CSV-Dateien.
+ * UnterstÃ¼tzt das Schreiben von CSV-Dateien.
  * 
  * Standardform:
  * "Zeichenfolge";"1000";"1234.56"
- * -	Alle Werte stehen in Anführungszeichen.
- * -	Werte werden in Anführungszeichen gefasst.
+ * -	Alle Werte stehen in AnfÃ¼hrungszeichen.
+ * -	Werte werden in AnfÃ¼hrungszeichen gefasst.
  * 
- * Stundenzähler: 10,5
+ * StundenzÃ¤hler: 11
  * @author Johannes Ackermann
  */
 
@@ -39,7 +39,7 @@ public class CsvHandler {
 	
 	/**
 	 * Constructor
-	 * Nimmt Dateinamen ohne Pfad und Erweiterung entgegen und befüllt daraus globale Variablen und Objekte.
+	 * Nimmt Dateinamen ohne Pfad und Erweiterung entgegen und befÃ¼llt daraus globale Variablen und Objekte.
 	 * Von Erweiterung ".csv" und festem Pfad "data/" unterhalb von src ausgehen.
 	 * 
 	 * @author ja
@@ -116,7 +116,7 @@ public class CsvHandler {
 		}
 		
 		this.aMap = aMap; // Map in statischer Variable speichern
-		oCR.close(); //Handle schließen
+		oCR.close(); //Handle schlieÃŸen
 	}
 	
 	
@@ -138,7 +138,7 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Lesen: Übergeben
+	 * Lesen: Ã¼bergeben
 	 * @author ja
 	 * 
 	 * @param null
@@ -152,8 +152,8 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Alle IDs zurückgeben
-	 * Gibt ein Array mit allen IDs dieser Instanzu zurück.
+	 * Alle IDs zurÃ¼ckgeben
+	 * Gibt ein Array mit allen IDs dieser Instanzu zurÃ¼ck.
 	 * @author ja
 	 * 
 	 * @return String[]
@@ -173,8 +173,8 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Zeile als Array zurückgeben
-	 * Existiert keine Zeile mit dieser ID, wird ein leeres Array zurückgegeben
+	 * Zeile als Array zurÃ¼ckgeben
+	 * Existiert keine Zeile mit dieser ID, wird ein leeres Array zurÃ¼ckgegeben
 	 * @author ja
 	 * 
 	 * @param String
@@ -219,7 +219,7 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Gibt die Nummer (nicht den Index!) der Zeile mit einer ID zurück, beginnt bei 1.
+	 * Gibt die Nummer (nicht den Index!) der Zeile mit einer ID zurÃ¼ck, beginnt bei 1.
 	 * Liefert 0, wenn keine Zeile mit der gefragten ID existiert.
 	 * @author ja
 	 * 
@@ -241,7 +241,7 @@ public class CsvHandler {
 
 		int iOutput = iLineIndex + 1;
 		
-		// Mehr Zeilen gezählt => existiert nicht, 0 setzen.
+		// Mehr Zeilen gezÃ¤hlt => existiert nicht, 0 setzen.
 		if (iOutput > this.iLines){
 			return 0;
 		}
@@ -253,18 +253,18 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Entscheidet, ob ein Datensatz angehängt oder überschrieben wird, wenn die ID bereits existiert.@author ja
+	 * Entscheidet, ob ein Datensatz angehÃ¤ngt oder Ã¼berschrieben wird, wenn die ID bereits existiert.
 	 * @author ja
 	 * 
 	 * @param String[]
 	 */
 	public void update(String[] aLine)
 	{
-		// Stimmt die Länge des Arrays mit der Anzahl der Spalten in der verwendeten CSV-Datei überein?
+		// Stimmt die LÃ¤nge des Arrays mit der Anzahl der Spalten in der verwendeten CSV-Datei Ã¼berein?
 		if (aLine.length == this.iColons){
-			// System.out.println("Länge des einzufügenden Arrays: OK.");
+			// System.out.println("LÃ¤nge des einzufÃ¼genden Arrays: OK.");
 			
-			// Auf Vorhandensein der ID prüfen
+			// Auf Vorhandensein der ID prÃ¼fen
 			if (this.getLineById(aLine[0])[0].equals(aLine[0])){
 				// System.out.println("Es existiert bereits ein Eintrag mit dieser ID, deshalb wird er aktualisier.");
 				this.updateLine(aLine);
@@ -275,9 +275,9 @@ public class CsvHandler {
 			}
 			
 		}
-		// Falsche Länge
+		// Falsche LÃ¤nge
 		else{
-			System.out.println("Der übergebene Datensatz besteht aus " + aLine.length + " Elementen, " +
+			System.out.println("Der Ã¼bergebene Datensatz besteht aus " + aLine.length + " Elementen, " +
 					this.iColons + " werden bei Elementen vom Typ " + this.sObjectType + " erwartet.");
 		}
 		
@@ -286,7 +286,7 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Überschreibt eine Zeile mit vorhandener ID in der Map
+	 * Ãœberschreibt eine Zeile mit vorhandener ID in der Map
 	 * @author ja
 	 * 
 	 * @param aLine
@@ -300,20 +300,20 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Neue Zeile anfügen, wenn ID nicht existiert.
-	 * Kopiert das vorhandene Array this.aMap auf ein Array, das in der ersten Dimension um 1 verlängert wurde.
+	 * Neue Zeile anfÃ¼gen, wenn ID nicht existiert.
+	 * Kopiert das vorhandene Array this.aMap auf ein Array, das in der ersten Dimension um 1 verlï¿½ngert wurde.
 	 * @author ja
 	 * 
 	 * @param aLine
 	 */
 	private void addLine(String[] aLine) {
-		// Neues, verlängertes Array erzeugen
+		// Neues, verlÃ¤ngertes Array erzeugen
 		String[][] aTmpMap = new String[this.aMap.length + 1][this.iColons];
 		
-		// Auf temporäre, verlängerte Map kopieren
+		// Auf temporï¿½re, verlÃ¤ngerte Map kopieren
 		System.arraycopy(this.aMap,0,aTmpMap,0,this.aMap.length);
 		
-		// Die neuen Inhalte in die neue Zeile einfügen
+		// Die neuen Inhalte in die neue Zeile einfÃ¼gen
 		aTmpMap[this.aMap.length] = aLine;
 		
 		// Neue Map auf this.aMap kopieren
@@ -326,8 +326,8 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Eine Zeile löschen
-	 * Löscht eine Zeile, deren ID angegeben wurde
+	 * Eine Zeile lÃ¶schen
+	 * LÃ¶scht eine Zeile, deren ID angegeben wurde
 	 * Unternimmt nichts, wenn diese Zeile nicht existiert.
 	 * @author ja
 	 * 
@@ -335,28 +335,28 @@ public class CsvHandler {
 	 */
 	public void dropLine(String sId)
 	{
-		// Existiert überhaupt eine Zeile mit dieser ID?
+		// Existiert ï¿½berhaupt eine Zeile mit dieser ID?
 		if (this.getLineById(sId)[0].equals("0")){ // Wenn "0", dann Meldung
-			//System.out.println("Es existiert kein Datensatz mit dieser ID. Nichts gelöscht.");
+			//System.out.println("Es existiert kein Datensatz mit dieser ID. Nichts gelÃ¶scht.");
 		}
 		// Sonst...
 		else{
-			// Verkürztes Array vorbereiten
+			// Verkï¿½rztes Array vorbereiten
 			String[][] aTmpMap = new String[this.aMap.length - 1][this.iColons];
 			
 			int iDropIndex = this.getLineNumber(sId) - 1;
 
-			int iCntNew = 0; // Zähler für verkürztes Array
-			int iCntOld = 0; // Zähler für altes Array
+			int iCntNew = 0; // ZÃ¤hler fÃ¼r verkÃ¼rztes Array
+			int iCntOld = 0; // ZÃ¤hler fÃ¼r altes Array
 			
 			while (iCntNew < aTmpMap.length){
 				
-				// Bei Erreichen des zu löschenden Index den Zähler für das alte Array um 1 erhöhen
+				// Bei Erreichen des zu lÃ¶schenden Index den ZÃ¤hler fÃ¼r das alte Array um 1 erhÃ¶hen
 				if (iCntOld == iDropIndex){			
 					iCntOld++;
 				}
 				
-				// Altes Array auf neues kopieren und zu löschendes übergehen
+				// Altes Array auf neues kopieren und zu lÃ¶schendes Ã¼bergehen
 				aTmpMap[iCntNew] = this.aMap[iCntOld];
 				
 				iCntNew++;
@@ -366,7 +366,7 @@ public class CsvHandler {
 			// Neue Map auf this.aMap kopieren
 			this.aMap = aTmpMap;
 			
-			// globaler Wert der Zeilen fällt jetzt um 1
+			// globaler Wert der Zeilen fÃ¼llt jetzt um 1
 			this.iLines = this.iLines - 1;
 		}
 	}
@@ -395,8 +395,8 @@ public class CsvHandler {
 	
 	
 	/**
-	 * Schreiben: Übergebenes zweidomensionales Array in Datei schreiben
-	 * Wird nicht mehr benötigt, da sich CsvHandler selbst um die Verwaltung kümmert.
+	 * Schreiben: Ã¼bergebenes zweidomensionales Array in Datei schreiben
+	 * Wird nicht mehr benÃ¶tigt, da sich CsvHandler selbst um die Verwaltung kÃ¼mmert.
 	 * @author ja
 	 * 
 	 * @deprecated
@@ -437,8 +437,8 @@ public class CsvHandler {
 		try{
 			this.oFileWriter = new FileWriter(this.oFile,false);
 			this.oFileWriter.write(sOutput); // schreiben
-			this.oFileWriter.flush(); // Durchspülen
-			this.oFileWriter.close(); // Handle schließen
+			this.oFileWriter.flush(); // DurchspÃ¼len
+			this.oFileWriter.close(); // Handle schlieÃŸen
 		}
 		catch (IOException e){
 			e.printStackTrace();
