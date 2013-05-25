@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
   <class id="1" language="java" name="core.CsvHandler" project="BibVerwaltung" 
     file="/BibVerwaltung/src/core/CsvHandler.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1099" y="250"/>    
+    <position height="-1" width="-1" x="1202" y="-82"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="model.Medium" project="BibVerwaltung" file="/BibVerwaltung/src/model/Medium.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="903" y="701"/>    
+    <position height="-1" width="-1" x="915" y="675"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="model.User" project="BibVerwaltung" file="/BibVerwaltung/src/model/User.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="905" y="-9"/>    
+    <position height="-1" width="-1" x="922" y="-30"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="controller.UserHandler" project="BibVerwaltung" 
     file="/BibVerwaltung/src/controller/UserHandler.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="693" y="-229"/>    
+    <position height="-1" width="-1" x="670" y="-213"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="controller.MyAccount" project="BibVerwaltung" 
     file="/BibVerwaltung/src/controller/MyAccount.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="516" y="-148"/>    
+    <position height="-1" width="-1" x="-90" y="27"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="BibMain" project="BibVerwaltung" file="/BibVerwaltung/src/BibMain.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-185" y="-232"/>    
+    <position height="-1" width="-1" x="-511" y="-215"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="view.GUI" project="BibVerwaltung" file="/BibVerwaltung/src/view/GUI.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="158" y="-221"/>    
+    <position height="-1" width="-1" x="-92" y="-216"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="view.Login" project="BibVerwaltung" file="/BibVerwaltung/src/view/Login.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="250" width="189" x="-120" y="-137"/>    
+    <position height="250" width="189" x="-424" y="-264"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="view.Login.LoginListener" project="BibVerwaltung" 
     file="/BibVerwaltung/src/view/Login.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-28" y="182"/>    
+    <position height="-1" width="-1" x="-331" y="93"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="view.StockView.StockTableModelListener" project="BibVerwaltung" 
     file="/BibVerwaltung/src/view/StockView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="76" y="871"/>    
+    <position height="-1" width="-1" x="63" y="1098"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="view.StockView" project="BibVerwaltung" 
     file="/BibVerwaltung/src/view/StockView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="208" y="464"/>    
+    <position height="-1" width="-1" x="297" y="736"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -120,185 +120,401 @@
   </class>  
   <class id="14" language="java" name="view.StockView.StockTableModel" project="BibVerwaltung" 
     file="/BibVerwaltung/src/view/StockView.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="340" y="943"/>    
+    <position height="-1" width="-1" x="307" y="1255"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <dependency id="15">    
+  <class id="15" language="java" name="model.Reservation" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/model/Reservation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="909" y="1314"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="controller.Mapper" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/controller/Mapper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1192" y="375"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="view.ModifyUserDataPanel" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/view/ModifyUserDataPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="194" y="-198"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="view.Reservations" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/view/Reservations.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="480" y="-228"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="view.ReservationsView" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/view/ReservationsView.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="269" y="203"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="view.UserTable" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/view/UserTable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="258" y="-15"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="controller.Search" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/controller/Search.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="79" width="85" x="-408" y="356"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="controller.StockLogic" project="BibVerwaltung" 
+    file="/BibVerwaltung/src/controller/StockLogic.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="594" y="1290"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <dependency id="23">    
     <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="2"/>  
   </dependency>  
-  <dependency id="16">    
+  <dependency id="24">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="4"/>  
   </dependency>  
-  <dependency id="17">    
+  <dependency id="25">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="3"/>  
   </dependency>  
-  <nesting id="18">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="12"/>  
-  </nesting>  
-  <dependency id="19">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <dependency id="20">    
+  <dependency id="26">    
     <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <association id="21">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="22" name="oUser"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="24">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="25" name="users"/>      
-      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <association id="27">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="28" name="userHandler"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="28" name="oUser"/>      
       <multiplicity id="29" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="30">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="31" name="userHandler"/>      
+      <multiplicity id="32" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="30">    
+  <dependency id="33">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="34">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="35" name="userMapper"/>      
+      <multiplicity id="36" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="37">    
     <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="5"/>  
   </dependency>  
-  <association id="31">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="32" name="mediaHandler"/>      
-      <multiplicity id="33" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="34">    
+  <dependency id="38">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="8"/>  
   </dependency>  
-  <dependency id="35">    
+  <dependency id="39">    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="10"/>  
   </dependency>  
-  <dependency id="36">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="10"/>  
-  </dependency>  
-  <association id="37">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="38" name="csvHandler"/>      
-      <multiplicity id="39" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <dependency id="40">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="2"/>  
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="15"/>  
   </dependency>  
   <dependency id="41">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="42">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="6"/>  
   </dependency>  
-  <association id="42">    
+  <association id="43">    
     <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="43" name="stockTableModel"/>      
-      <multiplicity id="44" minimum="0" maximum="1"/>    
+      <attribute id="44" name="stockTableModel"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="45">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="46" name="loggedInUser"/>      
-      <multiplicity id="47" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="48">    
+  <dependency id="46">    
     <end type="SOURCE" refId="11"/>    
     <end type="TARGET" refId="9"/>  
   </dependency>  
-  <dependency id="49">    
+  <dependency id="47">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="6"/>  
   </dependency>  
-  <dependency id="50">    
+  <dependency id="48">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="8"/>  
   </dependency>  
-  <association id="51">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="52" name="stockTableModelListener"/>      
-      <multiplicity id="53" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="54">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="55" name="csvHandler"/>      
-      <multiplicity id="56" minimum="0" maximum="1"/>    
+  <association id="49">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="50" name="oResHandle"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="57">    
+  <dependency id="52">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="53">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="15"/>  
+  </dependency>  
+  <association id="54">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="58" name="reservationHandler"/>      
-      <multiplicity id="59" minimum="0" maximum="1"/>    
+      <attribute id="55" name="reservationMapper"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="60">    
+  <nesting id="57">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="11"/>  
   </nesting>  
-  <dependency id="61">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="2"/>  
+  <dependency id="58">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="8"/>  
   </dependency>  
+  <association id="59">    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="60" name="stockLogic"/>      
+      <multiplicity id="61" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <dependency id="62">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="10"/>  
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="5"/>  
   </dependency>  
-  <association id="63">    
+  <dependency id="63">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <association id="64">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="64" name="media"/>      
-      <multiplicity id="65" minimum="0" maximum="2147483647"/>    
+      <attribute id="65" name="media"/>      
+      <multiplicity id="66" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="66">    
+  <dependency id="67">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <nesting id="68">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="14"/>  
   </nesting>  
-  <association id="67">    
+  <association id="69">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="68" name="csvHandler"/>      
-      <multiplicity id="69" minimum="0" maximum="1"/>    
+      <attribute id="70" name="csvHandler"/>      
+      <multiplicity id="71" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="72">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="73" name="reservations"/>      
+      <multiplicity id="74" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="75">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <association id="76">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="77" name="csvHandler"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="79">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="12"/>  
+  </nesting>  
+  <dependency id="80">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="81">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="82" name="users"/>      
+      <multiplicity id="83" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="85" name="mediaMapper"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="88" name="mediaHandler"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="90">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="91">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <association id="92">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="93" name="userMapper"/>      
+      <multiplicity id="94" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="95">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="96" name="csvHandler"/>      
+      <multiplicity id="97" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="98">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="99">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <association id="100">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="101" name="loggedInUser"/>      
+      <multiplicity id="102" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="103">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="104" name="reservationMapper"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="106">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <association id="107">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="108" name="stockTableModelListener"/>      
+      <multiplicity id="109" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="110">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="111" name="csvHandler"/>      
+      <multiplicity id="112" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="113">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <association id="114">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="115" name="reservationHandler"/>      
+      <multiplicity id="116" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="117">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="118">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="119">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <association id="120">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="121" name="mediaMapper"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="123">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    
