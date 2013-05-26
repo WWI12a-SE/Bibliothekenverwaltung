@@ -19,6 +19,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.User;
+
 import controller.MediaHandler;
 import controller.MyAccount;
 import controller.ReservationHandler;
@@ -116,24 +118,31 @@ public class GUI extends JFrame {
 		 * Zugleich werden die Panels für die Tableiste erzeugt.
 		 */
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabPane.setSize(200, 200);
 		this.add(tabPane, BorderLayout.CENTER);
-		JPanel tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
-		JPanel tabReservations = new JPanel();
-		JPanel tabMyAccount = new JPanel();
-		tabStore.setSize(200, 200);
-		tabReservations.setSize(200, 200);
-		tabMyAccount.setSize(200, 200);
-		tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+	
 		/**
 		 * Die Panels werden der Tableiste hinzugefuegt.
+		 * Panel, um Bestand einzusehen, hinzufügen.
+		 * Panel, um Nutzerdaten zu bearbeiten, hinzufügen.
+		 * Panel, um Reservierungen einzusehen, hinzufügen.
 		 */
-		tabPane.addTab("Bestand", tabStore);
-		tabPane.addTab("Reservierungen", tabReservations);
-		tabPane.addTab("Mein Konto", tabMyAccount);
 		
-		tabMyAccount.add(new ModifyUserDataPanel());
+		User loggedInUser = MyAccount.getLoggedInUser();
+		if (loggedInUser != null) {
+			JPanel tabStore = new StockView(MyAccount.getLoggedInUser().getRole());
+			tabPane.addTab("Bestand", tabStore);
+
+			JPanel tabReservations = new JPanel();
+			tabPane.addTab("Reservierungen", tabReservations);
+			
+			JPanel tabMyAccount = new ModifyUserDataPanel();
+			tabPane.addTab("Mein Konto", tabMyAccount);
+			tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
+		}
+
+		
+		
+
 		
 	}
 		
