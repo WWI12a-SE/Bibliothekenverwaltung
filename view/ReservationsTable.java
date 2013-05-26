@@ -8,13 +8,22 @@ package view;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Vector;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import view.ReservationsTable2.FooTableModel;
 
 import controller.*;
 import core.*;
@@ -25,7 +34,6 @@ public class ReservationsTable  extends DefaultTableModel{
 	private CsvHandler oResHandle = null;	// Handler im globalen Objekt
 	private int rows = 0, cols = 0;			// Dimensionen
     private Object[] oCellData = null;		// Platzhalter für Zellen
-    private User oTheUser = null;			// Angemeldeter Benutzer
     private boolean blIsRole = false;		// Dieser kleine Merker sagt uns, ob die View für Rollen ausgelegt sein muss.
 
     public ReservationsTable() { 
@@ -33,8 +41,6 @@ public class ReservationsTable  extends DefaultTableModel{
     	
     	// Variablen füllen
     	this.oResHandle = new CsvHandler("reservations");	// CSV-Handler
-    	
-    	this.oTheUser = MyAccount.getLoggedInUser();
     	this.cols = oResHandle.iColons;
     	this.rows = oResHandle.iLines;
     	
@@ -42,7 +48,7 @@ public class ReservationsTable  extends DefaultTableModel{
     	
     	// Abfeuern
         initTable();
-    	
+
     }
     
 
@@ -78,7 +84,8 @@ public class ReservationsTable  extends DefaultTableModel{
             	
             	switch(i){
             	case 0:	// Ausleihen-ID
-            		ReservationsView.iEditEntry = aCellVal[i]; //+++ als String casten	// Identifikator der Ausleihe an die View übergeben.
+            		// Identifikator der Ausleihe an die View übergeben.
+            		//ReservationsView.iEditEntry = Integer.parseInt(aCellVal[i]);
             		
             		oCellData[i] = aCellVal[i];
             		break;
@@ -99,9 +106,40 @@ public class ReservationsTable  extends DefaultTableModel{
             		break;            		
             	}
             	
-            } 
+            }
+            
               
             this.addRow(oCellData);
+            
+        }
+    }
+
+    /**
+     * Zum Sortieren per Klick auf Spaltentitel
+     * @author ja
+     */
+    class FooTableModel extends DefaultTableModel {
+        public FooTableModel(Object[][] rowData, Object[] headers) {
+            super(rowData, headers);
+        }
+ 
+        public void sortByColumn(final int clm) {
+            Collections.sort(this.dataVector, new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Vector v1 = (Vector) o1;
+                    Vector v2 = (Vector) o2;
+ 
+                    int size1 = v1.size();
+                    if (clm >= size1)
+                        throw new IllegalArgumentException("max column idx: "
+                                + size1);
+ 
+                    String s1 = (String) v1.get(clm);
+                    String s2 = (String) v2.get(clm);
+ 
+                    return s1.compareTo(s2);
+                }
+            });
         }
     }
 }

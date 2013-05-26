@@ -38,27 +38,25 @@ public class ReservationsView extends JFrame{
         JPanel oPanelBtn = new JPanel();
         getContentPane().add(oPanelBtn, BorderLayout.EAST);			// Rechts ausrichten
         
-        // Button: Zurückgeben
-        JButton btnReturn = new JButton("Zurückgeben");
-        oPanelBtn.add(btnReturn);
+        
         
 
-        
-        // Button: Verlängern
-        //if (this.oTheUser.getRole() > User.ROLE_STUDENT){
-        JButton btnExtend = new JButton("Verlängern");
-        oPanelBtn.add(btnExtend);
-        //}
         
         // Hilfslabel
-        JLabel lblHelp = new JLabel(this.iEditEntry);	//++++ als String casten
+        JLabel lblHelp = new JLabel(String.valueOf(this.iEditEntry));
         oPanelBtn.add(lblHelp);
-
         
-        /*
-		JPanel oPanel = new ReservationsLayout();
-		this.add(oPanel);
-		*/
+        // Button: Zurückgeben (Immer zeigen)
+        JButton btnReturn = new JButton("Zurückgeben");
+        btnReturn.addActionListener(new ActionReturn(this.iEditEntry));
+        oPanelBtn.add(btnReturn);
+        
+        // Button: Verlängern (Zeigen, wenn es die Rolle zulässt: Bibliothekar: immer, andere: je nach erlaubter Frist
+        //if (this.oTheUser.getRole() > User.ROLE_STUDENT){
+        JButton btnExtend = new JButton("Verlängern");
+        btnExtend.addActionListener(new ActionExtend(this.iEditEntry));
+        oPanelBtn.add(btnExtend);
+        //}
 		
 		// Basis-Layout
         this.setSize(800, 450); 
@@ -68,7 +66,7 @@ public class ReservationsView extends JFrame{
 	
 
     
-    
+    /** AKTIONEN *****************************************/
     
     /**
      * Zurückgeben, Ausleihe beenden
@@ -76,8 +74,20 @@ public class ReservationsView extends JFrame{
      */
     private class ActionReturn implements ActionListener{
     	
+    	private int iEdit = 0;
+    	
+    	/**
+    	 * Constructor. Nimmt einen übergebenen Integer entgegen, der als
+    	 * Identifikator verwendet wird.
+    	 * @param iEditLine
+    	 */
+    	ActionReturn(int iEditLine){
+    		this.iEdit = iEditLine;
+    	}
+
 		@Override
-		public void actionPerformed(ActionEvent arg0){
+		public void actionPerformed(ActionEvent arg0) {
+			System.out.println("Zurück damit!" + String.valueOf(this.iEdit));
 			
 		}    	
     }
@@ -89,10 +99,21 @@ public class ReservationsView extends JFrame{
      * @author ja
      */
     private class ActionExtend implements ActionListener{
+
+    	private int iEdit = 0;
     	
+    	/**
+    	 * Constructor. Nimmt einen übergebenen Integer entgegen, der als
+    	 * Identifikator verwendet wird.
+    	 * @param iEditLine
+    	 */
+    	ActionExtend(int iEditLine){
+    		this.iEdit = iEditLine;
+    	}
+
 		@Override
-		public void actionPerformed(ActionEvent arg0){
-			
+		public void actionPerformed(ActionEvent arg0) {
+			System.out.println("Mehr davon" + String.valueOf(this.iEdit));
 		}    	
     }
 }
