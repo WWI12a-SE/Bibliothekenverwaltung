@@ -161,9 +161,9 @@ public class StockView extends JPanel {
 			buttonNew = getButtonNew();
 			centerPanel.add(buttonNew);
 			
-			//Loeschen
-//			buttonDelete = getButtonDelete();
-//			centerPanel.add(buttonDelete);
+//			Loeschen
+			buttonDelete = getButtonDelete();
+			centerPanel.add(buttonDelete);
 
 		}
 		
@@ -219,13 +219,7 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int[] oldIDs = IDs;
-				IDs = new int[oldIDs.length + 1];
-				IDs[0] = MediaHandler.getInstance().getNewID();
-				MediaHandler.getInstance().getMedium(IDs[0]);
-				for(int i = 0; i < oldIDs.length; i++){
-					IDs[i+1] = oldIDs[i];
-				}
+				
 				stockTableModel.addRow();
 				
 			}
@@ -233,6 +227,29 @@ public class StockView extends JPanel {
 		});
 
 		return buttonNew;
+	}
+	
+	private JButton getButtonDelete(){
+		JButton buttonDelete = new JButton("Löschen");
+		buttonDelete.setPreferredSize(new Dimension(126,30));
+		buttonDelete.setMargin(new Insets(0,0,0,0));
+		buttonDelete.setEnabled(false);
+		
+		buttonDelete.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int id = IDs[stockTable.getSelectedRow()];
+				MediaHandler.getInstance().deleteMedium(id);
+				
+				stockTableModel.deleteRow(stockTable.getSelectedRow());
+				StockView.this.buttonDelete.setEnabled(false);
+			}
+			
+		});
+
+		return buttonDelete;
 	}
 	
 	private JButton getButtonReturn(){
@@ -311,6 +328,13 @@ public class StockView extends JPanel {
 		if(buttonExtend != null){
 			buttonExtend.setEnabled(stockLogic.isExtendable(user, mediaID));
 		}
+		if(buttonDelete != null){
+			if(stockTable.getRowCount() > 1){
+				buttonDelete.setEnabled(true);
+			}else{
+				buttonDelete.setEnabled(false);
+			}
+		}
 		
 	}
 	
@@ -355,11 +379,61 @@ public class StockView extends JPanel {
 		}
 		
 		private void addRow(){
-			data = new Object[data.length+1][data[0].length];
+			
+			int[] oldIDs = IDs;
+			if(oldIDs != null){
+				IDs = new int[oldIDs.length + 1];
+				for(int i = 0; i < oldIDs.length; i++){
+					IDs[i+1] = oldIDs[i];
+				}
+			}else{
+				IDs = new int[1];
+			}
+			
+			IDs[0] = MediaHandler.getInstance().getNewID();
+			MediaHandler.getInstance().getMedium(IDs[0]);
+			
+			
+			
+			if(data != null){
+				data = new Object[data.length+1][columnNames.length];
+			}else{
+				data = new Object[1][columnNames.length];
+			}
+			
 			for(int i = 0; i < data.length; i++){
 				updateRow(i);
 			}
+			
 			fireTableDataChanged();
+		}
+		
+		private void deleteRow(int row){
+			
+			int[] oldIDs = IDs;
+			if(oldIDs.length > 1){
+				IDs = new int[oldIDs.length - 1];
+				for(int i = 0; i < row; i++){
+					IDs[i] = oldIDs[i];
+				}
+				for(int i = row; i < IDs.length; i++){
+					IDs[i] = oldIDs[i+1];
+				}
+				
+				data = new Object[data.length-1][data[0].length];
+				for(int i = 0; i < data.length; i++){
+					updateRow(i);
+				}
+				
+				fireTableDataChanged();
+			}else{
+				IDs = null;
+				data = null;
+//				fireTableDataChanged();
+			}
+			
+			
+			
 		}
 		
 		public void updateRow(int row){
@@ -391,15 +465,22 @@ public class StockView extends JPanel {
 
 		@Override
 		public int getRowCount() {
-			return data.length;
+			if(data != null){
+				return data.length;
+			}else{
+				return 0;
+			}
 		}
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			if(data[rowIndex][columnIndex].equals("null")){
-				return "";
+			if(data != null){
+				if(data[rowIndex][columnIndex].equals("null")){
+					return "";
+				}
+				return data[rowIndex][columnIndex];
 			}
-			return data[rowIndex][columnIndex];
+			return null;
 		}
 
 		@Override
