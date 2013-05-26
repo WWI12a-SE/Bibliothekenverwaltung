@@ -311,22 +311,7 @@ public class StockView extends JPanel {
 		if(buttonExtend != null){
 			buttonExtend.setEnabled(stockLogic.isExtendable(user, mediaID));
 		}
-		if(buttonDelete != null){
-			buttonDelete.setEnabled(stockLogic.isReturnable(user, mediaID));
-		}
-		if(buttonNew != null){
-			buttonNew.setEnabled(stockLogic.isReturnable(user, mediaID));
-		}
 		
-		//TODO
-//		CsvHandler handler = new CsvHandler("reservations");
-//		System.out.println("--CSV-Reservations----------------------");
-//		handler.viewMap();
-//		System.out.println("------------------------");
-		ReservationHandler.getInstance().viewTable();
-//		MediaHandler.getInstance().save();
-//		ReservationHandler.getInstance().save();
-//		UserHandler.getInstance().save();
 	}
 	
 	/**
@@ -411,6 +396,9 @@ public class StockView extends JPanel {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
+			if(data[rowIndex][columnIndex].equals("null")){
+				return "";
+			}
 			return data[rowIndex][columnIndex];
 		}
 
