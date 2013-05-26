@@ -64,6 +64,10 @@ public class StockView extends JPanel {
 	public StockView(Medium[] media){
 		this();
 	}
+	
+	public StockView(int i){
+		this();
+	}
 
 	public StockView() {
 		
