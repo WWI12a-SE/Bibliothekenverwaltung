@@ -118,7 +118,7 @@ public class GUI extends JFrame {
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
 		this.add(tabPane, BorderLayout.CENTER);
-		JPanel tabStore = new StockView(MyAccount.getLoggedInUser().getRole());
+		JPanel tabStore = new StockView();
 		JPanel tabReservations = new JPanel();
 		JPanel tabMyAccount = new JPanel();
 		tabStore.setSize(200, 200);

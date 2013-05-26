@@ -30,7 +30,7 @@ public class StockViewTest {
 		MyAccount.login(loginName, pw);
 		System.out.println("logged in as "+UserHandler.getInstance().getUser(loginName).getRoleAsString());
 		frame.setSize(800, 600);
-		JPanel panel = new StockView(MyAccount.getLoggedInUser().getRole());
+		JPanel panel = new StockView();
 		frame.add(panel);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

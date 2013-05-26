@@ -141,6 +141,11 @@ public class MediaHandler {
 	 */
 	public void save(){
 		mediaMapper.storeMap();
+		mediaHandler = null;
+	}
+	
+	public static void reset(){
+		mediaHandler = null;
 	}
 	
 	public void viewTable(){

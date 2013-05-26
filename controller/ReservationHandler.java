@@ -141,6 +141,11 @@ public class ReservationHandler {
 	 */
 	public void save(){
 		reservationMapper.storeMap();
+		reservationHandler = null;
+	}
+	
+	public static void reset(){
+		reservationHandler = null;
 	}
 	
 	public void viewTable(){

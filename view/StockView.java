@@ -12,8 +12,6 @@ import javax.swing.table.*;
 import model.Medium;
 import model.User;
 import controller.*;
-import core.CsvHandler;
-
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
@@ -46,7 +44,9 @@ public class StockView extends JPanel {
 	private static final int COL_COPIES = 5;
 	private static final int COL_ONSTOCK = 6;
 	private static final int COL_KEYWORDS = 7;
-	private static final int AMOUNT_COLUMNS = 8;
+	private static final int AMOUNT_COLUMNS_VISIBLE = 8;
+	private static final int AMOUNT_COLUMNS_INVISIBE = 1;
+	private static final int COL_ID = 8;
 
 	private JTable stockTable;
 	private StockTableModelListener stockTableModelListener;
@@ -57,17 +57,15 @@ public class StockView extends JPanel {
 	
 	private JButton buttonLease, buttonReturn, buttonExtend, buttonDelete, buttonNew;
 	
-	private int mode;
-	private int[] IDs;
+//	private int[] IDs;
+//	private int rowsVisible;
 
 	//TODO media
-	public StockView(int mode, Medium[] media){
-		this(mode);
+	public StockView(Medium[] media){
+		this();
 	}
 
-	public StockView(int mode) {
-		
-		this.mode = mode;
+	public StockView() {
 		
 		stockTableModel = new StockTableModel();
 		stockTableModelListener = new StockTableModelListener();
@@ -83,7 +81,7 @@ public class StockView extends JPanel {
 				 * Wird mit Zeilenselektion ausgeloest
 				 */
 				int row = stockTable.getSelectedRow();
-				if(row >= 0){
+				if(row >= 0){ //Nicht Header
 					update(row);
 				}
 				
@@ -91,11 +89,9 @@ public class StockView extends JPanel {
 			
 		});
 		
-		stockTable = new JTable(stockTableModel);//, JTable.DefaultTableColumnModel(), listSelectionModel);
+		stockTable = new JTable(stockTableModel);
 		stockTable.setAutoCreateRowSorter(true);
 		stockTable.setSelectionModel(listSelectionModel);
-		
-//		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(stockTable);
 		
 		scrollPanePanel = new JPanel();
@@ -134,8 +130,9 @@ public class StockView extends JPanel {
 		middleBorderPanel.setBackground(Color.WHITE);
 		eastBorderPanel.setBackground(Color.WHITE);
 		centerPanel.setBackground(Color.WHITE);
+		int role = MyAccount.getLoggedInUser().getRole();
 
-		if(this.mode == User.ROLE_STUDENT || this.mode == User.ROLE_LECTURER){
+		if(role == User.ROLE_STUDENT || role == User.ROLE_LECTURER){
 			
 			//Ausleihen
 			buttonLease = getButtonLease();
@@ -147,7 +144,7 @@ public class StockView extends JPanel {
 			
 		}
 		
-		if(this.mode == User.ROLE_LECTURER){
+		if(role == User.ROLE_LECTURER){
 			
 			//Verlaengern
 			buttonExtend = getButtonExtend();
@@ -155,7 +152,7 @@ public class StockView extends JPanel {
 			
 		}
 		
-		if(this.mode == User.ROLE_LIBRARIAN){
+		if(role == User.ROLE_LIBRARIAN){
 			
 //			Neu hinzufuegen
 			buttonNew = getButtonNew();
@@ -194,7 +191,7 @@ public class StockView extends JPanel {
 				int selectedIndex = stockTable.getSelectedRow();
 				StockLogic stockLogic = StockLogic.getInstance();
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = IDs[selectedIndex];
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 				boolean success = stockLogic.leaseMedium(user, mediaID);
 				if(success){
 					update(selectedIndex);
@@ -240,7 +237,7 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int id = IDs[stockTable.getSelectedRow()];
+				int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 				MediaHandler.getInstance().deleteMedium(id);
 				
 				stockTableModel.deleteRow(stockTable.getSelectedRow());
@@ -267,7 +264,7 @@ public class StockView extends JPanel {
 				StockLogic stockLogic = StockLogic.getInstance();
 				
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = IDs[selectedIndex];
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 				if(stockLogic.returnMedium(user, mediaID)){
 					update(selectedIndex);	
 				}
@@ -280,11 +277,11 @@ public class StockView extends JPanel {
 	}
 	
 	private JButton getButtonExtend(){
-		JButton buttonReturn = new JButton("Verlängern");
-		buttonReturn.setPreferredSize(new Dimension(126,30));
-		buttonReturn.setMargin(new Insets(0,0,0,0));
-		buttonReturn.setEnabled(false);
-		buttonReturn.addActionListener(new ActionListener(){
+		JButton buttonExtend = new JButton("Verlängern");
+		buttonExtend.setPreferredSize(new Dimension(126,30));
+		buttonExtend.setMargin(new Insets(0,0,0,0));
+		buttonExtend.setEnabled(false);
+		buttonExtend.addActionListener(new ActionListener(){
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -293,7 +290,7 @@ public class StockView extends JPanel {
 				StockLogic stockLogic = StockLogic.getInstance();
 				
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = IDs[selectedIndex];
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 				
 				if(stockLogic.extendMedium(user, mediaID)){
 					update(selectedIndex);
@@ -302,7 +299,7 @@ public class StockView extends JPanel {
 			}
 			
 		});
-		return buttonReturn;
+		return buttonExtend;
 	}
 	
 	private void update(int selectedIndex){
@@ -314,9 +311,8 @@ public class StockView extends JPanel {
 	private void updateButtons(){
 		
 		User user = MyAccount.getLoggedInUser();
-		int row = stockTable.getSelectedRow();
 		
-		int mediaID = IDs[row];
+		int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 		StockLogic stockLogic = StockLogic.getInstance();
 		
 		if(buttonLease != null){
@@ -355,7 +351,8 @@ public class StockView extends JPanel {
 				"ISBN", 
 				"Exemplare", 	//5
 				"Verfügbar", 
-				"Stichworte", 	//7
+				"Stichworte",
+				"ID"//7
 		};
 
 		private StockTableModel() {
@@ -364,80 +361,97 @@ public class StockView extends JPanel {
 			MediaHandler mediaHandler = MediaHandler.getInstance();
 			Medium[] media = mediaHandler.getAllMedia();
 			
+
+			
 			//Init Data
 			int rows = media.length;
 			int columns = columnNames.length;
-			data = new Object[rows][columns];
-			IDs  = new int[rows];
+			
+			data = new Object[rows][columns+AMOUNT_COLUMNS_INVISIBE];
 			
 			//Init Data-Values
 			for (int row = 0; row < media.length; row++){
-				IDs[row] = media[row].getID();
-				updateRow(row);
+				initRow(row, media[row]);
 			}
 
 		}
 		
 		private void addRow(){
 			
-			int[] oldIDs = IDs;
-			if(oldIDs != null){
-				IDs = new int[oldIDs.length + 1];
-				for(int i = 0; i < oldIDs.length; i++){
-					IDs[i+1] = oldIDs[i];
-				}
-			}else{
-				IDs = new int[1];
+//			int[] oldIDs = IDs;
+//			if(oldIDs != null){
+//				IDs = new int[oldIDs.length + 1];
+//				for(int i = 0; i < oldIDs.length; i++){
+//					IDs[i+1] = oldIDs[i];
+//				}
+//			}else{
+//				IDs = new int[1];
+//			}
+//			
+//			IDs[0] = MediaHandler.getInstance().getNewID();
+			int id = MediaHandler.getInstance().getNewID();
+//			int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+			Medium newMedium = MediaHandler.getInstance().getMedium(id);
+			
+			int newRow = data.length;
+			int[] ids = new int[data.length];
+			for(int i = 0; i < newRow; i++){
+				ids[i] = Integer.parseInt(String.valueOf(getValueAt(i, COL_ID)));
 			}
-			
-			IDs[0] = MediaHandler.getInstance().getNewID();
-			MediaHandler.getInstance().getMedium(IDs[0]);
-			
-			
 			
 			if(data != null){
 				data = new Object[data.length+1][columnNames.length];
+				//Init Data-Values
 			}else{
 				data = new Object[1][columnNames.length];
 			}
-			
-			for(int i = 0; i < data.length; i++){
-				updateRow(i);
+			//Init Data-Values
+//			Medium[] media = MediaHandler.getInstance().getAllMedia();//TODO modus
+			for (int row = 0; row < ids.length; row++){
+//				initRow(row, media[row]);
+				initRow(row, MediaHandler.getInstance().getMedium(ids[row]));
+				updateRow(row);
 			}
+			initRow(newRow, newMedium);
+			
+//			for(int i = 0; i < data.length; i++){
+//				updateRow(i);
+//			}
 			
 			fireTableDataChanged();
 		}
 		
 		private void deleteRow(int row){
 			
-			int[] oldIDs = IDs;
-			if(oldIDs.length > 1){
-				IDs = new int[oldIDs.length - 1];
-				for(int i = 0; i < row; i++){
-					IDs[i] = oldIDs[i];
-				}
-				for(int i = row; i < IDs.length; i++){
-					IDs[i] = oldIDs[i+1];
-				}
+			if(data.length > 1){
+				int id = Integer.parseInt(String.valueOf(stockTable.getValueAt(row, COL_ID)));
+				MediaHandler.getInstance().deleteMedium(id);
 				
-				data = new Object[data.length-1][data[0].length];
+				int[] ids = new int[data.length-1];
+				for(int i = 0; i < ids.length; i++){
+					if(i < row){
+						ids[i] = Integer.parseInt(String.valueOf(stockTable.getValueAt(i, COL_ID)));
+					}
+					if(i >= row){
+						ids[i] = Integer.parseInt(String.valueOf(stockTable.getValueAt(i+1, COL_ID)));
+					}
+					System.out.println(ids[i]);
+				}
+				data = new Object[data.length-1][AMOUNT_COLUMNS_VISIBLE+AMOUNT_COLUMNS_INVISIBE];
+				
 				for(int i = 0; i < data.length; i++){
+					setValueAt(ids[i], i, COL_ID);
 					updateRow(i);
 				}
 				
 				fireTableDataChanged();
-			}else{
-				IDs = null;
-				data = null;
-//				fireTableDataChanged();
-			}
-			
-			
+			}			
 			
 		}
 		
 		public void updateRow(int row){
-			Medium media = MediaHandler.getInstance().getMedium(IDs[row]);
+			int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
+			Medium media = MediaHandler.getInstance().getMedium(id);
 			data[row][COL_TITLE] = media.getTitle();
 			data[row][COL_AUTHOR] = media.getAuthor();
 			data[row][COL_PUBLISHER] = media.getPublisher();
@@ -446,6 +460,19 @@ public class StockView extends JPanel {
 			data[row][COL_COPIES] = media.getCopies();
 			data[row][COL_ONSTOCK] = media.getOnStock();
 			data[row][COL_KEYWORDS] = media.getKeywords();
+			data[row][COL_ID] = media.getID();
+		}
+		
+		public void initRow(int row, Medium medium){
+			data[row][COL_TITLE] = medium.getTitle();
+			data[row][COL_AUTHOR] = medium.getAuthor();
+			data[row][COL_PUBLISHER] = medium.getPublisher();
+			data[row][COL_EDITION] = medium.getEdition();
+			data[row][COL_ISBN] = medium.getIsbn();
+			data[row][COL_COPIES] = medium.getCopies();
+			data[row][COL_ONSTOCK] = medium.getOnStock();
+			data[row][COL_KEYWORDS] = medium.getKeywords();
+			data[row][COL_ID] = medium.getID();
 		}
 
 		@Override
@@ -466,7 +493,7 @@ public class StockView extends JPanel {
 		@Override
 		public int getRowCount() {
 			if(data != null){
-				return data.length;
+				return data.length;//TODO rowsVisible;
 			}else{
 				return 0;
 			}
@@ -474,6 +501,9 @@ public class StockView extends JPanel {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
+//			if(rowIndex < 0 || columnIndex < 0){
+//				return 0;
+//			}
 			if(data != null){
 				if(data[rowIndex][columnIndex].equals("null")){
 					return "";
@@ -485,7 +515,7 @@ public class StockView extends JPanel {
 
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			if (mode == User.ROLE_LIBRARIAN && col <= 7) {
+			if (MyAccount.getLoggedInUser().getRole() == User.ROLE_LIBRARIAN && col <= 7) {
 				return true;
 			}
 			return false;
@@ -501,7 +531,7 @@ public class StockView extends JPanel {
 	
 	private class StockTableModelListener implements TableModelListener {
 
-		private void updateCol(Medium medium, int column, Object data){
+		private void updateModel(Medium medium, int column, Object data){
 			switch(column){
 			case COL_TITLE:
 				medium.setTitle(String.valueOf(data));
@@ -539,6 +569,9 @@ public class StockView extends JPanel {
 			case COL_KEYWORDS:
 				medium.setKeywords(String.valueOf(data));
 				break;
+			case COL_ID:
+				medium.setID(Integer.parseInt(String.valueOf(data)));
+				break;
 		}
 		}
 		
@@ -548,16 +581,17 @@ public class StockView extends JPanel {
 	        int column = e.getColumn();
 	        
 	        TableModel model = (TableModel)e.getSource();
-			Medium medium = MediaHandler.getInstance().getMedium(IDs[row]);
+	        int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
+			Medium medium = MediaHandler.getInstance().getMedium(id);
 			
 	        if(column == TableModelEvent.ALL_COLUMNS){
-	        	for(int col = 0; col < AMOUNT_COLUMNS; col++){
+	        	for(int col = 0; col < AMOUNT_COLUMNS_VISIBLE; col++){
 	        		Object data = model.getValueAt(row, col);
-	        		updateCol(medium, col, data);
+	        		updateModel(medium, col, data);
 	        	}
 	        }else{
 	        	Object data = model.getValueAt(row, column);
-	        	updateCol(medium, column, data);
+	        	updateModel(medium, column, data);
 	        }
 	    }
 	}

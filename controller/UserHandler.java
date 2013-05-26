@@ -123,6 +123,11 @@ public class UserHandler {
 	 */
 	public void save(){
 		userMapper.storeMap();
+		userHandler = null;
+	}
+	
+	public static void reset(){
+		userHandler = null;
 	}
 	
 	public void viewTable(){
