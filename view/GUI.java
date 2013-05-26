@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import controller.MediaHandler;
+import controller.MyAccount;
 import controller.ReservationHandler;
 import controller.UserHandler;
 
@@ -117,7 +118,7 @@ public class GUI extends JFrame {
 		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabPane.setSize(200, 200);
 		this.add(tabPane, BorderLayout.CENTER);
-		JPanel tabStore = new JPanel();
+		JPanel tabStore = new StockView(MyAccount.getLoggedInUser().getRole());
 		JPanel tabReservations = new JPanel();
 		JPanel tabMyAccount = new JPanel();
 		tabStore.setSize(200, 200);
