@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -18,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import model.User;
 
 import controller.MediaHandler;
 import controller.MyAccount;
@@ -35,6 +38,7 @@ public class GUI extends JFrame {
 	public GUI() 
 	{
 		super();
+		User loggedInUser = MyAccount.getLoggedInUser();
 		
 		/**
 		 *Der Frame wird gestaltet.
@@ -55,13 +59,17 @@ public class GUI extends JFrame {
 		top.add(topSouth, BorderLayout.SOUTH);
 		
 		/**
-		 * Der Abmelden/Speichern-Button kommt in das Panel "topNorth"
-		 * Er bekommt einen ActionListener, der beim Klicken speichert und zurück zum Login-Fenster fuehrt.
+		 * Die Abmelden- und Speichern-Buttons kommen in das Panel "topNorth"
+		 * Der Abmelden-Button bekommt einen ActionListener, der beim Klicken zurück zum Login-Fenster fuehrt.
+		 * Der Speichern-Button speichert.
 		 */
-		JButton quitSaveButton = new JButton("Abmelden/Speichern");
-		topNorth.add(quitSaveButton);
-		quitSaveButton.addActionListener(new ActionListener() {
+		JButton saveButton = new JButton("Speichern");
+		topNorth.add(saveButton);
+		
+		JButton quitButton = new JButton("Abmelden");
+		topNorth.add(quitButton);
 
+		saveButton.addActionListener(new ActionListener() {
 			/**
 			 * Der ActionListener.
 			 */
@@ -87,6 +95,46 @@ public class GUI extends JFrame {
 				login.setVisible(true);
 				
 			}});
+		
+		quitButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 /**
+                 * Wird der Button geklickt, öffnet sich ein Dialog.
+                 */
+                openStandardDialog();
+            }
+        
+			
+			/**
+             * Methode öffnet einen Dialog, der den Nutzer fragt, ob er das Programm beenden möchte.
+             */
+            private void openStandardDialog()
+            {
+                int showConfirmDialog = JOptionPane.showConfirmDialog(GUI.this, "Wollen Sie das Programm wirklich beenden?");
+                /**Wenn der Nutzer auf "Ja" klickt, wird er zm Login-Feld zurückgeführt.
+                 * Das Hauptfenster wird unsichtbar.
+                 */
+                if (showConfirmDialog == JOptionPane.YES_OPTION)
+                {
+                    setVisible(false);
+               
+                    Login login = new Login();
+                    login.setVisible(true);
+                }
+               
+                /**
+                 * Wenn der Nutzer auf "Nein" oder "Abbrechen" klickt, passiert nichts.
+                 */
+                if(showConfirmDialog == JOptionPane.NO_OPTION && showConfirmDialog == JOptionPane.CANCEL_OPTION)
+                {
+                   
+                }
+				
+			}
+			
+		});
 		
 		/**
 		 * Das Textfeld "SearchField" und der Button "searchButton" wird angelegt und dem "topSouth"-Panel hinzugefuegt.
