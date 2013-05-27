@@ -187,10 +187,6 @@ public class UserTable extends JPanel {
 			buttonDelete = getButtonDelete();
 			centerPanel.add(buttonDelete);
 			
-			//UserBearbeiten
-			buttonChange = getButtonChange();
-			centerPanel.add(buttonChange);
-			
 			//UserErstellen
 			buttonNew = getButtonNew();
 			centerPanel.add(buttonNew);
@@ -217,60 +213,45 @@ public class UserTable extends JPanel {
 	 */
 	// Methode von NewButton
 	private JButton getButtonNew() {
-		JButton buttonReturn = new JButton("Neu erstellen");
-		buttonReturn.setPreferredSize(new Dimension(126,30));
-		buttonReturn.setMargin(new Insets(0,0,0,0));
-		return buttonReturn;		
-	}
+		JButton buttonNew = new JButton("Neu erstellen");
+		buttonNew.addActionListener(new ActionListener(){
 
-	/**
-	 * Gibt den initialisierten mit ActionListener ausgestattete Veränder-Button zurueck.
-	 * @return
-	 */
-	// Methode von ChangeButton
-	private JButton getButtonChange(){
-		JButton buttonChange = new JButton("Bearbeiten");
-		buttonChange.addActionListener(new ActionListener(){
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-//				if(userTable.getSelectedRowCount() != 1){//Fehler
-//					String message = "";
-//					if(userTable.getSelectedRowCount() == 0){
-//						message = "Bitte selektieren Sie das Buch, welches Sie entleihen wollen!";
-//					}
-//					if(userTable.getSelectedRowCount() > 1){
-//						message = "Bitte selektieren Sie nur ein Buch!";
-//					}
-//					JOptionPane.showMessageDialog(null, message, "Fehler", JOptionPane.CANCEL_OPTION);
-//				}else{//Auswahl OK
-//					int selectedIndex = userTable.getSelectedRow();
-//					StockLogic stockLogic = StockLogic.getInstance();
-//					boolean success = stockLogic.reserve(IDs[selectedIndex]);
-//					if(success){
-////						JButton b = (JButton)(e.getSource());
-//						UserTable.this.buttonLease.setEnabled(false);
-//						UserTable.this.buttonReturn.setEnabled(true);
-////						StockView.this.buttonExtend.setEnabled(true);
-//					}
-//				}
-		}		
-	});
-				
-		buttonChange.setPreferredSize(new Dimension(126,30));
-		buttonChange.setMargin(new Insets(0,0,0,0));
-		buttonChange.setEnabled(true);
-		return buttonChange;
+				//erstelle eine neue Zeile 				
+			}
+			
+		});
+		buttonNew.setPreferredSize(new Dimension(126,30));
+		buttonNew.setMargin(new Insets(0,0,0,0));
+		return buttonNew;		
 	}
-	
+
+		
 	//Methode für den DeleteButton
 	private JButton getButtonDelete(){
-		JButton buttonReturn = new JButton("Löschen");
-		buttonReturn.setPreferredSize(new Dimension(126,30));
-		buttonReturn.setMargin(new Insets(0,0,0,0));
-		buttonReturn.setEnabled(true);
-		return buttonReturn;
+		JButton buttonDelete = new JButton("Löschen");
+		buttonDelete.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(userTable.getSelectedRowCount()!=0){
+					//zeile markiert, dann hohle massage wollen sie löschen?
+					Object[] options = {"Ja","Nein"};
+					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie den User löschen?", "Achtung", 
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+					if(optionDialog == JOptionPane.YES_OPTION){
+						//dann lösche
+						// gebe die information an Handler weiter
+					}
+				}
+			}
+		});
+		
+		buttonDelete.setPreferredSize(new Dimension(126,30));
+		buttonDelete.setMargin(new Insets(0,0,0,0));
+		buttonDelete.setEnabled(true);
+		return buttonDelete;
 	}
 	
 	
