@@ -22,10 +22,13 @@ import core.Exception.InvalidFormatException;
 import core.Exception.UnequalPasswordsException;
 /**
  * Die Klasse ModifyUserDataPanel wird in einem der Tabs im Hauptfenster aufgerufen.
+ * Es werden sechs Panel samt Textfeld angelegt: Vorname, Nachname, E-mail, Passwort, Passwort wiederholen und Speichern-Button.
  *
  */
 public class ModifyUserDataPanel extends JPanel {
-    private JTextField firstNameTextField;
+    
+	private static final long serialVersionUID = 1L;
+	private JTextField firstNameTextField;
     private JTextField secondNameTextField;
     private JTextField emailTextField;
     private JPasswordField passwordTextField;
@@ -33,21 +36,18 @@ public class ModifyUserDataPanel extends JPanel {
 
     /**
      * Das neue Panel wird mit einem Grid-Layout angelegt.
+     *
+     * Der aktuell angeloggte Nutzer wird geholt.
+     * So koennen der bisher gespeicherte Vor- und Nachname sowie E-mail-Adresse
+     * des Nutzers in die jeweiligen Textfelder vorgetragen werden.
      */
+         
     public ModifyUserDataPanel() {   
         this.setLayout(new GridLayout(6, 0));
         this.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 30));
        
-        /**
-         * Der aktuell angeloggte Nutzer wird geholt.
-         * So koennen der bisher gespeicherte Vor- und Nachname sowie E-mail-Adresse
-         * des Nutzers in die jeweiligen Textfelder vorgetragen werden.
-         */
         User loggedInUser = MyAccount.getLoggedInUser();       
        
-        /**
-         * Das Panel bekommt die erste Zeile "Vorname".
-         */
         JPanel firstName = new JPanel();
         firstName.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JLabel firstNameLabel = new JLabel("Vorname ändern");
@@ -57,9 +57,6 @@ public class ModifyUserDataPanel extends JPanel {
         firstName.add(firstNameTextField);
         this.add(firstName);
                
-        /**
-         * Das Panel bekommt die zweite Zeile "Nachname".
-         */
         JPanel secondName = new JPanel();
         secondName.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JLabel secondNameLabel = new JLabel("Nachname ändern");
@@ -69,9 +66,6 @@ public class ModifyUserDataPanel extends JPanel {
         secondName.add(secondNameTextField);
         this.add(secondName);
        
-        /**
-         * Das Panel bekommt die dritte Zeile "E-mail".
-         */
         JPanel email = new JPanel();
         email.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JLabel emailLabel = new JLabel("neue E-mail-Adresse");
@@ -81,9 +75,6 @@ public class ModifyUserDataPanel extends JPanel {
         email.add(emailTextField);
         this.add(email);
        
-        /**
-         * Das Panel bekommt die vierte Zeile "Passwort".
-         */
         JPanel password = new JPanel();
         password.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JLabel passwordLabel = new JLabel("neues Passwort");
@@ -92,9 +83,6 @@ public class ModifyUserDataPanel extends JPanel {
         password.add(passwordTextField);
         this.add(password);
        
-        /**
-         * Das Panel bekommt die fuenfte Zeile "Passwort wiederholen".
-         */
         JPanel repeatPassword = new JPanel();
         repeatPassword.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JLabel repeatPasswordLabel = new JLabel("Passwort wiederholen");
@@ -103,18 +91,16 @@ public class ModifyUserDataPanel extends JPanel {
         repeatPassword.add(repeatPasswordTextField);
         this.add(repeatPassword);
        
-        /**
-         * Das sechste Panel ist der Speicher-Button.
-         */
         JPanel save = new JPanel();
         JButton saveButton = new JButton("Speichern");
-        /**
-         * Der Speicher-Button bekommt einen ActionListener.
-         * Dieser faengt gegebenenfalls auch Exceptions:
-         * 1. Exception: Wenn Passwort und wiederholtes Passwort nicht übereinstimmen und
-         * 2. Exception: Wenn in der E-mail-Adresse kein @ enthalten ist.
-         */
+        
         saveButton.addActionListener(new ActionListener() {
+        	/**
+        	 * Der Speicher-Button bekommt einen ActionListener.
+        	 * Dieser faengt gegebenenfalls auch Exceptions:
+        	 * 1. Exception: Wenn Passwort und wiederholtes Passwort nicht übereinstimmen und
+        	 * 2. Exception: Wenn in der E-mail-Adresse kein @ enthalten ist.
+        	 */
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 try {       
@@ -136,6 +122,7 @@ public class ModifyUserDataPanel extends JPanel {
      * Die "save"-Methode speichert die vom Nutzer vorgenommenen Aenderungen.
      * Bei fehlerhaften Eingaben, werden Exceptions geworfen, die wiederum vom ActionListener des
      * Speicher-Buttons gefangen werden.
+     * Das Passwort wird nur neu gesetzt, wenn das Passwort-Textfeld nicht leer ist.
      * @throws UnequalPasswordsException
      * @throws InvalidFormatException
      */
@@ -156,24 +143,15 @@ public class ModifyUserDataPanel extends JPanel {
             throw new InvalidFormatException();
         }
        
-        /**
-         * Am Ende wird gespeichert, indem der eingeloggte Nutzer geholt wird.
-         * Seine Daten werden mit den von ihm geaenderten Daten ueberschrieben.
-         */
         User loggedInUser = MyAccount.getLoggedInUser();
         loggedInUser.setFirstName(firstName);
         loggedInUser.setLastName(secondName);
        
-        /**
-         * Das Passwort wird nur neu gesetzt, wenn das Passwort-Textfeld nicht leer ist.
-         */
         if (!(loggedInUser.getPassword() == null) || !(loggedInUser.getPassword().equals("")));
         {
             loggedInUser.setPassword(password);
         }
        
         loggedInUser.setEmail(email);
-       
-       
     }
 }
