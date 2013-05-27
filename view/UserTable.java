@@ -53,10 +53,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.table.*;
-import model.Medium;
 import model.User;
-import controller.MediaHandler;
-import controller.StockLogic;
 import controller.UserHandler;
 
 import javax.swing.event.*;
@@ -100,12 +97,11 @@ public class UserTable extends JPanel {
 	private JPanel[] scrollPaneBorderPanels;
 	
 	//Buttons
-	private JButton buttonChange, buttonDelete, buttonNew;
+	private JButton buttonDelete, buttonNew;
 	
 	private int mode;
-	private int[] IDs;
 
-//constructor
+	//constructor
 	public UserTable(int mode) {
 		
 		this.mode = User.ROLE_LIBRARIAN;
@@ -183,7 +179,7 @@ public class UserTable extends JPanel {
 		centerPanel.setBackground(Color.WHITE);
 
 		//Buttons initialisiert
-			//UserL�schen
+			//UserLoeschen
 			buttonDelete = getButtonDelete();
 			centerPanel.add(buttonDelete);
 			
@@ -192,7 +188,7 @@ public class UserTable extends JPanel {
 			centerPanel.add(buttonNew);
 
 		
-		//Border f�r Buttons	
+		//Border fuer Buttons	
 		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
 		eastBorderPanel.setPreferredSize(new Dimension(SUBPANEL_VERTICAL_WIDTH, SUBPANEL_VERTICAL_HEIGHT));
 		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(middleBorderPanel, BorderLayout.WEST);
@@ -218,33 +214,32 @@ public class UserTable extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//erstelle eine neue Zeile 				
+				//erstelle eine neue Zeile 
+//				int row = userTable.getRowCount();
+//				userTableModel.addNewRow(row+1);
 			}
-			
 		});
 		buttonNew.setPreferredSize(new Dimension(126,30));
 		buttonNew.setMargin(new Insets(0,0,0,0));
 		return buttonNew;		
 	}
-
-		
-	//Methode f�r den DeleteButton
+	
+			
+	//Methode fuer den DeleteButton
 	private JButton getButtonDelete(){
-		JButton buttonDelete = new JButton("L�schen");
+		JButton buttonDelete = new JButton("Entfernen");
 		buttonDelete.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(userTable.getSelectedRowCount()!=0){
-					//zeile markiert, dann hohle massage wollen sie l�schen?
+					//zeile markiert, dann hohle massage wollen sie loeschen?; gebe die information an Handler weiter
 					Object[] options = {"Ja","Nein"};
-					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie den User l�schen?", "Achtung", 
+					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie diesen Benutzer wirklich entfernen?", "Achtung", 
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 					if(optionDialog == JOptionPane.YES_OPTION){
 					int row = getSelectedIndex();
 					userTableModel.deleteRow(row);
-						
-					//gebe die information an Handler weiter
 					}
 				}
 			}
@@ -256,6 +251,7 @@ public class UserTable extends JPanel {
 		return buttonDelete;
 	}
 	
+	// Index der gewaehlten Zeile
 	private int getSelectedIndex(){
 		int row = userTable.getSelectedRow();
 		if(row != -1){
@@ -293,7 +289,6 @@ public class UserTable extends JPanel {
 			int rows = users.length;
 			int columns = columnNames.length;
 			data = new Object[rows][columns];
-			IDs  = new int[rows];
 			
 			//Init Data-Values
 			for (int row = 0; row < users.length; row++){
@@ -307,7 +302,7 @@ public class UserTable extends JPanel {
 			}
 		}
 
-		// �berschriebene Methoden
+		// Ueberschriebene Methoden
 		@Override
 		public Class<? extends Object> getColumnClass(int c) {
 //			return String.class;
@@ -352,8 +347,7 @@ public class UserTable extends JPanel {
 		 * Loescht eine Zeile aus der Tabelle und aus dem UserHandler
 		 * @param row : Integer - Die tatsaechliche Zeile des Datensatzes (unabhaengig der Table-Darstellung)
 		 */
-		private void deleteRow(int row){
-			
+		private void deleteRow(int row){	
 			if(data.length > 1){
 				String loginName = String.valueOf(userTable.getValueAt(row, COL_Loginname));
 				UserHandler.getInstance().deleteUser(loginName);
@@ -374,8 +368,34 @@ public class UserTable extends JPanel {
 					setValueAt(ids[i], i, COL_Loginname);
 					updateRow(i);
 				}
-				
 				fireTableDataChanged();
+			}	
+		}
+		
+		// neue Zeile hinzufuegen
+		private void addNewRow(int row){
+			
+			if(data.length > 1){
+				String neuerName = String.valueOf(userTable.getValueAt(row, COL_Loginname));
+				UserHandler.getInstance().getUser(neuerName);
+				
+//				String[] ids = new String[data.length];
+//				for(int i = 0; i < ids.length; i++){
+//					if(i < row){
+//						ids[i] = String.valueOf(userTable.getValueAt(i, COL_Loginname));
+//					}
+//					if(i >= row){
+//						ids[i] = String.valueOf(userTable.getValueAt(i+1, COL_Loginname));
+//					}
+//					System.out.println(ids[i]);
+//				}
+//				data = new Object[data.length-1][6];
+//				
+//				for(int i = 0; i < data.length; i++){
+//					setValueAt(ids[i], i, COL_Loginname);
+//					updateRow(i);
+//				}
+//				fireTableDataChanged();
 			}	
 		}
 		
@@ -393,10 +413,9 @@ public class UserTable extends JPanel {
 			data[row][COL_E_Mail] = user.getEmail();
 			data[row][COL_Password]= user.getPassword();
 		}
-
 	}
 	
-	//Listener f�r UserTable
+	//Listener fuer UserTable
 	private class UserTableModelListener implements TableModelListener {
 
 	    public void tableChanged(TableModelEvent e) {
