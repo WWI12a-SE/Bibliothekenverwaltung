@@ -106,6 +106,14 @@ public class StockView extends JPanel {
 		this.add(scrollPanePanel);
 	}
 	
+	public int getSelectedIndex(){
+		int row = stockTable.getSelectedRow();
+		if (row != -1) {
+			row = stockTable.convertRowIndexToModel(row);
+		}
+		return row;
+	}
+	
 	private void addBorderPanels(){
 		//Array-Init
 		scrollPaneBorderPanels = new JPanel[4];
@@ -190,13 +198,13 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int selectedIndex = stockTable.getSelectedRow();
 				StockLogic stockLogic = StockLogic.getInstance();
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+				int row = getSelectedIndex();
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
 				boolean success = stockLogic.leaseMedium(user, mediaID);
 				if(success){
-					update(selectedIndex);
+					update(row);
 				}
 				
 			}
@@ -239,10 +247,11 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+				int row = getSelectedIndex();
+				int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
 				MediaHandler.getInstance().deleteMedium(id);
 				
-				stockTableModel.deleteRow(stockTable.getSelectedRow());
+				stockTableModel.deleteRow(row);
 				StockView.this.buttonDelete.setEnabled(false);
 			}
 			
@@ -262,13 +271,15 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int selectedIndex = stockTable.getSelectedRow();
 				StockLogic stockLogic = StockLogic.getInstance();
 				
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+				
+				int row = getSelectedIndex();
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
+				
 				if(stockLogic.returnMedium(user, mediaID)){
-					update(selectedIndex);	
+					update(row);	
 				}
 				
 			}
@@ -288,14 +299,14 @@ public class StockView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					
-				int selectedIndex = stockTable.getSelectedRow();
 				StockLogic stockLogic = StockLogic.getInstance();
 				
 				User user = MyAccount.getLoggedInUser();
-				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+				int row = getSelectedIndex();
+				int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
 				
 				if(stockLogic.extendMedium(user, mediaID)){
-					update(selectedIndex);
+					update(row);
 				}
 				
 			}
@@ -313,8 +324,8 @@ public class StockView extends JPanel {
 	private void updateButtons(){
 		
 		User user = MyAccount.getLoggedInUser();
-		
-		int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
+		int row = getSelectedIndex();
+		int mediaID = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
 		StockLogic stockLogic = StockLogic.getInstance();
 		
 		if(buttonLease != null){
@@ -380,19 +391,7 @@ public class StockView extends JPanel {
 		
 		private void addRow(){
 			
-//			int[] oldIDs = IDs;
-//			if(oldIDs != null){
-//				IDs = new int[oldIDs.length + 1];
-//				for(int i = 0; i < oldIDs.length; i++){
-//					IDs[i+1] = oldIDs[i];
-//				}
-//			}else{
-//				IDs = new int[1];
-//			}
-//			
-//			IDs[0] = MediaHandler.getInstance().getNewID();
 			int id = MediaHandler.getInstance().getNewID();
-//			int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(stockTable.getSelectedRow(), COL_ID)));
 			Medium newMedium = MediaHandler.getInstance().getMedium(id);
 			
 			int newRow = data.length;
@@ -403,7 +402,6 @@ public class StockView extends JPanel {
 			
 			if(data != null){
 				data = new Object[data.length+1][columnNames.length];
-				//Init Data-Values
 			}else{
 				data = new Object[1][columnNames.length];
 			}
@@ -415,10 +413,6 @@ public class StockView extends JPanel {
 				updateRow(row);
 			}
 			initRow(newRow, newMedium);
-			
-//			for(int i = 0; i < data.length; i++){
-//				updateRow(i);
-//			}
 			
 			fireTableDataChanged();
 		}
