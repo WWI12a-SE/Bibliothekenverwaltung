@@ -42,7 +42,7 @@ public class MyAccount {
 	 * Logout-Funktion:
 	 * Abmelden und dabei speichern.
 	 */
-	public void logout()
+	public static void logout()
 	{
 		// Erst speichern
 		//this.oUtilities.store();
