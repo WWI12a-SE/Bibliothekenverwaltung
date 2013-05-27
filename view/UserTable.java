@@ -7,8 +7,8 @@
 //public class UserTable extends JTable {
 //
 //	/**
-//	 * Tabellenansicht über alle Benutzer, die registriert sind und Bücher ausgeliehen haben.
-//	 * Ansicht nur für den Bibliothekar
+//	 * Tabellenansicht ï¿½ber alle Benutzer, die registriert sind und Bï¿½cher ausgeliehen haben.
+//	 * Ansicht nur fï¿½r den Bibliothekar
 //	 */
 //	
 //	//constructor
@@ -23,7 +23,7 @@
 ////	public static void main(String[] args) {
 ////		String[][] rowData = {
 ////			    { "Japan", "245" }, { "USA", "240" }, { "Italien", "220" },
-////			    { "Spanien", "217" }, {"Türkei", "215"} ,{ "England", "214" },
+////			    { "Spanien", "217" }, {"Tï¿½rkei", "215"} ,{ "England", "214" },
 ////			    { "Frankreich", "190" }, {"Griechenland", "185" },
 ////			    { "Deutschland", "180" }, {"Portugal", "170" }
 ////			  	};
@@ -183,7 +183,7 @@ public class UserTable extends JPanel {
 		centerPanel.setBackground(Color.WHITE);
 
 		//Buttons initialisiert
-			//UserLöschen
+			//UserLï¿½schen
 			buttonDelete = getButtonDelete();
 			centerPanel.add(buttonDelete);
 			
@@ -192,7 +192,7 @@ public class UserTable extends JPanel {
 			centerPanel.add(buttonNew);
 
 		
-		//Border für Buttons	
+		//Border fï¿½r Buttons	
 		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
 		eastBorderPanel.setPreferredSize(new Dimension(SUBPANEL_VERTICAL_WIDTH, SUBPANEL_VERTICAL_HEIGHT));
 		scrollPaneBorderPanels[SUBPANEL_EAST_INDEX].add(middleBorderPanel, BorderLayout.WEST);
@@ -228,25 +228,21 @@ public class UserTable extends JPanel {
 	}
 
 		
-	//Methode für den DeleteButton
+	//Methode fï¿½r den DeleteButton
 	private JButton getButtonDelete(){
-		JButton buttonDelete = new JButton("Löschen");
+		JButton buttonDelete = new JButton("Lï¿½schen");
 		buttonDelete.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(userTable.getSelectedRowCount()!=0){
-					//zeile markiert, dann hohle massage wollen sie löschen?
+					//zeile markiert, dann hohle massage wollen sie lï¿½schen?
 					Object[] options = {"Ja","Nein"};
-					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie den User löschen?", "Achtung", 
+					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie den User lï¿½schen?", "Achtung", 
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 					if(optionDialog == JOptionPane.YES_OPTION){
-						int row = userTable.getSelectedRow();
-						if(row != -1){
-							row = userTable.convertRowIndexToModel(row);
-						}
-					
-					UserHandler.getInstance().deleteUser(String.valueOf(userTable.getValueAt(row,COL_Loginname)));
+					int row = getSelectedIndex();
+					userTableModel.deleteRow(row);
 						
 					//gebe die information an Handler weiter
 					}
@@ -260,7 +256,13 @@ public class UserTable extends JPanel {
 		return buttonDelete;
 	}
 	
-	
+	private int getSelectedIndex(){
+		int row = userTable.getSelectedRow();
+		if(row != -1){
+			row = userTable.convertRowIndexToModel(row);
+		}
+		return row;
+	}
 	
 	/**
 	 * Innere Klasse UserTableModel
@@ -305,7 +307,7 @@ public class UserTable extends JPanel {
 			}
 		}
 
-		// Überschriebene Methoden
+		// ï¿½berschriebene Methoden
 		@Override
 		public Class<? extends Object> getColumnClass(int c) {
 //			return String.class;
@@ -345,10 +347,56 @@ public class UserTable extends JPanel {
 			data[rowIndex][columnIndex] = aValue;
 			fireTableCellUpdated(rowIndex, columnIndex);
 	    }
+		
+		/**
+		 * Loescht eine Zeile aus der Tabelle und aus dem UserHandler
+		 * @param row : Integer - Die tatsaechliche Zeile des Datensatzes (unabhaengig der Table-Darstellung)
+		 */
+		private void deleteRow(int row){
+			
+			if(data.length > 1){
+				String loginName = String.valueOf(userTable.getValueAt(row, COL_Loginname));
+				UserHandler.getInstance().deleteUser(loginName);
+				
+				String[] ids = new String[data.length-1];
+				for(int i = 0; i < ids.length; i++){
+					if(i < row){
+						ids[i] = String.valueOf(userTable.getValueAt(i, COL_Loginname));
+					}
+					if(i >= row){
+						ids[i] = String.valueOf(userTable.getValueAt(i+1, COL_Loginname));
+					}
+					System.out.println(ids[i]);
+				}
+				data = new Object[data.length-1][6];
+				
+				for(int i = 0; i < data.length; i++){
+					setValueAt(ids[i], i, COL_Loginname);
+					updateRow(i);
+				}
+				
+				fireTableDataChanged();
+			}	
+		}
+		
+		/**
+		 * Setzt die Table-Werte einer Zeile auf die des entsrechenden Users. Der loginName des Users muss hierzu gesetzt sein.
+		 * @param row : Integer
+		 */
+		public void updateRow(int row){
+			String loginName = String.valueOf(userTable.getModel().getValueAt(row, COL_Loginname));
+			User user = UserHandler.getInstance().getUser(loginName);
+			data[row][COL_Role] = user.getRole();
+			data[row][COL_Loginname] = user.getLoginName();
+			data[row][COL_Firstname] = user.getFirstName();
+			data[row][COL_Lastname] = user.getLastName();
+			data[row][COL_E_Mail] = user.getEmail();
+			data[row][COL_Password]= user.getPassword();
+		}
 
 	}
 	
-	//Listener für UserTable
+	//Listener fï¿½r UserTable
 	private class UserTableModelListener implements TableModelListener {
 
 	    public void tableChanged(TableModelEvent e) {
@@ -358,7 +406,7 @@ public class UserTable extends JPanel {
 	        Object data = model.getValueAt(row, column);
 	        	        
 			UserHandler userHandler = UserHandler.getInstance();
-			User users = userHandler.getUser(String.valueOf(IDs[row]));
+			User users = userHandler.getUser(String.valueOf(userTable.getValueAt(getSelectedIndex(), COL_Loginname)));
 			switch(column){
 				case COL_Role:
 					users.setRole(1);

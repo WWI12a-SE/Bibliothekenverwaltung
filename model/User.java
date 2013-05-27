@@ -132,6 +132,13 @@ public class User {
 		userMapper.setData(this.row, COL_ROLE, iRole);
 	}
 	
+	public void setRoleFromString(String role){
+		switch(role){
+		case ROLE_STUDENT: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
+		case ROLE_LECTURER: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
+		case ROLE_LIBRARIAN: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
+	}
+	
 	/**
 	 * Getter des Passworts
 	 * @return sPassword : String
