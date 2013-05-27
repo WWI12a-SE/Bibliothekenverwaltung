@@ -35,7 +35,13 @@ import controller.UserHandler;
 
 public class GUI extends JFrame {
    
-    public GUI()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	public GUI()
     {
         super();
         User loggedInUser = MyAccount.getLoggedInUser();
@@ -83,17 +89,7 @@ public class GUI extends JFrame {
                 UserHandler.getInstance().save();
                 ReservationHandler.getInstance().save();
                 MediaHandler.getInstance().save();
-               
-                /**
-                 * Das Hauptfenster wird unsichtbar.
-                 */
-                setVisible(false);
-                /**
-                 * Das Login-Fenster wird wieder aufgebaut.
-                 */
-                Login login = new Login();
-                login.setVisible(true);
-               
+                              
             }});
        
         quitButton.addActionListener(new ActionListener(){
