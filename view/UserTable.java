@@ -241,8 +241,14 @@ public class UserTable extends JPanel {
 					int optionDialog = JOptionPane.showOptionDialog(null, "Wollen Sie den User löschen?", "Achtung", 
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 					if(optionDialog == JOptionPane.YES_OPTION){
-						//dann lösche
-						// gebe die information an Handler weiter
+						int row = userTable.getSelectedRow();
+						if(row != -1){
+							row = userTable.convertRowIndexToModel(row);
+						}
+					
+					UserHandler.getInstance().deleteUser(String.valueOf(userTable.getValueAt(row,COL_Loginname)));
+						
+					//gebe die information an Handler weiter
 					}
 				}
 			}
