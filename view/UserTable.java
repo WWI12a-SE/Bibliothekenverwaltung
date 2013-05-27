@@ -215,7 +215,7 @@ public class UserTable extends JPanel {
 	 * Button-Methoden
 	 * @return
 	 */
-	
+	// Methode von NewButton
 	private JButton getButtonNew() {
 		JButton buttonReturn = new JButton("Neu erstellen");
 		buttonReturn.setPreferredSize(new Dimension(126,30));
@@ -224,9 +224,10 @@ public class UserTable extends JPanel {
 	}
 
 	/**
-	 * Gibt den initialisierten mit ActionListener ausgestatteten Rueckgabe-Button zurueck.
+	 * Gibt den initialisierten mit ActionListener ausgestattete Veränder-Button zurueck.
 	 * @return
 	 */
+	// Methode von ChangeButton
 	private JButton getButtonChange(){
 		JButton buttonChange = new JButton("Bearbeiten");
 		buttonChange.addActionListener(new ActionListener(){
@@ -259,15 +260,16 @@ public class UserTable extends JPanel {
 				
 		buttonChange.setPreferredSize(new Dimension(126,30));
 		buttonChange.setMargin(new Insets(0,0,0,0));
-		buttonChange.setEnabled(false);
+		buttonChange.setEnabled(true);
 		return buttonChange;
 	}
 	
+	//Methode für den DeleteButton
 	private JButton getButtonDelete(){
 		JButton buttonReturn = new JButton("Löschen");
 		buttonReturn.setPreferredSize(new Dimension(126,30));
 		buttonReturn.setMargin(new Insets(0,0,0,0));
-		buttonReturn.setEnabled(false);
+		buttonReturn.setEnabled(true);
 		return buttonReturn;
 	}
 	
@@ -283,15 +285,15 @@ public class UserTable extends JPanel {
 
 		private Object[][] data;
 		private String[] columnNames = { 
-				"Rolle", 		//0
-				"Loginname", 		//1
+				"Rolle", 		
+				"Loginname", 		
 				"Vorname", 
 				"Nachname", 
 				"E-Mail", 
-				"Password", 	//5
+				"Password", 	
 		};
 
-		//konstruktor UserTable
+		//constructor UserTable
 		private UserTableModel() {
 			
 			//Init Stock
