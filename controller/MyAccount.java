@@ -55,6 +55,9 @@ public class MyAccount {
 		// ...
 		
 		loggedInUser = null;	// @Thorsten
+		MediaHandler.reset();
+		UserHandler.reset();
+		ReservationHandler.reset();
 	}
 	
 	/**
