@@ -56,15 +56,13 @@ public class StockView extends JPanel {
 	private JPanel[] scrollPaneBorderPanels;
 	
 	private JButton buttonLease, buttonReturn, buttonExtend, buttonDelete, buttonNew;
-	
-//	private int[] IDs;
-//	private int rowsVisible;
 
 	//TODO media
 	public StockView(Medium[] media){
 		this();
 	}
 	
+	//TODO media
 	public StockView(int i){
 		this();
 	}
