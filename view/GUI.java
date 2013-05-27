@@ -27,19 +27,6 @@ import controller.MyAccount;
 import controller.ReservationHandler;
 import controller.UserHandler;
 
-/**
- * Die Klasse GUI legt den Hauptframe an. Abhaengig vom Nutzer werden unterschiedliche Register angezeigt.
- *
- * 
- * 
- * 
- * 
- * 
- * 
- *
- *
- */
-
  public class GUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
