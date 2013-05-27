@@ -119,6 +119,13 @@ public class Reservation {
 		reservationMapper.setData(this.row, COL_EXTENSIONS, iExtensions);
 	}
 	
+	public boolean isDeleted(){
+		if(reservationMapper.getIntegerData(this.row, Mapper.COL_DELFLAG) == 1){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Liest alle Attribute der Reservierung aus und gibt diese als String-Array zurueck.
 	 * Die Indiziers entsprechen den CSV-Spalten, welche den Reservation-Konstanten zu entnehmen sind.

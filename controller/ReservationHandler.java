@@ -1,5 +1,6 @@
 package controller;
 import core.CsvHandler;
+import model.Medium;
 import model.Reservation;;
 
 /**
@@ -129,8 +130,8 @@ public class ReservationHandler {
 	 * Entfernt eine Reservierung aus der Laufzeitumgebung (staged delete)
 	 * @param id : Integer -- Die ID der zu loeschenden Reservierung
 	 */
-	public void deleteReservation(int id){
-		reservationMapper.deleteRow(id);
+	public boolean deleteReservation(int id){
+		return reservationMapper.deleteRow(id);
 	}
 	
 	/**
@@ -140,5 +141,23 @@ public class ReservationHandler {
 	 */
 	public void save(){
 		reservationMapper.storeMap();
+		reservationHandler = null;
+	}
+	
+	public static void reset(){
+		reservationHandler = null;
+	}
+	
+	public void viewTable(){
+		System.out.println("----Reservation-Table im ReservationHandler---------");
+		Reservation[] reservations = this.getAllReservations();
+		for(int i = 0; i < reservations.length; i++){
+			String[] stringArray = reservations[i].getValuesAsStringArray();
+			for(int k = 0; k < stringArray.length; k++){
+				System.out.print(stringArray[k]+"\t");
+			}
+			System.out.println("delflagged: "+reservations[i].isDeleted());
+		}
+		System.out.println("-----------------------------");
 	}
 }

@@ -1,5 +1,6 @@
 package controller;
 import core.CsvHandler;
+import model.Reservation;
 import model.User;
 
 /**
@@ -122,6 +123,24 @@ public class UserHandler {
 	 */
 	public void save(){
 		userMapper.storeMap();
+		userHandler = null;
+	}
+	
+	public static void reset(){
+		userHandler = null;
+	}
+	
+	public void viewTable(){
+		System.out.println("----User-Table im UserHandler---------");
+		User[] users = this.getAllUsers();
+		for(int i = 0; i < users.length; i++){
+			String[] stringArray = users[i].getValuesAsStringArray();
+			for(int k = 0; k < stringArray.length; k++){
+				System.out.print(stringArray[k]+"\t");
+			}
+			System.out.println("");
+		}
+		System.out.println("-----------------------------");
 	}
 			
 }
