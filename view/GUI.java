@@ -28,86 +28,86 @@ import controller.ReservationHandler;
 import controller.UserHandler;
 
 /**
- * 
+ *
  * Die Klasse GUI legt den Hauptframe an. Abhaengig vom Nutzer werden unterschiedliche Register angezeigt.
  *
  */
 
 public class GUI extends JFrame {
-	
-	public GUI() 
-	{
-		super();
-		User loggedInUser = MyAccount.getLoggedInUser();
-		
-		/**
-		 *Der Frame wird gestaltet.
-		 */
-		this.setTitle("Bibliotheksverwaltung");
-		this.setSize(600,600);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+   
+    public GUI()
+    {
+        super();
+        User loggedInUser = MyAccount.getLoggedInUser();
+       
+        /**
+         *Der Frame wird gestaltet.
+         */
+        this.setTitle("Bibliotheksverwaltung");
+        this.setSize(600,600);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		/** 
-		 * Das obere Panel "top" wird angelegt. Ihm werden zwei Panels, "topNorth" und topSouth", hinzugefuegt.
-		 */
-		JPanel top = new JPanel(new BorderLayout());
-		this.add(top, BorderLayout.NORTH);
-		JPanel topNorth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JPanel topSouth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		top.add(topNorth, BorderLayout.NORTH);
-		top.add(topSouth, BorderLayout.SOUTH);
-		
-		/**
-		 * Die Abmelden- und Speichern-Buttons kommen in das Panel "topNorth"
-		 * Der Abmelden-Button bekommt einen ActionListener, der beim Klicken zurück zum Login-Fenster fuehrt.
-		 * Der Speichern-Button speichert.
-		 */
-		JButton saveButton = new JButton("Speichern");
-		topNorth.add(saveButton);
-		
-		JButton quitButton = new JButton("Abmelden");
-		topNorth.add(quitButton);
+        /**
+         * Das obere Panel "top" wird angelegt. Ihm werden zwei Panels, "topNorth" und topSouth", hinzugefuegt.
+         */
+        JPanel top = new JPanel(new BorderLayout());
+        this.add(top, BorderLayout.NORTH);
+        JPanel topNorth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel topSouth = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        top.add(topNorth, BorderLayout.NORTH);
+        top.add(topSouth, BorderLayout.SOUTH);
+       
+        /**
+         * Die Abmelden- und Speichern-Buttons kommen in das Panel "topNorth"
+         * Der Abmelden-Button bekommt einen ActionListener, der beim Klicken zurück zum Login-Fenster fuehrt.
+         * Der Speichern-Button speichert.
+         */
+        JButton saveButton = new JButton("Speichern");
+        topNorth.add(saveButton);
+       
+        JButton quitButton = new JButton("Abmelden");
+        topNorth.add(quitButton);
 
-		saveButton.addActionListener(new ActionListener() {
-			/**
-			 * Der ActionListener.
-			 */
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				/**
-				 * Alle Daten werden gespeichert, indem die jeweiligen Handler aufgerufen werden.
-				 * Da es immer nur jeweils einen Handler für User, Reservations und Media gibt, muss jeweils deren Instanz "geholt" werden.
-				 * An der Instanz wird dann die "save"-Methode aufgerufen.
-				 */
-				UserHandler.getInstance().save();
-				ReservationHandler.getInstance().save();
-				MediaHandler.getInstance().save();
-				
-				/**
-				 * Das Hauptfenster wird unsichtbar.
-				 */
-				setVisible(false);
-				/**
-				 * Das Login-Fenster wird wieder aufgebaut.
-				 */
-				Login login = new Login();
-				login.setVisible(true);
-				
-			}});
-		
-		quitButton.addActionListener(new ActionListener(){
+        saveButton.addActionListener(new ActionListener() {
+            /**
+             * Der ActionListener.
+             */
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                /**
+                 * Alle Daten werden gespeichert, indem die jeweiligen Handler aufgerufen werden.
+                 * Da es immer nur jeweils einen Handler für User, Reservations und Media gibt, muss jeweils deren Instanz "geholt" werden.
+                 * An der Instanz wird dann die "save"-Methode aufgerufen.
+                 */
+                UserHandler.getInstance().save();
+                ReservationHandler.getInstance().save();
+                MediaHandler.getInstance().save();
+               
+                /**
+                 * Das Hauptfenster wird unsichtbar.
+                 */
+                setVisible(false);
+                /**
+                 * Das Login-Fenster wird wieder aufgebaut.
+                 */
+                Login login = new Login();
+                login.setVisible(true);
+               
+            }});
+       
+        quitButton.addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				 /**
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 /**
                  * Wird der Button geklickt, öffnet sich ein Dialog.
                  */
                 openStandardDialog();
             }
-        
-			
-			/**
+       
+           
+            /**
              * Methode öffnet einen Dialog, der den Nutzer fragt, ob er das Programm beenden möchte.
              */
             private void openStandardDialog()
@@ -119,75 +119,76 @@ public class GUI extends JFrame {
                 if (showConfirmDialog == JOptionPane.YES_OPTION)
                 {
                     setVisible(false);
-               
+              
                     Login login = new Login();
                     login.setVisible(true);
                 }
-               
+              
                 /**
                  * Wenn der Nutzer auf "Nein" oder "Abbrechen" klickt, passiert nichts.
                  */
                 if(showConfirmDialog == JOptionPane.NO_OPTION && showConfirmDialog == JOptionPane.CANCEL_OPTION)
                 {
-                   
+                  
                 }
-				
-			}
-			
-		});
-		
-		/**
-		 * Das Textfeld "SearchField" und der Button "searchButton" wird angelegt und dem "topSouth"-Panel hinzugefuegt.
-		 * Hinzu kommt eine ActionListener für den Button.
-		 */
-		JButton searchButton = new JButton("Suchen");
-		final JTextField searchField = new JTextField();
-		searchField.setPreferredSize(new Dimension (88, 26));
-		topSouth.add(searchField);
-		topSouth.add(searchButton);
-		searchButton.addActionListener(new ActionListener () {
+               
+            }
+           
+        });
+       
+        /**
+         * Das Textfeld "SearchField" und der Button "searchButton" wird angelegt und dem "topSouth"-Panel hinzugefuegt.
+         * Hinzu kommt eine ActionListener für den Button.
+         */
+        JButton searchButton = new JButton("Suchen");
+        final JTextField searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension (88, 26));
+        topSouth.add(searchField);
+        topSouth.add(searchButton);
+        searchButton.addActionListener(new ActionListener () {
 
-			/**
-			 * Der ActionListener
-			 */
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				/**
-				 * Die Methode liest den eingegebenen Text aus dem "SearchField" aus.
-				 */
-				searchField.getText();
-								
-			}});
-		
-		/**
-		 * Die Tableiste wird angelegt und kommt in den unteren Bereich des Frames.
-		 * Zugleich werden die Panels für die Tableiste erzeugt.
-		 */
-		JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabPane.setSize(200, 200);
-		this.add(tabPane, BorderLayout.CENTER);
-		JPanel tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
-		JPanel tabReservations = new JPanel();
-		JPanel tabMyAccount = new JPanel();
-		tabStore.setSize(200, 200);
-		tabReservations.setSize(200, 200);
-		tabMyAccount.setSize(200, 200);
-		tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		/**
-		 * Die Panels werden der Tableiste hinzugefuegt.
-		 */
-		tabPane.addTab("Bestand", tabStore);
-		tabPane.addTab("Reservierungen", tabReservations);
-		tabPane.addTab("Mein Konto", tabMyAccount);
-		
-		tabMyAccount.add(new ModifyUserDataPanel());
-		
-	}
-		
-	
-	public static void main(String[] args) {
-		GUI gui = new GUI();
-	}
-	
+            /**
+             * Der ActionListener
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                /**
+                 * Die Methode liest den eingegebenen Text aus dem "SearchField" aus.
+                 */
+                searchField.getText();
+                               
+            }});
+       
+        /**
+         * Die Tableiste wird angelegt und kommt in den unteren Bereich des Frames.
+         * Zugleich werden die Panels für die Tableiste erzeugt.
+         */
+        JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
+        tabPane.setSize(200, 200);
+        this.add(tabPane, BorderLayout.CENTER);
+        JPanel tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
+        JPanel tabReservations = new JPanel();
+        JPanel tabMyAccount = new JPanel();
+        tabStore.setSize(200, 200);
+        tabReservations.setSize(200, 200);
+        tabMyAccount.setSize(200, 200);
+        tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
+       
+        /**
+         * Die Panels werden der Tableiste hinzugefuegt.
+         */
+        tabPane.addTab("Bestand", tabStore);
+        tabPane.addTab("Reservierungen", tabReservations);
+        tabPane.addTab("Mein Konto", tabMyAccount);
+       
+        tabMyAccount.add(new ModifyUserDataPanel());
+       
+    }
+       
+   
+    public static void main(String[] args) {
+        GUI gui = new GUI();
+    }
+   
 }
+
