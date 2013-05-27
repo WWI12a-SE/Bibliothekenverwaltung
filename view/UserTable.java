@@ -108,7 +108,7 @@ public class UserTable extends JPanel {
 //constructor
 	public UserTable(int mode) {
 		
-		this.mode = mode;
+		this.mode = User.ROLE_LIBRARIAN;
 		
 		userTableModel = new UserTableModel();
 		userTableModelListener = new UserTableModelListener();
@@ -182,9 +182,7 @@ public class UserTable extends JPanel {
 		eastBorderPanel.setBackground(Color.WHITE);
 		centerPanel.setBackground(Color.WHITE);
 
-		// logik der Rollen
-		if(this.mode == User.ROLE_LIBRARIAN){
-
+		//Buttons initialisiert
 			//UserLöschen
 			buttonDelete = getButtonDelete();
 			centerPanel.add(buttonDelete);
@@ -196,7 +194,7 @@ public class UserTable extends JPanel {
 			//UserErstellen
 			buttonNew = getButtonNew();
 			centerPanel.add(buttonNew);
-		}
+
 		
 		//Border für Buttons	
 		middleBorderPanel.setPreferredSize(new Dimension(SUBPANEL_SEPERATOR_WIDTH, SUBPANEL_SEPERATOR_HEIGHT));
@@ -277,7 +275,7 @@ public class UserTable extends JPanel {
 	
 	/**
 	 * Innere Klasse UserTableModel
-	 * @author weisseth
+	 * @author weisseth, Sandra Lang
 	 *
 	 */
 	@SuppressWarnings("serial")
@@ -293,6 +291,7 @@ public class UserTable extends JPanel {
 				"Password", 	//5
 		};
 
+		//konstruktor UserTable
 		private UserTableModel() {
 			
 			//Init Stock
@@ -317,6 +316,7 @@ public class UserTable extends JPanel {
 			}
 		}
 
+		// Überschriebene Methoden
 		@Override
 		public Class<? extends Object> getColumnClass(int c) {
 //			return String.class;
@@ -359,6 +359,7 @@ public class UserTable extends JPanel {
 
 	}
 	
+	//Listener für UserTable
 	private class UserTableModelListener implements TableModelListener {
 
 	    public void tableChanged(TableModelEvent e) {
@@ -366,27 +367,27 @@ public class UserTable extends JPanel {
 	        int column = e.getColumn();
 	        TableModel model = (TableModel)e.getSource();
 	        Object data = model.getValueAt(row, column);
-	        
-	        MediaHandler mediaHandler = MediaHandler.getInstance();
-			Medium medium = mediaHandler.getMedium(IDs[row]);
+	        	        
+			UserHandler userHandler = UserHandler.getInstance();
+			User users = userHandler.getUser(String.valueOf(IDs[row]));
 			switch(column){
 				case COL_Role:
-					medium.setTitle(String.valueOf(data));
+					users.setRole(1);
 					break;
 				case COL_Loginname:
-					medium.setAuthor(String.valueOf(data));
+					users.setLoginName(String.valueOf(data));
 					break;
 				case COL_Firstname:
-					medium.setPublisher(String.valueOf(data));
+					users.setFirstName(String.valueOf(data));
 					break;
 				case COL_Lastname:
-					medium.setEdition(Integer.parseInt(String.valueOf(data)));
+					users.setLastName(String.valueOf(data));
 					break;
 				case COL_E_Mail:
-					medium.setIsbn(String.valueOf(data));
+					users.setEmail(String.valueOf(data));
 					break;
 				case COL_Password:
-					medium.setCopies(Integer.parseInt(String.valueOf(data)));
+					users.setPassword(String.valueOf(data));
 					break;
 			}
 	    }
