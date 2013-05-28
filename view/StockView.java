@@ -527,6 +527,17 @@ public class StockView extends JPanel {
 	
 	private class StockTableModelListener implements TableModelListener {
 
+		/**
+		 * Aktualisiert per Spaltenangabe (der angezeigten Tabelle des StockViews)
+		 * das entsprechende Attribut des uebergebenen Mediums auf den mit Object data
+		 * spezifizierten Wert.
+		 * Sollte der Wert nicht in den Datentyp des Medien-Attributes konvertiert 
+		 * werden koennen, so wird das Update ohne Warnung verworfen und ein Standardwert gesetzt.
+		 * 
+		 * @param medium : Medium - Welches aktualisiert wird
+		 * @param column : Integer - Die Spalte des Attributes in der View-Tabelle
+		 * @param data : Object - Der zu setzende Wert
+		 */
 		private void updateModel(Medium medium, int column, Object data){
 			switch(column){
 			case COL_TITLE:
@@ -571,6 +582,12 @@ public class StockView extends JPanel {
 		}
 		}
 		
+		/**
+		 * Ueberschriebene Methode des TableModelListeners.
+		 * Wird zu verschiedenen Ereignissen (z.B. dem Aendern eines Tabellen-Datums) ausgeloest.
+		 * Liest die aktuell selektierte Tabellenzeile aus und aktualisiert das Medium-Model entsprechend
+		 * den in der Zeile definierten Werten.
+		 */
 	    public void tableChanged(TableModelEvent e) {
 	    	
 	        int row = e.getFirstRow();

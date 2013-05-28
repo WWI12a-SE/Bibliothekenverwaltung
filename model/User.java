@@ -29,6 +29,10 @@ public class User {
 	public static final int ROLE_LECTURER = 2;
 	public static final int ROLE_LIBRARIAN = 3;
 	
+	public static final String ROLE_STRING_STUDENT = "Student";
+	public static final String ROLE_STRING_LECTURER = "Dozent";
+	public static final String ROLE_STRING_LIBRARIAN= "Bibliothekar";
+	
 	private static Mapper userMapper;
 	
 	private int row;
@@ -116,9 +120,9 @@ public class User {
 	 */
 	public String getRoleAsString() {
 		switch(userMapper.getIntegerData(row, COL_ROLE)){
-		case ROLE_STUDENT: return "Student";
-		case ROLE_LECTURER: return "Dozent";
-		case ROLE_LIBRARIAN: return "Bibliothekar";
+		case ROLE_STUDENT: return ROLE_STRING_STUDENT;
+		case ROLE_LECTURER: return ROLE_STRING_LECTURER;
+		case ROLE_LIBRARIAN: return ROLE_STRING_LIBRARIAN;
 		default: return "";
 		}
 	}
@@ -134,9 +138,16 @@ public class User {
 	
 	public void setRoleFromString(String role){
 		switch(role){
-		case ROLE_STUDENT: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
-		case ROLE_LECTURER: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
-		case ROLE_LIBRARIAN: userMapper.setData(row, COL_ROLE, ROLE_STUDENT);
+			case ROLE_STRING_STUDENT: 
+				userMapper.setData(row, COL_ROLE, ROLE_STUDENT); 
+				break;
+			case ROLE_STRING_LECTURER: 
+				userMapper.setData(row, COL_ROLE, ROLE_LECTURER);
+				break;
+			case ROLE_STRING_LIBRARIAN: 
+				userMapper.setData(row, COL_ROLE, ROLE_LIBRARIAN);
+				break;
+		}
 	}
 	
 	/**
