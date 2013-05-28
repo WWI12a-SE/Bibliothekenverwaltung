@@ -215,8 +215,8 @@ public class UserTable extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//erstelle eine neue Zeile 
-//				int row = userTable.getRowCount();
-//				userTableModel.addNewRow(row+1);
+				
+			userTableModel.addNewRow();
 			}
 		});
 		buttonNew.setPreferredSize(new Dimension(126,30));
@@ -373,29 +373,27 @@ public class UserTable extends JPanel {
 		}
 		
 		// neue Zeile hinzufuegen
-		private void addNewRow(int row){
+		private void addNewRow(){
 			
 			if(data.length > 1){
-				String neuerName = String.valueOf(userTable.getValueAt(row, COL_Loginname));
-				UserHandler.getInstance().getUser(neuerName);
+				String newName = "Bitte Usernamen eingeben";
+				UserHandler.getInstance().getUser(newName);
 				
-//				String[] ids = new String[data.length];
-//				for(int i = 0; i < ids.length; i++){
-//					if(i < row){
-//						ids[i] = String.valueOf(userTable.getValueAt(i, COL_Loginname));
-//					}
-//					if(i >= row){
-//						ids[i] = String.valueOf(userTable.getValueAt(i+1, COL_Loginname));
-//					}
-//					System.out.println(ids[i]);
-//				}
-//				data = new Object[data.length-1][6];
-//				
-//				for(int i = 0; i < data.length; i++){
-//					setValueAt(ids[i], i, COL_Loginname);
-//					updateRow(i);
-//				}
-//				fireTableDataChanged();
+				String[] ids = new String[data.length+1];
+				for(int i = 0; i < data.length; i++){
+					
+						ids[i] = String.valueOf(userTable.getValueAt(i, COL_Loginname));
+	
+					System.out.println(ids[i]);
+				}
+				ids[ids.length-1]= newName;
+				data = new Object[data.length+1][6];
+				
+				for(int i = 0; i < data.length; i++){
+					setValueAt(ids[i], i, COL_Loginname);
+					updateRow(i);
+				}
+				fireTableDataChanged();
 			}	
 		}
 		
