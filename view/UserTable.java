@@ -98,7 +98,6 @@ public class UserTable extends JPanel {
 	
 	//Buttons
 	private JButton buttonDelete, buttonNew;
-	
 	private int mode;
 
 	//constructor
