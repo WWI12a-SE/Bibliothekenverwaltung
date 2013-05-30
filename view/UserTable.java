@@ -1,47 +1,4 @@
-//package view;
-//
-//import javax.swing.JFrame;
-//import javax.swing.JScrollPane;
-//import javax.swing.JTable;
-//
-//public class UserTable extends JTable {
-//
-//	/**
-//	 * Tabellenansicht �ber alle Benutzer, die registriert sind und B�cher ausgeliehen haben.
-//	 * Ansicht nur f�r den Bibliothekar
-//	 */
-//	
-//	//constructor
-//	public UserTable (){
-//		
-//	}
-//	
-//	//Tabellenaufbau
-//	
-//	
-//	
-////	public static void main(String[] args) {
-////		String[][] rowData = {
-////			    { "Japan", "245" }, { "USA", "240" }, { "Italien", "220" },
-////			    { "Spanien", "217" }, {"T�rkei", "215"} ,{ "England", "214" },
-////			    { "Frankreich", "190" }, {"Griechenland", "185" },
-////			    { "Deutschland", "180" }, {"Portugal", "170" }
-////			  	};
-////			    String[] columnNames = {
-////			        "Land", "Durchschnittliche Sehdauer pro Tag in Minuten"
-////			    };
-////			  JFrame f = new JFrame();
-////			  f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-////			  JTable table = new JTable( rowData, columnNames );
-////			  f.add( new JScrollPane(table) );
-////			  f.pack();
-////			  f.setVisible( true );
-////	}
-//
-//	
-//}
-//
-//
+
 package view;
 
 import java.awt.BorderLayout;
@@ -55,13 +12,11 @@ import javax.swing.*;
 import javax.swing.table.*;
 import model.User;
 import controller.UserHandler;
-
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
 /**
  * 
- * @author weisseth
  * @author Sandra Lang
  *
  */
@@ -81,6 +36,7 @@ public class UserTable extends JPanel {
 	private static final int SUBPANEL_HORIZONTAL_HEIGHT = 40;
 	private static final int SUBPANEL_SEPERATOR_WIDTH = 20;
 	private static final int SUBPANEL_SEPERATOR_HEIGHT = 600;
+	private static final int AMOUNT_COLUMNS_VISIBLE = 6;
 	
 	private static final int COL_Role = 0;
 	private static final int COL_Loginname = 1;
@@ -102,7 +58,6 @@ public class UserTable extends JPanel {
 
 	//constructor
 	public UserTable(int mode) {
-		
 		this.mode = User.ROLE_LIBRARIAN;
 		
 		userTableModel = new UserTableModel();
@@ -116,29 +71,19 @@ public class UserTable extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
-//				//Buttons enablen / diseblen
-//				if(buttonLease != null){
-//					
-//					int mediaID = IDs[userTable.getSelectedRow()];
-//					
-//					StockLogic stockLogic = StockLogic.getInstance();
-//					boolean showButtonLease = stockLogic.isReservable(mediaID);
-//					buttonLease.setEnabled(showButtonLease);
-//					
-//					if(buttonReturn != null){
-//						buttonReturn.setEnabled(!showButtonLease);
-//					}
-//				}	
+				/*
+				 * Wird mit Zeilenselektion ausgeloest
+				 */
+				int row = userTable.getSelectedRow();
+				if(row >= 0){ //Nicht Header
+					update(row);
+				}
 			}
 		});
 		
 		//Tabelle
-		userTable = new JTable(userTableModel);//, JTable.DefaultTableColumnModel(), listSelectionModel);
-//		stockTable.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		userTable = new JTable(userTableModel);
 		userTable.setSelectionModel(listSelectionModel);
-//		stockTable.getse
-		
-//		stockTable.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(userTable);
 		
 		scrollPanePanel = new JPanel();
@@ -214,7 +159,6 @@ public class UserTable extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//erstelle eine neue Zeile 
-				
 			userTableModel.addNewRow();
 			}
 		});
@@ -248,6 +192,10 @@ public class UserTable extends JPanel {
 		buttonDelete.setMargin(new Insets(0,0,0,0));
 		buttonDelete.setEnabled(true);
 		return buttonDelete;
+	}
+	private void update(int selectedIndex){
+		userTableModel.updateRow(selectedIndex);
+		userTableModel.fireTableRowsUpdated(selectedIndex, selectedIndex);
 	}
 	
 	// Index der gewaehlten Zeile
@@ -415,34 +363,116 @@ public class UserTable extends JPanel {
 	//Listener fuer UserTable
 	private class UserTableModelListener implements TableModelListener {
 
+		/**
+//		 * Ueberschriebene Methode des TableModelListeners.
+//		 * Wird zu verschiedenen Ereignissen (z.B. dem Aendern eines Tabellen-Datums) ausgeloest.
+//		 * Liest die aktuell selektierte Tabellenzeile aus und aktualisiert das Medium-Model entsprechend
+//		 * den in der Zeile definierten Werten.
+//		 */
+
 	    public void tableChanged(TableModelEvent e) {
 	        int row = e.getFirstRow();
 	        int column = e.getColumn();
 	        TableModel model = (TableModel)e.getSource();
-	        Object data = model.getValueAt(row, column);
-	        	        
-			UserHandler userHandler = UserHandler.getInstance();
-			User users = userHandler.getUser(String.valueOf(userTable.getValueAt(getSelectedIndex(), COL_Loginname)));
-			switch(column){
-				case COL_Role:
-					users.setRole(1);
-					break;
-				case COL_Loginname:
-					users.setLoginName(String.valueOf(data));
-					break;
-				case COL_Firstname:
-					users.setFirstName(String.valueOf(data));
-					break;
-				case COL_Lastname:
-					users.setLastName(String.valueOf(data));
-					break;
-				case COL_E_Mail:
-					users.setEmail(String.valueOf(data));
-					break;
-				case COL_Password:
-					users.setPassword(String.valueOf(data));
-					break;
-			}
+	      
+	        //neu
+	        String name = String.valueOf(userTable.getModel().getValueAt(row, COL_Loginname));
+			User user = UserHandler.getInstance().getUser(name);		
+	        if(column == TableModelEvent.ALL_COLUMNS){
+	        	for(int col = 0; col < AMOUNT_COLUMNS_VISIBLE; col++){
+	        		Object data = model.getValueAt(row, col);
+	        		updateModel(user, col, data);
+	        	}
+	        }else{
+	        	Object data = model.getValueAt(row, column);
+	        	updateModel(user, column, data);
+	        }
 	    }
+	        
+	        //alt
+//	        Object data = model.getValueAt(row, column);
+//	        	        
+//			UserHandler userHandler = UserHandler.getInstance();
+//			User users = userHandler.getUser(String.valueOf(userTable.getValueAt(getSelectedIndex(), COL_Loginname)));
+//			switch(column){
+//				case COL_Role:
+//					users.setRole(1);
+//					break;
+//				case COL_Loginname:
+//					users.setLoginName(String.valueOf(data));
+//					break;
+//				case COL_Firstname:
+//					users.setFirstName(String.valueOf(data));
+//					break;
+//				case COL_Lastname:
+//					users.setLastName(String.valueOf(data));
+//					break;
+//				case COL_E_Mail:
+//					users.setEmail(String.valueOf(data));
+//					break;
+//				case COL_Password:
+//					users.setPassword(String.valueOf(data));
+//					break;
+//			}	
+	
+		/**
+		 * Aktualisiert per Spaltenangabe (der angezeigten Tabelle des StockViews)
+		 * das entsprechende Attribut des uebergebenen Mediums auf den mit Object data
+		 * spezifizierten Wert.
+		 * Sollte der Wert nicht in den Datentyp des Medien-Attributes konvertiert 
+		 * werden koennen, so wird das Update ohne Warnung verworfen und ein Standardwert gesetzt.
+		 * 
+		 * @param medium : Medium - Welches aktualisiert wird
+		 * @param column : Integer - Die Spalte des Attributes in der View-Tabelle
+		 * @param data : Object - Der zu setzende Wert
+		 */
+		private void updateModel(User users, int column, Object data){
+			switch(column){
+			case COL_Role:
+				users.setRole(Integer.parseInt(String.valueOf(data)));
+				break;
+			case COL_Loginname:
+				users.setLoginName(String.valueOf(data));
+				break;
+			case COL_Firstname:
+				users.setFirstName(String.valueOf(data));
+				break;
+			case COL_Lastname:
+				users.setLastName(String.valueOf(data));
+				break;
+			case COL_E_Mail:
+				users.setEmail(String.valueOf(data));
+				break;
+			case COL_Password:
+				users.setPassword(String.valueOf(data));
+				break;
+		}
+//			
+//			case COL_EDITION:
+//				try{
+//					medium.setEdition(Integer.parseInt(String.valueOf(data)));
+//				}catch(Exception e){
+//					medium.setEdition(0);
+//				}
+//				break;
+//			case COL_ISBN:
+//				medium.setIsbn(String.valueOf(data));
+//				break;
+//			case COL_COPIES:
+//				try{
+//					medium.setCopies(Integer.parseInt(String.valueOf(data)));
+//				}catch(Exception e){
+//					medium.setCopies(0);
+//				}
+//				break;
+//			case COL_ONSTOCK:
+//				try{
+//					medium.setOnStock(Integer.parseInt(String.valueOf(data)));
+//				}catch(Exception e){
+//					medium.setOnStock(0);
+//				}
+//				break;
+//			}
+		}
 	}
 }
