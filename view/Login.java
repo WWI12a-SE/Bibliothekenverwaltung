@@ -22,7 +22,6 @@ public class Login extends JFrame{
 	private JPasswordField passwordfield;
 	private JLabel userlabel;
 	private JLabel passwordlabel;
-	private JPanel loginpanel;
 	private JPanel userpanel;
 	private JPanel passwordpanel;
 	private JPanel buttonpanel;

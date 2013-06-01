@@ -15,6 +15,7 @@ import controller.UserHandler;
 import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
+
 /**
  * 
  * @author Sandra Lang
@@ -55,7 +56,7 @@ public class UserTable extends JPanel {
 	//Buttons
 	private JButton buttonDelete, buttonNew;
 	private int mode;
-
+	
 	//constructor
 	public UserTable(int mode) {
 		this.mode = User.ROLE_LIBRARIAN;
@@ -85,14 +86,12 @@ public class UserTable extends JPanel {
 		userTable = new JTable(userTableModel);
 		userTable.setSelectionModel(listSelectionModel);
 		scrollPane = new JScrollPane(userTable);
-		
 		scrollPanePanel = new JPanel();
 		scrollPanePanel.setLayout(new BorderLayout());
 		scrollPanePanel.add(scrollPane, BorderLayout.CENTER);
-		
 		this.addBorderPanels();
 		this.setLayout(new GridLayout(1,1));
-		this.add(scrollPanePanel);
+		this.add(scrollPanePanel);	
 	}
 	
 	private void addBorderPanels(){
@@ -167,7 +166,6 @@ public class UserTable extends JPanel {
 		return buttonNew;		
 	}
 	
-			
 	//Methode fuer den DeleteButton
 	private JButton getButtonDelete(){
 		JButton buttonDelete = new JButton("Entfernen");
@@ -193,6 +191,8 @@ public class UserTable extends JPanel {
 		buttonDelete.setEnabled(true);
 		return buttonDelete;
 	}
+	
+	//update Methode
 	private void update(int selectedIndex){
 		userTableModel.updateRow(selectedIndex);
 		userTableModel.fireTableRowsUpdated(selectedIndex, selectedIndex);
@@ -239,7 +239,6 @@ public class UserTable extends JPanel {
 			
 			//Init Data-Values
 			for (int row = 0; row < users.length; row++){
-				//IDs[row] = users[row].getID();
 				data[row][COL_Role] = users[row].getRole();
 				data[row][COL_Loginname] = users[row].getLoginName();
 				data[row][COL_Firstname] = users[row].getFirstName();
@@ -328,9 +327,7 @@ public class UserTable extends JPanel {
 				
 				String[] ids = new String[data.length+1];
 				for(int i = 0; i < data.length; i++){
-					
 						ids[i] = String.valueOf(userTable.getValueAt(i, COL_Loginname));
-	
 					System.out.println(ids[i]);
 				}
 				ids[ids.length-1]= newName;
@@ -341,8 +338,9 @@ public class UserTable extends JPanel {
 					updateRow(i);
 				}
 				fireTableDataChanged();
-			}	
+			}
 		}
+		
 		
 		/**
 		 * Setzt die Table-Werte einer Zeile auf die des entsrechenden Users. Der loginName des Users muss hierzu gesetzt sein.
@@ -357,64 +355,12 @@ public class UserTable extends JPanel {
 			data[row][COL_Lastname] = user.getLastName();
 			data[row][COL_E_Mail] = user.getEmail();
 			data[row][COL_Password]= user.getPassword();
-		}
+		}		
 	}
 	
 	//Listener fuer UserTable
 	private class UserTableModelListener implements TableModelListener {
 
-		/**
-//		 * Ueberschriebene Methode des TableModelListeners.
-//		 * Wird zu verschiedenen Ereignissen (z.B. dem Aendern eines Tabellen-Datums) ausgeloest.
-//		 * Liest die aktuell selektierte Tabellenzeile aus und aktualisiert das Medium-Model entsprechend
-//		 * den in der Zeile definierten Werten.
-//		 */
-
-	    public void tableChanged(TableModelEvent e) {
-	        int row = e.getFirstRow();
-	        int column = e.getColumn();
-	        TableModel model = (TableModel)e.getSource();
-	      
-	        //neu
-	        String name = String.valueOf(userTable.getModel().getValueAt(row, COL_Loginname));
-			User user = UserHandler.getInstance().getUser(name);		
-	        if(column == TableModelEvent.ALL_COLUMNS){
-	        	for(int col = 0; col < AMOUNT_COLUMNS_VISIBLE; col++){
-	        		Object data = model.getValueAt(row, col);
-	        		updateModel(user, col, data);
-	        	}
-	        }else{
-	        	Object data = model.getValueAt(row, column);
-	        	updateModel(user, column, data);
-	        }
-	    }
-	        
-	        //alt
-//	        Object data = model.getValueAt(row, column);
-//	        	        
-//			UserHandler userHandler = UserHandler.getInstance();
-//			User users = userHandler.getUser(String.valueOf(userTable.getValueAt(getSelectedIndex(), COL_Loginname)));
-//			switch(column){
-//				case COL_Role:
-//					users.setRole(1);
-//					break;
-//				case COL_Loginname:
-//					users.setLoginName(String.valueOf(data));
-//					break;
-//				case COL_Firstname:
-//					users.setFirstName(String.valueOf(data));
-//					break;
-//				case COL_Lastname:
-//					users.setLastName(String.valueOf(data));
-//					break;
-//				case COL_E_Mail:
-//					users.setEmail(String.valueOf(data));
-//					break;
-//				case COL_Password:
-//					users.setPassword(String.valueOf(data));
-//					break;
-//			}	
-	
 		/**
 		 * Aktualisiert per Spaltenangabe (der angezeigten Tabelle des StockViews)
 		 * das entsprechende Attribut des uebergebenen Mediums auf den mit Object data
@@ -446,33 +392,32 @@ public class UserTable extends JPanel {
 			case COL_Password:
 				users.setPassword(String.valueOf(data));
 				break;
+			}
 		}
-//			
-//			case COL_EDITION:
-//				try{
-//					medium.setEdition(Integer.parseInt(String.valueOf(data)));
-//				}catch(Exception e){
-//					medium.setEdition(0);
-//				}
-//				break;
-//			case COL_ISBN:
-//				medium.setIsbn(String.valueOf(data));
-//				break;
-//			case COL_COPIES:
-//				try{
-//					medium.setCopies(Integer.parseInt(String.valueOf(data)));
-//				}catch(Exception e){
-//					medium.setCopies(0);
-//				}
-//				break;
-//			case COL_ONSTOCK:
-//				try{
-//					medium.setOnStock(Integer.parseInt(String.valueOf(data)));
-//				}catch(Exception e){
-//					medium.setOnStock(0);
-//				}
-//				break;
-//			}
-		}
+		/**
+//		 * Ueberschriebene Methode des TableModelListeners.
+//		 * Wird zu verschiedenen Ereignissen (z.B. dem Aendern eines Tabellen-Datums) ausgeloest.
+//		 * Liest die aktuell selektierte Tabellenzeile aus und aktualisiert das Medium-Model entsprechend
+//		 * den in der Zeile definierten Werten.
+//		 */
+
+	    public void tableChanged(TableModelEvent e) {
+	        int row = e.getFirstRow();
+	        int column = e.getColumn();
+	        TableModel model = (TableModel)e.getSource();
+	      
+	        //neu
+	        String name = String.valueOf(userTable.getModel().getValueAt(row, COL_Loginname));
+			User user = UserHandler.getInstance().getUser(name);		
+	        if(column == TableModelEvent.ALL_COLUMNS){
+	        	for(int col = 0; col < AMOUNT_COLUMNS_VISIBLE; col++){
+	        		Object data = model.getValueAt(row, col);
+	        		updateModel(user, col, data);
+	        	}
+	        }else{
+	        	Object data = model.getValueAt(row, column);
+	        	updateModel(user, column, data);
+	        }
+	    }
 	}
 }
