@@ -236,6 +236,11 @@ public class StockView extends JPanel {
 		return buttonNew;
 	}
 	
+	/**
+	 * Initialisiert und definiert den Button um  Datensaetze zu loeschen.
+	 * Der fertige Button wird zurueckgegeben.
+	 * @return buttonDelete : JButton
+	 */
 	private JButton getButtonDelete(){
 		JButton buttonDelete = new JButton("Löschen");
 		buttonDelete.setPreferredSize(new Dimension(126,30));
@@ -260,6 +265,11 @@ public class StockView extends JPanel {
 		return buttonDelete;
 	}
 	
+	/**
+	 * Initialisiert und definiert der Button um reservierte Medien wieder zurueck zu geben.
+	 * Der fertige Button wird zurueckgegeben.
+	 * @return buttonReturn : JButton
+	 */
 	private JButton getButtonReturn(){
 		JButton buttonReturn = new JButton("Zurückgeben");
 		buttonReturn.setPreferredSize(new Dimension(126,30));
@@ -289,6 +299,10 @@ public class StockView extends JPanel {
 		return buttonReturn;
 	}
 	
+	/**
+	 * Initialisiert und definiert der Button um Reservierungen zu verlaengern. Der fertige Button wird zurueckgegeben.
+	 * @return buttonExtend : JButton
+	 */
 	private JButton getButtonExtend(){
 		JButton buttonExtend = new JButton("Verlängern");
 		buttonExtend.setPreferredSize(new Dimension(126,30));
@@ -315,12 +329,22 @@ public class StockView extends JPanel {
 		return buttonExtend;
 	}
 	
+	/**
+	 * Wird bei jeder Aenderung der Table ausgefuehrt.
+	 * Aktualisiert die Button-Verfuegbarkeit, den Datensatz, das Model und die Anzeige fuer den spezifizierten Index
+	 * @param selectedIndex : Integer
+	 */
 	private void update(int selectedIndex){
 		updateButtons();
 		stockTableModel.updateRow(selectedIndex);
 		stockTableModel.fireTableRowsUpdated(selectedIndex, selectedIndex);
 	}
 	
+	/**
+	 * Aktualisiert die Button-Verfuegbarkeit (Enable / disable) in Abhaengigkeit der aktuell selektierten Zeile und der
+	 * fuer dieses Medium verfuegbaren Aktionen. Es werden nur initialisierte Buttons geprueft.
+	 * Eine Rollenueberpruefung des angelemdeten Users findet (hier) nicht statt.
+	 */
 	private void updateButtons(){
 		
 		User user = MyAccount.getLoggedInUser();
@@ -348,7 +372,8 @@ public class StockView extends JPanel {
 	}
 	
 	/**
-	 * Innere Klasse StockTableModel
+	 * Innere Klasse StockTableModel.
+	 * Hier ist der grundlegende Aufbau der Tabelle definiert, z.B. welche Spalten angezeigt werden.
 	 * @author weisseth
 	 *
 	 */
@@ -368,13 +393,14 @@ public class StockView extends JPanel {
 				"ID"//7
 		};
 
+		/**
+		 * Initialisiert die zu den Medien gehoerenden Table-Datensaetze
+		 */
 		private StockTableModel() {
 			
 			//Init Stock
 			MediaHandler mediaHandler = MediaHandler.getInstance();
 			Medium[] media = mediaHandler.getAllMedia();
-			
-
 			
 			//Init Data
 			int rows = media.length;
@@ -389,6 +415,11 @@ public class StockView extends JPanel {
 
 		}
 		
+		/**
+		 * Fuegt der Tabelle eine neue Zeile hinzu.
+		 * Der Datensatz wird in der Tabelle hinterlegt und mit einem neuen Model (Medium-Objekt) verknuepft,
+		 * sodass Aenderungen an der Tabellenzeile auf das Model uebertragen werden koennen.
+		 */
 		private void addRow(){
 			
 			int id = MediaHandler.getInstance().getNewID();
@@ -406,9 +437,7 @@ public class StockView extends JPanel {
 				data = new Object[1][columnNames.length];
 			}
 			//Init Data-Values
-//			Medium[] media = MediaHandler.getInstance().getAllMedia();//TODO modus
 			for (int row = 0; row < ids.length; row++){
-//				initRow(row, media[row]);
 				initRow(row, MediaHandler.getInstance().getMedium(ids[row]));
 				updateRow(row);
 			}
@@ -417,6 +446,11 @@ public class StockView extends JPanel {
 			fireTableDataChanged();
 		}
 		
+		/**
+		 * Loescht die ueber den Index spezifizierte Zeile aus der Tabelle und entfernt 
+		 * das zugehoerige Model (Medium) aus der Laufzeit.
+		 * @param row : Integer
+		 */
 		private void deleteRow(int row){
 			
 			if(data.length > 1){
@@ -445,6 +479,12 @@ public class StockView extends JPanel {
 			
 		}
 		
+		/**
+		 * Liest die Attribute eines Models (hier Medium) aus und schreibt die Informationen 
+		 * in den ueber row spezifizierten Table-Datensatz. Es erfolgt jedoch keine Aktualisierung der Anzeige.
+		 * Voraussetzung ist dass die Model-ID in der entsprechenden Spalte steht (nach initRow gegeben).
+		 * @param row : Integer
+		 */
 		public void updateRow(int row){
 			int id = Integer.parseInt(String.valueOf(stockTable.getModel().getValueAt(row, COL_ID)));
 			Medium media = MediaHandler.getInstance().getMedium(id);
@@ -459,6 +499,13 @@ public class StockView extends JPanel {
 			data[row][COL_ID] = media.getID();
 		}
 		
+		/**
+		 * Liest die Attribute eines Models (hier Medium) aus und schreibt die Informationen 
+		 * in den ueber row spezifizierten Table-Datensatz. Es erfolgt jedoch keine Aktualisierung der Anzeige.
+		 * Das auszulesende Medium muss ebenfalls uebergeben werden.
+		 * @param row : Integer
+		 * @param medium : Medium
+		 */
 		public void initRow(int row, Medium medium){
 			data[row][COL_TITLE] = medium.getTitle();
 			data[row][COL_AUTHOR] = medium.getAuthor();
@@ -489,7 +536,7 @@ public class StockView extends JPanel {
 		@Override
 		public int getRowCount() {
 			if(data != null){
-				return data.length;//TODO rowsVisible;
+				return data.length;
 			}else{
 				return 0;
 			}
@@ -497,9 +544,6 @@ public class StockView extends JPanel {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-//			if(rowIndex < 0 || columnIndex < 0){
-//				return 0;
-//			}
 			if(data != null){
 				if(data[rowIndex][columnIndex].equals("null")){
 					return "";
