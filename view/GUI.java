@@ -17,6 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -140,23 +142,72 @@ import controller.UserHandler;
                                
             }});
        
+
+        // Hier wird die Tabpane mit ihren Panels angelegt.
+        // ------------------------------------------------
         JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
         tabPane.setSize(200, 200);
         this.add(tabPane, BorderLayout.CENTER);
+        
+        // Fuege Bestandsliste hinzu
         JPanel tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
-        JPanel tabReservations = new JPanel();
-        JPanel tabMyAccount = new JPanel();
-        tabStore.setSize(200, 200);
-        tabReservations.setSize(200, 200);
-        tabMyAccount.setSize(200, 200);
-        tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
-       
+        //tabStore.setSize(200, 200);
         tabPane.addTab("Bestand", tabStore);
+
+        // Fuege Reservierungen hinzu
+        final JPanel tabReservations = new JPanel();
+        tabReservations.setSize(200, 200);
+        //tabReservations.add(new ...)
         tabPane.addTab("Reservierungen", tabReservations);
-        tabPane.addTab("Mein Konto", tabMyAccount);
-       
-        tabMyAccount.add(new ModifyUserDataPanel());
-       
+        
+        // Bibliothekare bekommen eine Nutzerliste, ...
+        if(loggedInUser.getRole() == User.ROLE_LIBRARIAN)
+        {
+        	JPanel tabUserTable = new JPanel();
+        	tabUserTable.setSize(200, 200);
+        	tabUserTable.setLayout(new FlowLayout(FlowLayout.LEFT));
+        	tabUserTable.add(new UserTable(loggedInUser.getRole()));
+        	tabPane.addTab("Alle Nutzer", tabUserTable);
+        }
+        
+        // ... alle anderen sehen ihren Nutzeraccount.
+        else
+        {
+    		JPanel tabMyAccount = new JPanel();
+    		tabMyAccount.setSize(200, 200);
+    		tabMyAccount.setLayout(new FlowLayout(FlowLayout.LEFT));
+    		tabMyAccount.add(new ModifyUserDataPanel());
+    		tabPane.addTab("Mein Konto", tabMyAccount);    		
+    	}
+        
+        // Lade die Reservierungen neu, jedes Mal bevor sie angezeigt werden.
+        tabPane.addChangeListener(new ChangeListener() {
+			@Override
+			/**
+			 * Methode prueft, an welcher Komponente (Tab) sich etwas geaendert hat.
+			 */
+			public void stateChanged(ChangeEvent e) {
+				JTabbedPane pane;
+				// An welcher Komponente wurde etwas ge-changed? Am tabPane!
+				pane = (JTabbedPane) e.getSource();  
+				
+				// Falls dort (am tabPane) gerade das ReservationTab geoeffnet wurde:
+				if(pane.getSelectedComponent() == tabReservations)
+				{
+					tabReservations.removeAll();
+					//tabReservations.add(...);
+				}
+				
+				// Falls dort (am tabPane) gerade die StockView geöffnet wurde:
+				else if(pane.getSelectedComponent() instanceof StockView)
+				{
+					// Welches Tab ist offen? Das i-te.
+					int i = pane.getSelectedIndex();  
+					// Im i-ten Tab eine neue StockView laden.
+					pane.setComponentAt(i, new StockView(MediaHandler.getInstance().getAllMedia()));
+				}
+			}
+        });
     }
        
    public static void main(String[] args) {
