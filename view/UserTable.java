@@ -182,6 +182,7 @@ public class UserTable extends JPanel {
 				if(UserHandler.getInstance().isLoginUnique(name)){
 					//erstelle eine neue Zeile
 					userTableModel.addNewRow(name);
+					frame.setVisible(false);
 				}else{
 					JOptionPane.showMessageDialog(null, "Benutzername schon vergeben" +
 							", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
