@@ -52,6 +52,10 @@ public class UserHandler {
 		return userHandler;
 	}
 	
+	public boolean isLoginUnique(String loginname){
+		return false;
+	}
+	
 	/**
 	 * <p>
 	 * Die Methode getAllUsers() holt sich alle User-Daten aus der entsprechenden CSV-Datei.

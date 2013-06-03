@@ -157,13 +157,48 @@ public class UserTable extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//erstelle eine neue Zeile 
-			userTableModel.addNewRow();
+				validLoginname();
 			}
 		});
 		buttonNew.setPreferredSize(new Dimension(126,30));
 		buttonNew.setMargin(new Insets(0,0,0,0));
 		return buttonNew;		
+	}
+	
+	private void validLoginname(){
+		JFrame frame = new JFrame("Benutzername anlegen");
+		JPanel panel = new JPanel();
+		JLabel message = new JLabel("Bitee");
+		JLabel labelLoginname = new JLabel("Benutzername");
+		final JTextField textField = new JTextField();
+		JButton buttonOK = new JButton("Bestätigen");
+		JButton buttonCancel = new JButton("Abbrechen");
+		
+		buttonOK.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String name = textField.getText().trim();
+				if(UserHandler.getInstance().isLoginUnique(name)){
+					//erstelle eine neue Zeile
+					userTableModel.addNewRow(name);
+				}else{
+					JOptionPane.showMessageDialog(null, "Benutzername schon vergeben" +
+							", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
+				}
+			}
+			
+		});
+		
+		panel.add(message);
+		panel.add(labelLoginname);
+		panel.add(textField);
+		panel.add(buttonOK);
+		panel.add(buttonCancel);
+		
+		frame.add(panel);
+		frame.setSize(400, 400);
+		frame.setVisible(true);
 	}
 	
 	//Methode fuer den DeleteButton
@@ -277,7 +312,7 @@ public class UserTable extends JPanel {
 
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			if (mode == User.ROLE_LIBRARIAN && col <= 7) {
+			if (mode == User.ROLE_LIBRARIAN && col != COL_Loginname) {
 				return true;
 			}
 			return false;
@@ -319,10 +354,9 @@ public class UserTable extends JPanel {
 		}
 		
 		// neue Zeile hinzufuegen
-		private void addNewRow(){
+		private void addNewRow(String newName){
 			
 			if(data.length > 1){
-				String newName = "Bitte Usernamen eingeben";
 				UserHandler.getInstance().getUser(newName);
 				
 				String[] ids = new String[data.length+1];
