@@ -165,6 +165,7 @@ public class UserTable extends JPanel {
 		return buttonNew;		
 	}
 	
+	//Prüfung des Loginnamens
 	private void validLoginname(){
 		final JFrame frame = new JFrame("Benutzername anlegen");
 		frame.setLayout(new GridLayout(2,1));
@@ -209,6 +210,12 @@ public class UserTable extends JPanel {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
+		//Position des Fenster auf dem Bildschirm in der Mitte
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - frame.getWidth())/2;
+		int y = (screenSize.height - frame.getHeight())/2;
+		frame.setLocation(x,y);
 	}
 	
 	//Methode fuer den DeleteButton
