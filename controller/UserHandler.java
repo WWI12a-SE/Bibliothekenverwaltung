@@ -53,7 +53,13 @@ public class UserHandler {
 	}
 	
 	public boolean isLoginUnique(String loginname){
-		return false;
+		User[] allUsers = getAllUsers();
+		for(int i = 0; i < allUsers.length; i++){
+			if(allUsers[i].getLoginName().equals(loginname)){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
