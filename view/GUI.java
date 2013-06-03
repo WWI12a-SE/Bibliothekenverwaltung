@@ -165,7 +165,7 @@ import controller.UserHandler;
         {
         	JPanel tabUserTable = new JPanel();
         	tabUserTable.setSize(200, 200);
-        	tabUserTable.setLayout(new FlowLayout(FlowLayout.LEFT));
+        	tabUserTable.setLayout(new GridLayout(1,1));
         	tabUserTable.add(new UserTable(loggedInUser.getRole()));
         	tabPane.addTab("Alle Nutzer", tabUserTable);
         }
