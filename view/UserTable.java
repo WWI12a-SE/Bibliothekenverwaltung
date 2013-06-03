@@ -4,8 +4,10 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -71,7 +73,6 @@ public class UserTable extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				
 				/*
 				 * Wird mit Zeilenselektion ausgeloest
 				 */
@@ -145,7 +146,6 @@ public class UserTable extends JPanel {
 		scrollPanePanel.add(scrollPaneBorderPanels[SUBPANEL_WEST_INDEX], BorderLayout.WEST);
 	}
 	
-	
 	/**
 	 * Button-Methoden
 	 * @return
@@ -166,16 +166,16 @@ public class UserTable extends JPanel {
 	}
 	
 	private void validLoginname(){
-		JFrame frame = new JFrame("Benutzername anlegen");
-		JPanel panel = new JPanel();
-		JLabel message = new JLabel("Bitee");
-		JLabel labelLoginname = new JLabel("Benutzername");
-		final JTextField textField = new JTextField();
-		JButton buttonOK = new JButton("Best√§tigen");
+		final JFrame frame = new JFrame("Benutzername anlegen");
+		frame.setLayout(new GridLayout(2,1));
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel buttonpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JLabel labelLoginname = new JLabel("Bitte Benutzername eingeben");
+		final JTextField textField = new JTextField(15);
+		JButton buttonOK = new JButton("Best‰tigen");
 		JButton buttonCancel = new JButton("Abbrechen");
 		
 		buttonOK.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String name = textField.getText().trim();
@@ -187,17 +187,26 @@ public class UserTable extends JPanel {
 							", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
 				}
 			}
-			
 		});
 		
-		panel.add(message);
+		buttonCancel.addActionListener(new ActionListener (){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+			}
+		});
+				
+		//Setze Layout
 		panel.add(labelLoginname);
 		panel.add(textField);
-		panel.add(buttonOK);
-		panel.add(buttonCancel);
-		
+		buttonpanel.add(buttonOK);
+		buttonpanel.add(buttonCancel);
 		frame.add(panel);
-		frame.setSize(400, 400);
+		frame.add(buttonpanel);
+		frame.setSize(400,150);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
@@ -220,7 +229,6 @@ public class UserTable extends JPanel {
 				}
 			}
 		});
-		
 		buttonDelete.setPreferredSize(new Dimension(126,30));
 		buttonDelete.setMargin(new Insets(0,0,0,0));
 		buttonDelete.setEnabled(true);
@@ -307,7 +315,14 @@ public class UserTable extends JPanel {
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			return data[rowIndex][columnIndex];
+			//return data[rowIndex][columnIndex];
+			if(data != null){
+				if(data[rowIndex][columnIndex].equals("null")){
+					return "";
+				}
+				return data[rowIndex][columnIndex];
+			}
+			return null;
 		}
 
 		@Override
