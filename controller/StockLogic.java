@@ -1,6 +1,5 @@
 package controller;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import model.*;
@@ -18,6 +17,10 @@ public class StockLogic {
 	
 	private static StockLogic stockLogic;
 	
+	/**
+	 * Gibt das Objekt der StockLogic zurueck.
+	 * @return stockLogicObject : StockLogic
+	 */
 	public static StockLogic getInstance(){
 		if(stockLogic == null){
 			stockLogic = new StockLogic();
@@ -25,15 +28,34 @@ public class StockLogic {
 		return stockLogic;
 	}
 	
-	private StockLogic(){
-		
-	}
+	/**
+	 * Privatisierter Konstruktor, Objekt ueber statische getInstance()
+	 */
+	private StockLogic(){}
 	
 	public Medium getNewMedium(){
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		return mediaHandler.getMedium(mediaHandler.getNewID());
 	}
 	
+	/**
+	 * Gibt das ueber die Parameter definierte Medium fuer den spezifizierten User zurueck ins System.<br><br>
+	 * Hierzu muss:<ul>
+	 * <li>Das Medium vorhanden sein</li>
+	 * <li>Das Medium zurueckgebbar sein (siehe isReturnable())</li>
+	 * </ul>
+	 * <br>
+	 * Der Rueckgabewert liefert true fuer "erfolgreich entliehen", andernfalls false
+	 * <br>
+	 * Bei Erfolg:<ul>
+	 * <li>Das Medium vorhanden sein</li>
+	 * <li>Das Medium entleihbar sein (siehe isReturnable())</li>
+	 * </ul>
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return success : Boolean
+	 * @see #isReturnable
+	 */
 	public boolean returnMedium(User user, int mediaID){
 		
 		/*
@@ -85,10 +107,11 @@ public boolean extendMedium(User user, int mediaID){
 	}
 	
 	/**
-	 * Das Gegenteil von hasReservation.
+	 * Das Gegenteil von hasLeasedSpecificMedium.
 	 * @param user
 	 * @param mediaID
-	 * @return
+	 * @return isReturnable : Boolean
+	 * @see User#hasLeasedSpecificMedium
 	 */
 	public boolean isReturnable(User user, int mediaID){
 		if(!user.hasLeasedSpecificMedium(mediaID)){

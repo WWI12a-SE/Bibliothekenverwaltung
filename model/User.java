@@ -199,7 +199,8 @@ public class User {
 	}
 	
 	/**
-	 * Gibt zurueck ob dieser Benutzer Medien entliehen hat.
+	 * Gibt zurueck ob dieser Benutzer Medien entliehen hat (allgemein).
+	 * Ist erfuellt, sobald eine Reservierung fuer diesen User gefunden wird.
 	 * @return userHasLeasedAnyMedium : boolean
 	 */
 	public boolean hasLeasedAnyMedium(){
@@ -214,9 +215,10 @@ public class User {
 	}
 	
 	/**
-	 * Gibt zurueck ob der Benutzer ein bestimmtes Medium enliehen hat.
+	 * Gibt zurueck ob der Benutzer ein bestimmtes Medium enliehen hat.<br>
+	 * Ist erfuellt, wenn eine Reservierung fur diesen Benutzer mit dem per Parameter definierten Medium existiert.
 	 * 
-	 * @param mediaID : int - Die ID des zu pruefenden Mediums
+	 * @param mediaID : Integer - Die ID des zu pruefenden Mediums
 	 * @return userHasLeasedSpecificMedium : boolean
 	 */
 	public boolean hasLeasedSpecificMedium(int mediaID){

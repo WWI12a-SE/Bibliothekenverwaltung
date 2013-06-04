@@ -135,7 +135,7 @@ public class ReservationHandler {
 	}
 	
 	/**
-	 * Die Methode save() weist den CsvHandler des REservationHandlers an die "staged"-ten
+	 * Die Methode save() weist den CsvHandler des ReservationHandlers an die "staged"-ten
 	 * (zum speichern bereiten) Aenderungen in die CSV-Datei zu uebertragen. Alle Aenderungen
 	 * an Reservierungs-Objekten werden automatisch ge-"staged".
 	 */
@@ -144,10 +144,19 @@ public class ReservationHandler {
 		reservationHandler = null;
 	}
 	
+	/**
+	 * Verwirft alle zum speichern bereitgestellten Aenderungen
+	 * und erzwingt eine Neuinstanziierung der ReservationHandler-Objekts ueber getInstance()
+	 * @see UserHandler#getInstance
+	 */
 	public static void reset(){
 		reservationHandler = null;
 	}
 	
+	/**
+	 * Gibt alle Reservierungs-Daten inklusive der zum speichern bereitgestellten Aenderungen auf der Konsole aus.
+	 * @develop nur debug
+	 */
 	public void viewTable(){
 		System.out.println("----Reservation-Table im ReservationHandler---------");
 		Reservation[] reservations = this.getAllReservations();

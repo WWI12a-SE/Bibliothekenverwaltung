@@ -52,6 +52,11 @@ public class UserHandler {
 		return userHandler;
 	}
 	
+	/**
+	 * Ueberprueft ob es noch keinen User mit dem ueber den Parameter definierten Loginnamen gibt.
+	 * @param loginname : String
+	 * @return isLoginUnique : boolean
+	 */
 	public boolean isLoginUnique(String loginname){
 		User[] allUsers = getAllUsers();
 		for(int i = 0; i < allUsers.length; i++){
@@ -129,17 +134,31 @@ public class UserHandler {
 	/**
 	 * Die Methode save() weist den CsvHandler des UserHandlers an die "staged"-ten
 	 * (zum speichern bereiten) Aenderungen in die CSV-Datei zu uebertragen. Alle Aenderungen
-	 * an User-Objekten werden automatisch ge-"staged".
+	 * an User-Objekten werden automatisch zum speichern bereitgestellt.
 	 */
 	public void save(){
 		userMapper.storeMap();
 		userHandler = null;
 	}
 	
+	/**
+	 * Verwirft alle zum speichern bereitgestellten Aenderungen
+	 * und erzwingt eine Neuinstanziierung der UserHandler-Objekts ueber getInstance()
+	 * @see UserHandler#getInstance
+	 */
 	public static void reset(){
+		/*
+		 * Setzt die statische Variable userHandler
+		 * (welche uber getInstance() zurueckgegeben wird) auf null zurueck und erzwingt somit eine neue Instanziierung.
+		 * Der effektive Nutzen ergibt sich daraus, dass alle zum speichern bereiten Aenderungen verworfen werden.
+		 */
 		userHandler = null;
 	}
 	
+	/**
+	 * Gibt alle User-Daten inklusive der zum speichern bereitgestellten Aenderungen auf der Konsole aus.
+	 * @develop nur debug
+	 */
 	public void viewTable(){
 		System.out.println("----User-Table im UserHandler---------");
 		User[] users = this.getAllUsers();
