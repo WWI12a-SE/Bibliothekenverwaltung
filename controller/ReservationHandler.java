@@ -7,7 +7,7 @@ import model.Reservation;;
  * <p>
  * Die Klasse ReservationHandler verwaltet alle Reservierungs-Objekte.
  * Sie dient der Benutzeroberfläche als Schnittstelle um einzelne oder alle Reservierungen abzufragen,
- * d.h. um Referenzen auf Reservierungs-Objekte übergeben zu bekommen.
+ * d.h. um Referenzen auf Reservierungs-Objekte uebergeben zu bekommen.
  * </p><p>
  * Der Konstruktor dieser Klasse ist, um eine mehrmalige Instanzierung zu verhindern, privatisiert.
  * Um ein Objekt des ReservationHandlers zu erhalten muss die statische getInstance-Methode verwendet werden.

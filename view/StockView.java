@@ -16,6 +16,10 @@ import javax.swing.event.*;
 import javax.swing.table.TableModel;
 
 /**
+ * Die Klasse StockView stellt das fertig gestaltete Panel fuer den Bestands-View zur Verfuegung.
+ * Die Datensaetze (Medium-Objekte) werden ueber den MediaHandler geholt und fuer die Tabelle formatiert.
+ * Aenderungen an den Medien oder den Reservierungen werden entweder direkt an den entsprechenden Objekten vorgenommen,
+ * oder ueber die StockLogic verwaltet (fuer die Kernfunktionen).
  * 
  * @author weisseth
  *
@@ -106,6 +110,10 @@ public class StockView extends JPanel {
 		this.add(scrollPanePanel);
 	}
 	
+	/**
+	 * Gibt den Index des Datensatzes zurueck, welcher aktuell selektiert ist, unabhaengig der aktuellen Tabellen-Sortierung. 
+	 * @return row : Integer
+	 */
 	public int getSelectedIndex(){
 		int row = stockTable.getSelectedRow();
 		if (row != -1) {
@@ -114,6 +122,14 @@ public class StockView extends JPanel {
 		return row;
 	}
 	
+	/**
+	 * Gestaltet das grundsaetzliche Layout des Stock-Views:
+	 * <ul>
+	 * <li>Fuegt Trenn-Panels an den Raendern ein</li>
+	 * <li>Trennt das rechte TrennPanel nochmals fuer die Buttons</li>
+	 * <li>Fuegt die zur Benutzerrolle passenden Aktions-Buttons ein</li>
+	 * </ul>
+	 */
 	private void addBorderPanels(){
 		//Array-Init
 		scrollPaneBorderPanels = new JPanel[4];
@@ -188,8 +204,9 @@ public class StockView extends JPanel {
 	}
 	
 	/**
-	 * Gibt den initialisierten mit ActionListener ausgestatteten Rueckgabe-Button zurueck.
-	 * @return
+	 * Initialisiert und definiert den Button um ein Medium zu entleihen.
+	 * Der fertige Button wird zurueckgegeben.
+	 * @return buttonLease : JButton
 	 */
 	private JButton getButtonLease(){
 		JButton buttonLease = new JButton("Ausleihen");
@@ -216,6 +233,11 @@ public class StockView extends JPanel {
 		return buttonLease;
 	}
 	
+	/**
+	 * Initialisiert und definiert den Button um neue Datensaetze einzufuegen.
+	 * Der fertige Button wird zurueckgegeben.
+	 * @return buttonNew : JButton
+	 */
 	private JButton getButtonNew(){
 		JButton buttonNew = new JButton("Neu hinzufügen");
 		buttonNew.setPreferredSize(new Dimension(126,30));
