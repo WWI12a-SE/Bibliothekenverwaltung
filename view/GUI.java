@@ -54,7 +54,7 @@ import controller.UserHandler;
         User loggedInUser = MyAccount.getLoggedInUser();
        
         this.setTitle("Bibliotheksverwaltung");
-        this.setSize(600,600);
+        this.setSize(880,500);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
