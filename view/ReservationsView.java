@@ -504,10 +504,14 @@ public class ReservationsView extends JPanel {
 		/**
 		 * Wie updateRow, jedoch unter Angabe des Mediums.
 		 * @param row : Integer
-		 * @param reservation : Reservation
+		 * @param oReservation : Reservation
 		 */
-		public void initRow(int row, Reservation reservation){
-			data[row][COL_ID] = reservation.getReservationID();
+		public void initRow(int row, Reservation oReservation){
+			data[row][COL_ID] = oReservation.getReservationID();
+			data[row][COL_USERID] = oReservation.getLoginName();
+			data[row][COL_MEDIUMID] = oReservation.getMediaID();
+			data[row][COL_RETURNDATE] = oReservation.getReturnDate();
+			data[row][COL_EXTENDED] = oReservation.getExtensions();
 		}
 
 		@Override
