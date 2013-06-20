@@ -2,6 +2,9 @@ package test;
 
 import javax.swing.*;
 
+import model.Medium;
+
+import controller.MediaHandler;
 import controller.MyAccount;
 import controller.UserHandler;
 
@@ -30,7 +33,12 @@ public class StockViewTest {
 		MyAccount.login(loginName, pw);
 		System.out.println("logged in as "+UserHandler.getInstance().getUser(loginName).getRoleAsString());
 		frame.setSize(800, 600);
-		JPanel panel = new StockView();
+		
+		Medium[] media = new Medium[2];
+		media[0] = MediaHandler.getInstance().getMedium(2);
+		media[1] = MediaHandler.getInstance().getMedium(3);
+		
+		JPanel panel = new StockView(media);
 		frame.add(panel);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

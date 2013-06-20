@@ -61,19 +61,14 @@ public class StockView extends JPanel {
 	
 	private JButton buttonLease, buttonReturn, buttonExtend, buttonDelete, buttonNew;
 
-	//TODO media
-	public StockView(Medium[] media){
-		this();
-	}
-	
-	//TODO media
-	public StockView(int i){
-		this();
-	}
-
-	public StockView() {
+	/**
+	 * Initialisiert die BestandsAnsicht. Als Argument muessen die anzuzeigenden Medien als Medium-Array uebergeben werden.
+	 * @param media : Medium[] - Die anzuzeigenden Medien
+	 */
+	public StockView(Medium[] media) {
 		
-		stockTableModel = new StockTableModel();
+		//Init Stock
+		stockTableModel = new StockTableModel(media);		
 		stockTableModelListener = new StockTableModelListener();
 		stockTableModel.addTableModelListener(stockTableModelListener);
 		
@@ -418,11 +413,7 @@ public class StockView extends JPanel {
 		/**
 		 * Initialisiert die zu den Medien gehoerenden Table-Datensaetze
 		 */
-		private StockTableModel() {
-			
-			//Init Stock
-			MediaHandler mediaHandler = MediaHandler.getInstance();
-			Medium[] media = mediaHandler.getAllMedia();
+		private StockTableModel(Medium[] media) {
 			
 			//Init Data
 			int rows = media.length;

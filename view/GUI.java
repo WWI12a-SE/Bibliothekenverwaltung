@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import model.Medium;
 import model.User;
 
 import controller.MediaHandler;
@@ -31,6 +33,9 @@ import controller.ReservationHandler;
 import controller.UserHandler;
 
  public class GUI extends JFrame {
+	 
+	private JPanel tabStore;
+	private JTabbedPane tabPane;
 
     private static final long serialVersionUID = 1L;
 
@@ -145,24 +150,63 @@ import controller.UserHandler;
         	@Override
             public void actionPerformed(ActionEvent e) {
            
-                searchField.getText();
+                String search = searchField.getText();
+                MediaHandler handler = MediaHandler.getInstance();
+                Medium[] media = handler.getAllMedia();
+//                ArrayList<Medium> foundMedia = new ArrayList<Medium>();
+                ArrayList<Integer> foundMediaIDs = new ArrayList<Integer>();
+                
+                //Search
+                for(int i = 0; i < media.length; i++){
+                	if(media[i].getAuthor().contains(search)
+                			|| media[i].getKeywords().contains(search)){
+                		
+//                		foundMedia.add(media[i]);
+                		foundMediaIDs.add(media[i].getID());
+                	}
+                }
+                
+                //Convert Array
+//                media = (Medium[])(foundMedia.toArray());
+                
+                //Collect found Media
+                media = new Medium[foundMediaIDs.size()];
+                for(int i = 0; i < media.length; i++){
+                	media[i] = handler.getMedium(foundMediaIDs.get(i));
+                }
+                
+                //Refresh View
+                tabStore = new StockView(media);
+//                tabPane.updateUI();
+//                tabPane.repaint();
+                tabStore.updateUI();
+//                tabStore = null;
+//                tabPane.repaint();
+//                tabPane.remove(tabStore);
+//                tabStore = new StockView(media);
+//                tabPane.add(tabStore);
+//                tabStore.repaint();
+//                GUI.this.repaint();
+                
+//                int i = tabPane.getSelectedIndex();  
+//                tabPane.setComponentAt(i, new StockView(media));
                                
             }});
        
 
         // Hier wird die Tabpane mit ihren Panels angelegt.
         // ------------------------------------------------
-        JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
+        tabPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
         tabPane.setSize(200, 200);
         this.add(tabPane, BorderLayout.CENTER);
         
         // Fuege Bestandsliste hinzu
-        JPanel tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
+        tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
         //tabStore.setSize(200, 200);
         tabPane.addTab("Bestand", tabStore);
 
         // Fuege Reservierungen hinzu
-        final JPanel tabReservations = new JPanel();
+        final JPanel tabReservations = new ReservationsView();
         tabReservations.setSize(200, 200);
         //tabReservations.add(new ...) PANEL MUSS AUCH UNTEN IM CHANGE LISTENER HINZUGEFÜGT WERDEN
         tabPane.addTab("Reservierungen", tabReservations);
@@ -211,7 +255,8 @@ import controller.UserHandler;
 					// Welches Tab ist offen? Das i-te.
 					int i = pane.getSelectedIndex();  
 					// Im i-ten Tab eine neue StockView laden.
-					pane.setComponentAt(i, new StockView(MediaHandler.getInstance().getAllMedia()));
+//					pane.setComponentAt(i, new StockView(MediaHandler.getInstance().getAllMedia()));
+					pane.setComponentAt(i, tabStore);
 				}
 			}
         });
