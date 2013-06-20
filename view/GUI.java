@@ -164,6 +164,7 @@ import controller.UserHandler;
         // Fuege Reservierungen hinzu
         final JPanel tabReservations = new JPanel();
         tabReservations.setSize(200, 200);
+        tabReservations.setLayout(new GridLayout(1,1));
         //tabReservations.add(new ...) PANEL MUSS AUCH UNTEN IM CHANGE LISTENER HINZUGEFÜGT WERDEN
         tabReservations.add(new ReservationsView());
         tabPane.addTab("Reservierungen", tabReservations);
