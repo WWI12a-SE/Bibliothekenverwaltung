@@ -3,6 +3,8 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
@@ -15,6 +17,8 @@ import controller.MyAccount;
  */
 
 public class Login extends JFrame{
+	
+	private static final long serialVersionUID = 1L;
 	
 	//Attribute zu Darstellung
 	private JButton loginbutton;
@@ -49,12 +53,14 @@ public class Login extends JFrame{
 		//2.Zeile
 			passwordlabel = new JLabel("Kennwort:          ");
 			passwordfield = new JPasswordField(15);
+			passwordfield.addKeyListener(new KeyLoginListener());
 			passwordpanel.add(passwordlabel);
 			passwordpanel.add(passwordfield);
 			
 		//3.Zeile
 			loginbutton = new JButton("Anmelden");
 			loginbutton.addActionListener(new LoginListener());
+			loginbutton.addKeyListener(new KeyLoginListener());
 			buttonpanel.add(loginbutton);
 		
 		// Panels zum Frame hinzufügen
@@ -90,6 +96,47 @@ public class Login extends JFrame{
 				JOptionPane.showMessageDialog(null, "Das Kennwort oder der Benutzername ist falsch" +
 						", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
 			}
+		}	
+	}
+	
+	//Aktion für Button und Textfeld mit Enter
+	class KeyLoginListener implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getKeyCode()== KeyEvent.VK_ENTER){
+				//eingegebene Logindaten holen
+				String username = usernamefield.getText();
+				char [] password = passwordfield.getPassword();	
+				String sPassword = String.valueOf(password);// Pharse password in String
+				
+				//Logindaten weiterleiten an MyAccount
+				boolean loginOK = MyAccount.login(username, sPassword); //hole daten
+							
+				if (loginOK == true){
+					// Welcher User ist drin
+					// Sitzung erstellen
+					Login.this.setVisible(false);
+					GUI gui = new GUI();
+					gui.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "Das Kennwort oder der Benutzername ist falsch" +
+							", bitte versuchen Sie es erneut!", "Achtung", JOptionPane.OK_CANCEL_OPTION);
+				}
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+			
 		}	
 	}
 }
