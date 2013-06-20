@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -56,6 +57,12 @@ import controller.UserHandler;
         this.setSize(600,600);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        //Frame in die Bildschirm-Mitte
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - this.getWidth())/2;
+		int y = (screenSize.height - this.getHeight())/2;
+		this.setLocation(x,y);
 
         JPanel top = new JPanel(new BorderLayout());
         this.add(top, BorderLayout.NORTH);
@@ -126,7 +133,7 @@ import controller.UserHandler;
        
         JButton searchButton = new JButton("Suchen");
         final JTextField searchField = new JTextField();
-        searchField.setPreferredSize(new Dimension (88, 26));
+        searchField.setPreferredSize(new Dimension (123, 26));
         topSouth.add(searchField);
         topSouth.add(searchButton);
         searchButton.addActionListener(new ActionListener () {
@@ -157,7 +164,7 @@ import controller.UserHandler;
         // Fuege Reservierungen hinzu
         final JPanel tabReservations = new JPanel();
         tabReservations.setSize(200, 200);
-        //tabReservations.add(new ...)
+        //tabReservations.add(new ...) PANEL MUSS AUCH UNTEN IM CHANGE LISTENER HINZUGEFÜGT WERDEN
         tabPane.addTab("Reservierungen", tabReservations);
         
         // Bibliothekare bekommen eine Nutzerliste, ...
@@ -180,7 +187,7 @@ import controller.UserHandler;
     		tabPane.addTab("Mein Konto", tabMyAccount);    		
     	}
         
-        // Lade die Reservierungen neu, jedes Mal bevor sie angezeigt werden.
+        // Lade die Reservierungs-Tab und Bestands-Tab neu, jedes Mal bevor sie angezeigt werden.
         tabPane.addChangeListener(new ChangeListener() {
 			@Override
 			/**
