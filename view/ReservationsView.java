@@ -55,7 +55,6 @@ public class ReservationsView extends JPanel {
 	private static final int COL_EXTENDED = 4;
 	
 	private static final int AMOUNT_COLUMNS_VISIBLE = 5;
-	private static final int AMOUNT_COLUMNS_INVISIBE = 0; //++++
 
 	private JTable oReservationsTable;
 	private StockTableModelListener reservationsTblListener;
@@ -396,11 +395,7 @@ public class ReservationsView extends JPanel {
 				"Buch", 		//1
 				"ausgeliehen von", 
 				"Rückgabe bis", 
-				"Laufende Ausleihe", 
-				"xxExemplare", 	//5
-				"xxVerfügbar", 
-				"xxStichworte",
-				"xxID"//7
+				"Laufende Ausleihe"
 		};
 		
 		
@@ -415,11 +410,11 @@ public class ReservationsView extends JPanel {
 			int iRows = aReservations.length;
 			int iCols = columnNames.length;
 			
-			data = new Object[iRows][iCols+AMOUNT_COLUMNS_INVISIBE];
+			data = new Object[iRows][iCols];
 			
 			//Init Data-Values
 			for (int row = 0; row < aReservations.length; row++){
-				//initRow(row, aReservations[row]);
+				initRow(row, aReservations[row]);
 			}
 			
 			
@@ -450,7 +445,7 @@ public class ReservationsView extends JPanel {
 			}
 			//Init Data-Values
 			for (int row = 0; row < ids.length; row++){
-				initRow(row, MediaHandler.getInstance().getMedium(ids[row]));
+				initRow(row, ReservationHandler.getInstance().getReservation(ids[row]));
 				updateRow(row);
 			}
 			initRow(newRow, newMedium);
@@ -481,7 +476,7 @@ public class ReservationsView extends JPanel {
 					}
 					System.out.println(ids[i]);
 				}
-				data = new Object[data.length-1][AMOUNT_COLUMNS_VISIBLE+AMOUNT_COLUMNS_INVISIBE];
+				data = new Object[data.length-1][AMOUNT_COLUMNS_VISIBLE];
 				
 				for(int i = 0; i < data.length; i++){
 					setValueAt(ids[i], i, COL_ID);
@@ -509,10 +504,10 @@ public class ReservationsView extends JPanel {
 		/**
 		 * Wie updateRow, jedoch unter Angabe des Mediums.
 		 * @param row : Integer
-		 * @param medium : Medium
+		 * @param reservation : Reservation
 		 */
-		public void initRow(int row, Medium medium){
-			data[row][COL_ID] = medium.getID();
+		public void initRow(int row, Reservation reservation){
+			data[row][COL_ID] = reservation.getReservationID();
 		}
 
 		@Override
