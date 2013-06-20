@@ -1,6 +1,5 @@
 package controller;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import model.*;
@@ -18,6 +17,10 @@ public class StockLogic {
 	
 	private static StockLogic stockLogic;
 	
+	/**
+	 * Gibt das Objekt der StockLogic zurueck.
+	 * @return stockLogicObject : StockLogic
+	 */
 	public static StockLogic getInstance(){
 		if(stockLogic == null){
 			stockLogic = new StockLogic();
@@ -25,15 +28,38 @@ public class StockLogic {
 		return stockLogic;
 	}
 	
-	private StockLogic(){
-		
-	}
+	/**
+	 * Privatisierter Konstruktor, Objekt ueber statische getInstance()-Funktion
+	 */
+	private StockLogic(){}
 	
+	/**
+	 * Gibt ein neu erstelltes Medium zurueck.
+	 * @return medium : Medium
+	 */
 	public Medium getNewMedium(){
 		MediaHandler mediaHandler = MediaHandler.getInstance();
 		return mediaHandler.getMedium(mediaHandler.getNewID());
 	}
 	
+	/**
+	 * Gibt das ueber die Parameter definierte Medium fuer den spezifizierten User zurueck ins System.<br><br>
+	 * Hierzu muss:<ul>
+	 * <li>Das Medium vorhanden sein</li>
+	 * <li>Das Medium zurueckgebbar sein (siehe isReturnable())</li>
+	 * </ul>
+	 * <br>
+	 * Der Rueckgabewert liefert true fuer "erfolgreich zurueckgegeben", andernfalls false.<br>
+	 * <br>
+	 * Bei Erfolg:<ul>
+	 * <li>Reservierungs-Datensatz wird geloescht</li>
+	 * <li>Der Bestand (die Anzahl der vorraetigen Exemplare) wird um eins inkrementiert</li>
+	 * </ul>
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return success : Boolean
+	 * @see #isReturnable
+	 */
 	public boolean returnMedium(User user, int mediaID){
 		
 		/*
@@ -59,7 +85,16 @@ public class StockLogic {
 		return false;
 	}
 	
-public boolean extendMedium(User user, int mediaID){
+	/**
+	 * Kernfunktion fuer die Verlaengerung eines ueber die MediaID spezifizierten Mediums fuer den uebergebenen User.
+	 * Voraussetztung ist die Verlaengerbarkeit des Mediums (siehe isExtendable(user, mediaID)).<br>
+	 * Erfolg oder Fehlschlag wird ueber den Rueckgabewert mitgeteilt.
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return success : Boolean
+	 * @see #isExtendable(User, int)
+	 */
+	public boolean extendMedium(User user, int mediaID){
 		
 		/*
 		 * Reservierung suchen und loeschen
@@ -85,10 +120,11 @@ public boolean extendMedium(User user, int mediaID){
 	}
 	
 	/**
-	 * Das Gegenteil von hasReservation.
+	 * Das Gegenteil von hasLeasedSpecificMedium.
 	 * @param user
 	 * @param mediaID
-	 * @return
+	 * @return isReturnable : Boolean
+	 * @see User#hasLeasedSpecificMedium
 	 */
 	public boolean isReturnable(User user, int mediaID){
 		if(!user.hasLeasedSpecificMedium(mediaID)){
@@ -97,6 +133,21 @@ public boolean extendMedium(User user, int mediaID){
 		return true;
 	}
 	
+	/**
+	 * Entleiht das ueber die Parameter definierte Medium fuer den spezifizierten User.<br><br>
+	 * Hierzu muss das Medium entleihbar sein (siehe isLeaseable()).
+	 * <br>
+	 * Der Rueckgabewert liefert true fuer "erfolgreich entliehen", andernfalls false.<br>
+	 * <br>
+	 * Bei Erfolg:<ul>
+	 * <li>Reservierungs-Datensatz wird erstellt</li>
+	 * <li>Der Bestand (die Anzahl der vorraetigen Exemplare) wird um eins dekrementiert</li>
+	 * </ul>
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return success : Boolean
+	 * @see #isLeaseable(User, int)
+	 */
 	public boolean leaseMedium(User user, int mediaID){
 		
 		if(isLeaseable(user, mediaID)){
@@ -119,6 +170,18 @@ public boolean extendMedium(User user, int mediaID){
 		return false;
 	}
 	
+	/**
+	 * Gibt zurueck ob ein Medium fuer den User entleihbar ist.<br>
+	 * Voraussetzungen:
+	 * <ul>
+	 * <li>Der User hat das Recht Medien zu entleihen</li>
+	 * <li>Es sind noch Exemplare des Mediums im Bestand</li>
+	 * <li>Der User hat noch kein Exemplar dieses Mediums entliehen</li>
+	 * </ul>
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return isLeasable : Boolean
+	 */
 	public boolean isLeaseable(User user, int mediaID){
 
 		/*
@@ -154,6 +217,11 @@ public boolean extendMedium(User user, int mediaID){
 		
 	}
 	
+	/**
+	 * Gibt das neue Rueckgabedatum zurueck, welches daysUntilReturn-Tage in der Zukunft liegt.
+	 * @param daysUntilReturn : Integer
+	 * @return returnDate : Date
+	 */
 	private Date getNewReturnDate(int daysUntilReturn){
 		Date returnDate = new Date();
 		
@@ -169,7 +237,19 @@ public boolean extendMedium(User user, int mediaID){
 		return returnDate;
 	}
 	
-public boolean isExtendable(User user, int mediaID){
+	/**
+	 * Gibt zurueck ob ein Medium fuer den User verlaengerbar ist.<br>
+	 * Voraussetzungen:
+	 * <ul>
+	 * <li>Der User hat die Rolle "Dozent"</li>
+	 * <li>Der User hat das Medium entliehen</li>
+	 * <li>Der User hat die Entleihgrenze fuer das Medium noch nicht ueberschritten</li>
+	 * </ul>
+	 * @param user : User
+	 * @param mediaID : Integer
+	 * @return isExtendable : Boolean
+	 */
+	public boolean isExtendable(User user, int mediaID){
 		
 		/*
 		 * User hat das erforderliche Recht

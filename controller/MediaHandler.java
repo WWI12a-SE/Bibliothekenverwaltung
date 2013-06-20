@@ -144,10 +144,19 @@ public class MediaHandler {
 		mediaHandler = null;
 	}
 	
+	/**
+	 * Verwirft alle zum speichern bereitgestellten Aenderungen
+	 * und erzwingt eine Neuinstanziierung der MediaHandler-Objekts ueber getInstance()
+	 * @see UserHandler#getInstance
+	 */
 	public static void reset(){
 		mediaHandler = null;
 	}
 	
+	/**
+	 * Gibt alle Medien-Daten inklusive der zum speichern bereitgestellten Aenderungen auf der Konsole aus.
+	 * @develop nur debug
+	 */
 	public void viewTable(){
 		System.out.println("----Media-Table im MediaHandler---------");
 		Medium[] media = this.getAllMedia();
