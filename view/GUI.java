@@ -133,7 +133,7 @@ import controller.UserHandler;
        
         JButton searchButton = new JButton("Suchen");
         final JTextField searchField = new JTextField();
-        searchField.setPreferredSize(new Dimension (88, 26));
+        searchField.setPreferredSize(new Dimension (123, 26));
         topSouth.add(searchField);
         topSouth.add(searchButton);
         searchButton.addActionListener(new ActionListener () {
