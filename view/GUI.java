@@ -165,6 +165,7 @@ import controller.UserHandler;
         final JPanel tabReservations = new JPanel();
         tabReservations.setSize(200, 200);
         //tabReservations.add(new ...) PANEL MUSS AUCH UNTEN IM CHANGE LISTENER HINZUGEFÜGT WERDEN
+        tabReservations.add(new ReservationsView());
         tabPane.addTab("Reservierungen", tabReservations);
         
         // Bibliothekare bekommen eine Nutzerliste, ...
@@ -203,6 +204,7 @@ import controller.UserHandler;
 				{
 					tabReservations.removeAll();
 					//tabReservations.add(...);
+					tabReservations.add(new ReservationsView());
 				}
 				
 				// Falls dort (am tabPane) gerade die StockView geöffnet wurde:
