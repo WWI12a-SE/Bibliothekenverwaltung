@@ -1,3 +1,11 @@
+/**
+ * ReservationsView
+ * Grundlage für die View "Reservierungen"
+ * 
+ * @author 啊快
+ * ✯
+ */
+
 package view;
 import java.awt.BorderLayout;
 import java.awt.Color;

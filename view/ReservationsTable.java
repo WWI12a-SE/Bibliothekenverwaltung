@@ -5,23 +5,11 @@
  */
 
 package view;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import controller.*;
 import core.*;
@@ -111,6 +99,8 @@ public class ReservationsTable  extends DefaultTableModel{
             
         }
     }
+    
+    
 
     /**
      * Zum Sortieren per Klick auf Spaltentitel

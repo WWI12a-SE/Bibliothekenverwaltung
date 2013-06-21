@@ -9,7 +9,7 @@
  * -	Werte werden in Anführungszeichen gefasst.
  * 
  * Stundenzähler: 11
- * @author Johannes Ackermann
+ * @author Johannes Ackermann (啊快)
  */
 
 package core;

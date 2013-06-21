@@ -165,7 +165,7 @@ public class UserTable extends JPanel {
 		return buttonNew;		
 	}
 	
-	//Prüfung des Loginnamens
+	//Prï¿½fung des Loginnamens
 	private void validLoginname(){
 		final JFrame frame = new JFrame("Benutzername anlegen");
 		frame.setLayout(new GridLayout(2,1));
@@ -173,7 +173,7 @@ public class UserTable extends JPanel {
 		JPanel buttonpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JLabel labelLoginname = new JLabel("Bitte Benutzername eingeben");
 		final JTextField textField = new JTextField(15);
-		JButton buttonOK = new JButton("Bestätigen");
+		JButton buttonOK = new JButton("Bestï¿½tigen");
 		JButton buttonCancel = new JButton("Abbrechen");
 		
 		buttonOK.addActionListener(new ActionListener(){
@@ -273,7 +273,7 @@ public class UserTable extends JPanel {
 				"Vorname", 
 				"Nachname", 
 				"E-Mail", 
-				"Password", 	
+				"Kennwort", 	
 		};
 
 		//constructor UserTable

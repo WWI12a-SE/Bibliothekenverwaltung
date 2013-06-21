@@ -1,3 +1,6 @@
+/**
+ * @author Tina
+ */
 package view;
 
 import java.awt.BorderLayout;
@@ -50,7 +53,7 @@ import controller.UserHandler;
 	 * Hinzu kommt eine ActionListener für den Button.
 	 * Dies geschieht, indem die jeweiligen Handler aufgerufen werden.
 	 * 
-	 * Zum Schluß wir die Tableiste angelegt und kommt in den unteren Bereich des Frames.
+	 * Zum Schluss wird die Tableiste angelegt und kommt in den unteren Bereich des Frames.
 	 * Zugleich werden die Panels für die Tableiste erzeugt.
 	 */
 	public GUI()

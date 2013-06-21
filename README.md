@@ -38,7 +38,7 @@ Verzeichnisstruktur
 -	Abstrahierte Datenmodelle der einzelnen CSV-Dateien
 
 /controller
--	Controller für BenutzeroberflÃ¤che. Logik für Benutzerebene gehört hier hin.
+-	Controller für Benutzeroberfläche. Logik für die Benutzeroberflächen gehört hier hin.
 
 /view
 -	GUI-Bestandteile
@@ -48,7 +48,7 @@ Verzeichnisstruktur
 		-	users.csv: Benutzer
 		-	stock.csv: Bestand
 		-	reservations.csv: Reservationen
-		-	lastid.csv: Zuletzt genutzte hochgezÃ¤hlte IDs fÃ¼r o.g. Dateien
+		-	lastid.csv: Zuletzt genutzte hochgezählte IDs für o.g. Dateien
 		
 /test
 -	Ausführbare Tests
