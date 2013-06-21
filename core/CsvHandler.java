@@ -153,7 +153,7 @@ public class CsvHandler {
 	
 	/**
 	 * Alle IDs zurückgeben
-	 * Gibt ein Array mit allen IDs dieser Instanzu zurück.
+	 * Gibt ein Array mit allen IDs dieser Instanz zurück.
 	 * @author ja
 	 * 
 	 * @return String[]

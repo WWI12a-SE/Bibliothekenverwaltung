@@ -20,6 +20,8 @@ import controller.MyAccount;
 
 import core.Exception.InvalidFormatException;
 import core.Exception.UnequalPasswordsException;
+
+
 /**
  * Die Klasse ModifyUserDataPanel wird in einem der Tabs im Hauptfenster aufgerufen.
  * Es werden sechs Panel samt Textfeld angelegt: Vorname, Nachname, E-mail, Passwort, Passwort wiederholen und Speichern-Button.
