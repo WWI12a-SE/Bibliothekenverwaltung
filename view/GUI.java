@@ -34,7 +34,7 @@ import controller.UserHandler;
 
  public class GUI extends JFrame {
 	 
-	private JPanel tabStore;
+	private JPanel tabStock;
 	private JTabbedPane tabPane;
 
     private static final long serialVersionUID = 1L;
@@ -151,45 +151,41 @@ import controller.UserHandler;
             public void actionPerformed(ActionEvent e) {
            
                 String search = searchField.getText();
+                search = search.trim();
+                search = search.toLowerCase();
                 MediaHandler handler = MediaHandler.getInstance();
                 Medium[] media = handler.getAllMedia();
-//                ArrayList<Medium> foundMedia = new ArrayList<Medium>();
-                ArrayList<Integer> foundMediaIDs = new ArrayList<Integer>();
                 
-                //Search
-                for(int i = 0; i < media.length; i++){
-                	if(media[i].getAuthor().contains(search)
-                			|| media[i].getKeywords().contains(search)){
-                		
-//                		foundMedia.add(media[i]);
-                		foundMediaIDs.add(media[i].getID());
-                	}
-                }
-                
-                //Convert Array
-//                media = (Medium[])(foundMedia.toArray());
-                
-                //Collect found Media
-                media = new Medium[foundMediaIDs.size()];
-                for(int i = 0; i < media.length; i++){
-                	media[i] = handler.getMedium(foundMediaIDs.get(i));
-                }
+                if(!search.equals("")){//Nur Suche wenn spezifiziert, somst alle Medien anzeigen
+                	ArrayList<Integer> foundMediaIDs = new ArrayList<Integer>();
+                    
+                    //Search
+                    for(int i = 0; i < media.length; i++){
+                    	if(
+                    			media[i].getAuthor().toLowerCase().contains(search)
+                    			|| media[i].getTitle().toLowerCase().contains(search)
+                    			|| media[i].getPublisher().toLowerCase().contains(search)
+                    			|| media[i].getKeywords().toLowerCase().contains(search)){
+                    		
+                    		foundMediaIDs.add(media[i].getID());
+                    	}
+                    }
+                    
+                    //Collect found Media
+                    media = new Medium[foundMediaIDs.size()];
+                    for(int i = 0; i < media.length; i++){
+                    	media[i] = handler.getMedium(foundMediaIDs.get(i));
+                    }
+                }                
                 
                 //Refresh View
-                tabStore = new StockView(media);
-//                tabPane.updateUI();
-//                tabPane.repaint();
-                tabStore.updateUI();
-//                tabStore = null;
-//                tabPane.repaint();
-//                tabPane.remove(tabStore);
-//                tabStore = new StockView(media);
-//                tabPane.add(tabStore);
-//                tabStore.repaint();
-//                GUI.this.repaint();
-                
-//                int i = tabPane.getSelectedIndex();  
-//                tabPane.setComponentAt(i, new StockView(media));
+                tabStock = new StockView(media);
+                tabPane.revalidate();
+                tabPane.repaint();
+                ChangeListener[] cls = tabPane.getChangeListeners();
+                for(int i = 0; i < cls.length; i++){
+                	cls[i].stateChanged(new ChangeEvent((Object)tabPane));
+                }
                                
             }});
        
@@ -201,16 +197,16 @@ import controller.UserHandler;
         this.add(tabPane, BorderLayout.CENTER);
         
         // Fuege Bestandsliste hinzu
-        tabStore = new StockView(MediaHandler.getInstance().getAllMedia());
+        tabStock = new StockView(MediaHandler.getInstance().getAllMedia());
         //tabStore.setSize(200, 200);
-        tabPane.addTab("Bestand", tabStore);
+        tabPane.addTab("Bestand", tabStock);
 
         // Fuege Reservierungen hinzu
-        final JPanel tabReservations = new ReservationsView();
+        final JPanel tabReservations = new JPanel();//new ReservationsView();
         tabReservations.setSize(200, 200);
         tabReservations.setLayout(new GridLayout(1,1));
         //tabReservations.add(new ...) PANEL MUSS AUCH UNTEN IM CHANGE LISTENER HINZUGEFÜGT WERDEN
-        tabReservations.add(new ReservationsView());
+        tabReservations.add(new JPanel());//	new ReservationsView() TODO
         tabPane.addTab("Reservierungen", tabReservations);
         
         // Bibliothekare bekommen eine Nutzerliste, ...
@@ -249,7 +245,7 @@ import controller.UserHandler;
 				{
 					tabReservations.removeAll();
 					//tabReservations.add(...);
-					tabReservations.add(new ReservationsView());
+					tabReservations.add(new JPanel());//	new ReservationsView() TODO
 				}
 				
 				// Falls dort (am tabPane) gerade die StockView geöffnet wurde:
@@ -259,7 +255,7 @@ import controller.UserHandler;
 					int i = pane.getSelectedIndex();  
 					// Im i-ten Tab eine neue StockView laden.
 //					pane.setComponentAt(i, new StockView(MediaHandler.getInstance().getAllMedia()));
-					pane.setComponentAt(i, tabStore);
+					pane.setComponentAt(i, tabStock);
 				}
 			}
         });
